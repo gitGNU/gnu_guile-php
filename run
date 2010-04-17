@@ -1,0 +1,24 @@
+#!/usr/bin/env guile
+!#
+
+(use-modules (language php parse))
+(use-modules (language php tokenize))
+
+(define (run file)
+	(read-php (open-file file "r")))
+
+(define (comp file)
+	(compile (call-with-input-file file read-php) #:from 'php #:to 'value))
+
+(define (tokenize file)
+	(let ((lexer (make-tokenizer (open-file file "r"))))
+		(let loop ((tok (lexer)))
+			(display tok)
+			(newline)
+			(if (not (eq? tok '*eoi*))
+				(loop (lexer))))))
+
+;(tokenize "test2.php")
+;(run "test2.php")
+
+(comp "test.php")
