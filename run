@@ -1,6 +1,8 @@
 #!/usr/bin/env guile
 !#
 
+(load "spec.scm")
+
 (use-modules (language php parse))
 (use-modules (language php tokenize))
 

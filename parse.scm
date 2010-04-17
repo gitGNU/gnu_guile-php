@@ -19,6 +19,8 @@
 
 ;;; Code:
 
+(load "tokenize.scm")
+
 (define-module (language php parse)
 	#:use-module (language php tokenize)
 	#:use-module (system base lalr)
