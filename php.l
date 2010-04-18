@@ -12,21 +12,20 @@
 
 ; todo: don't make all these strings, consolidate like items, etc...
 
-"abstract"			(make-token 'T_ABSTRACT yytext)
-"&="						(make-token 'T_AND_EQUAL yytext)
-"array"					(make-token 'T_ARRAY yytext)
-"(array)"				(make-token 'T_ARRAY_CAST yytext)
-" as "					(make-token 'T_AS yytext)
+"abstract"  (make-token 'T_ABSTRACT yytext)
+"&="  (make-token 'T_AND_EQUAL yytext)
+"array"  (make-token 'T_ARRAY yytext)
+"(array)"  (make-token 'T_ARRAY_CAST yytext)
+" as "  (make-token 'T_AS yytext)
 
 ;todo:					(make-token 'T_BAD_CHARACTER yytext)
 
-"&&"						(make-token 'T_BOOLEAN_AND yytext)
-"||"						(make-token 'T_BOOLEAN_OR yytext)
-"(bool)"				(make-token 'T_BOOL_CAST yytext)
-"(boolean)"			(make-token 'T_BOOL_CAST yytext)
-"break"					(make-token 'T_BREAK yytext)
-"case"					(make-token 'T_CASE yytext)
-"catch"					(make-token 'T_CATCH yytext)
+"&&"  (make-token 'T_BOOLEAN_AND yytext)
+"||"  (make-token 'T_BOOLEAN_OR yytext)
+"(bool)"|"(boolean)"  (make-token 'T_BOOL_CAST yytext)
+"break"  (make-token 'T_BREAK yytext)
+"case"  (make-token 'T_CASE yytext)
+"catch"  (make-token 'T_CATCH yytext)
 "class"					(make-token 'T_CLASS yytext)
 "__CLASS__"			(make-token 'T_CLASS_C yytext)
 "clone"					(make-token 'T_CLONE yytext)

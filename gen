@@ -5,26 +5,24 @@
 (use-modules (ice-9 rdelim))
 
 (define (copy-port src-port dest-port)
-	(let loop ((line (read-line src-port)))
-		(if (eof-object? line)
-			#t
-			(begin
-				(write-line line dest-port)
-				(loop (read-line src-port))))))
+  (let loop ((line (read-line src-port)))
+    (if (eof-object? line)
+      #t
+      (begin
+        (write-line line dest-port)
+        (loop (read-line src-port))))))
 				
-				;(copy-port src-port dest-port)))))
+;(copy-port src-port dest-port)))))
 
 (define (merge-tokenizers)
-	(let ((base-tokenizer (open-file "tokenize-base.scm" "r")) 
-		(silex-tokenizer (open-file "tokenize-silex.scm" "r")) 
-		(tokenizer (open-file "tokenize.scm" "w")))
-
-		(copy-port base-tokenizer tokenizer)
-		(copy-port silex-tokenizer tokenizer)
-		
-		(close-port base-tokenizer)
-		(close-port silex-tokenizer)
-		(close-port tokenizer)))
+  (let ((base-tokenizer (open-file "tokenize-base.scm" "r")) 
+    (silex-tokenizer (open-file "tokenize-silex.scm" "r")) 
+    (tokenizer (open-file "tokenize.scm" "w")))
+    (copy-port base-tokenizer tokenizer)
+    (copy-port silex-tokenizer tokenizer)		
+    (close-port base-tokenizer)
+    (close-port silex-tokenizer)
+    (close-port tokenizer)))
 
 (lex "php.l" "tokenize-silex.scm")
 (merge-tokenizers)

@@ -3,24 +3,25 @@
 
 (load "spec.scm")
 
-(use-modules (language php parse))
-(use-modules (language php tokenize))
+(use-modules 
+  (language php parse)
+  (language php tokenize))
 
-(define (run file)
-	(read-php (open-file file "r")))
+(define (read file)
+  (read-php (open-file file "r")))
 
 (define (comp file)
-	(compile (call-with-input-file file read-php) #:from 'php #:to 'value))
+  (compile (call-with-input-file file read-php) #:from 'php #:to 'value))
 
 (define (tokenize file)
-	(let ((lexer (make-tokenizer (open-file file "r"))))
-		(let loop ((tok (lexer)))
-			(display tok)
-			(newline)
-			(if (not (eq? tok '*eoi*))
-				(loop (lexer))))))
+  (let ((lexer (make-tokenizer (open-file file "r"))))
+    (let loop ((tok (lexer)))
+      (display tok)
+      (newline)
+      (if (not (eq? tok '*eoi*))
+        (loop (lexer))))))
 
-;(tokenize "test2.php")
-;(run "test2.php")
+;(tokenize "tests/test.php")
+;(read "tests/test.php")
 
-(comp "test.php")
+(comp "tests/test.php")
