@@ -22,7 +22,7 @@
 ;;; defined in tokenize-base.scm
 
 (define-module (language php tokenize)
-	#:use-module (system base lalr)
+  #:use-module (system base lalr)
   #:export (make-tokenizer))
 
 (define parse-mode 'txt)

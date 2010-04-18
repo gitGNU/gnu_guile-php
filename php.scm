@@ -1,4 +1,7 @@
-;;; PHP for GNU Guile.
+#!/usr/bin/env guile 
+!#
+
+;;; PHP for GNU Guile
 
 ;; Copyright (C) 2010 Jon Herron
 
@@ -17,20 +20,25 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301 USA
 
-;;; Code:
+(use-modules 
+  (language php compile-tree-il)  
+  (language php parse))
 
-(include "compile-tree-il.scm")
-(include "parse.scm")
+(define (err msg)
+  (display "guile-php err: ")
+  (display msg)
+  (newline)
+  (exit))
 
-(define-module (language php spec)
-  #:use-module (language php compile-tree-il)
-  #:use-module (language php parse)
-  #:use-module (system base language)
-  #:export (php))
+(define (compile-php-file file)
+  (compile (call-with-input-file file read-php) #:from 'php #:to 'value))
 
-(define-language php
-  #:title	"Guile PHP"
-  #:version	"1.0"
-  #:reader	(lambda (port env) (read-php port))
-  #:compilers	`((tree-il . ,compile-tree-il))
-  #:printer	write)
+(define (main args)
+  (let ((args (cdr args)))
+    (if (= 1 (length args))
+	(compile-php-file (list-ref args 0))
+	(err "guile-php currently requires 1 and only 1 param, a file name."))))
+
+;;;;;;;;
+
+(main (command-line))

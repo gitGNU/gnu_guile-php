@@ -19,11 +19,11 @@
 
 ;;; Code:
 
-(include "tokenize.scm")
+;(include "tokenize.scm")
 
 (define-module (language php parse)
-	#:use-module (language php tokenize)
-	#:use-module (system base lalr)
+  #:use-module (language php tokenize)
+  #:use-module (system base lalr)
   #:export (read-php))
 
 (define (syntax-error message . args)
