@@ -107,6 +107,7 @@
 
     (Var 
       (T_VARIABLE semi) : `(var ,$1)
-      (T_VARIABLE equals T_LNUMBER semi) : `(var ,$1 (num ,$3)))
+      (T_VARIABLE equals T_LNUMBER semi) : `(var ,$1 (num ,$3))
+      (T_VARIABLE equals T_CONSTANT_ENCAPSULATED_STRING semi) : `(var ,$1 (string ,$3)))
     
     ))

@@ -45,9 +45,11 @@ function testFunc3(
 
 $x = 1;
 $y = 2;
+$z = "some string var value";
 
 print $x;
 print $y;
+print $z;
 
 print "\n";
 print "\Z";
