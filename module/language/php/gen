@@ -31,7 +31,7 @@
       (begin
         (write-line line dest-port)
         (loop (read-line src-port))))))
-				
+        
 ;(copy-port src-port dest-port)))))
 
 (define (merge-tokenizers)
@@ -39,7 +39,7 @@
     (silex-tokenizer (open-file "tokenize-silex.scm" "r")) 
     (tokenizer (open-file "tokenize.scm" "w")))
     (copy-port base-tokenizer tokenizer)
-    (copy-port silex-tokenizer tokenizer)		
+    (copy-port silex-tokenizer tokenizer)
     (close-port base-tokenizer)
     (close-port silex-tokenizer)
     (close-port tokenizer)))

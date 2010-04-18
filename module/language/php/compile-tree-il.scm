@@ -54,32 +54,32 @@
 
 (define (comp exp env)
 
-	(pmatch exp
-		
-		((begin ,form)
-			(comp form env))
-		((begin . ,forms)
-			`(begin ,@(map (lambda (x) (comp x env)) forms)))
-		((num ,n)
-			(-> (const n)))
-		((string ,s)
-			(-> (const s)))
-		((print ,x)
-			(-> (apply (-> (primitive 'display)) (-> (const x)))))
-		((print-var ,x)
-			(-> (apply (-> (primitive 'display)) (-> (toplevel (string->symbol x))))))
-		((var ,varname ,val)
-			(-> (define (string->symbol varname) (comp val env))))
-		((var ,varname)
-			(-> (define (string->symbol varname) (-> (const 'NULL)))))
-		((lambda ,formals ,body)
-			(-> (lambda formals (comp body env))))
-		((call ,proc)
-			(-> (apply (-> (primitive (string->symbol proc))))))
-		((void)
-			(-> (void)))
+  (pmatch exp
+    
+    ((begin ,form)
+      (comp form env))
+    ((begin . ,forms)
+      `(begin ,@(map (lambda (x) (comp x env)) forms)))
+    ((num ,n)
+      (-> (const n)))
+    ((string ,s)
+      (-> (const s)))
+    ((print ,x)
+      (-> (apply (-> (primitive 'display)) (-> (const x)))))
+    ((print-var ,x)
+      (-> (apply (-> (primitive 'display)) (-> (toplevel (string->symbol x))))))
+    ((var ,varname ,val)
+      (-> (define (string->symbol varname) (comp val env))))
+    ((var ,varname)
+      (-> (define (string->symbol varname) (-> (const 'NULL)))))
+    ((lambda ,formals ,body)
+      (-> (lambda formals (comp body env))))
+    ((call ,proc)
+      (-> (apply (-> (primitive (string->symbol proc))))))
+    ((void)
+      (-> (void)))
 
-		(else
-			(apply throw 'CompileError "Exp not implemented: " exp))))
+    (else
+      (apply throw 'CompileError "Exp not implemented: " exp))))
 
 

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+guile -L ./module php.scm $1
