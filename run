@@ -21,7 +21,7 @@
 ;; 02110-1301 USA
 
 
-(load "spec.scm")
+(include "spec.scm")
 
 (use-modules 
   (language php parse)

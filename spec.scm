@@ -19,8 +19,8 @@
 
 ;;; Code:
 
-(load "compile-tree-il.scm")
-(load "parse.scm")
+(include "compile-tree-il.scm")
+(include "parse.scm")
 
 (define-module (language php spec)
   #:use-module (language php compile-tree-il)

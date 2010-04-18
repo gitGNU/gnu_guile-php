@@ -19,7 +19,7 @@
 
 ;;; Code:
 
-(load "tokenize.scm")
+(include "tokenize.scm")
 
 (define-module (language php parse)
 	#:use-module (language php tokenize)
