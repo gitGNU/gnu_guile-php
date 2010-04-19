@@ -35,7 +35,7 @@
 (define-syntax @implv
   (syntax-rules ()
     ((_ sym)
-     (-> (@ '(language ecmascript impl) 'sym)))))
+     (-> (@ '(language php impl) 'sym)))))
 
 (define-syntax @impl
   (syntax-rules ()
@@ -76,6 +76,8 @@
       (-> (lambda formals (comp body env))))
     ((call ,proc)
       (-> (apply (-> (primitive (string->symbol proc))))))
+    ((call ,proc ,args)
+      `(apply (primitive ,(string->symbol proc)) ,@(map (lambda(x) (comp x env)) args)))
     ((void)
       (-> (void)))
 

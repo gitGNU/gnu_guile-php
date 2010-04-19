@@ -39,14 +39,27 @@ function testFunc3(
 							print "from testFunc3\n";
 }
 
+function testFunc4($paramA, $paramB, $paramC) {
+  print "Inside testFunc4....\n";
+  print "---------\n";
+  #print $paramA;
+  #print "\n";
+  #print $paramB;
+  #print "\n";
+  #print $paramC;
+  print "---------\n";
+}
+
 #comment1
 /* comment2 */
 //comment 3
 
-$x = 1;
+$a = null;
+$x = 11111;
 $y = 2;
 $z = "some string var value";
 
+print $a;
 print $x;
 print $y;
 print $z;
@@ -60,6 +73,9 @@ print "\n-----------\n";
 testFunc1();
 testFunc2();
 testFunc3();
+testFunc4(1, "testing", 555); 
+
+
 
 ?>
 

@@ -93,20 +93,30 @@
       (T_VARIABLE) : `(,$1)
       (FormalParameterList comma T_VARIABLE) : `(,@$1 ,$3))
 
+    (ParameterList
+      (Parameter) : `(,$1)
+      (ParameterList comma Parameter) : `(,@$1 ,$3))
+    
+    (Parameter
+      (T_CONSTANT_ENCAPSULATED_STRING) : `(string ,$1)
+      (T_LNUMBER) : `(num ,$1)
+      (null) : `(const 'NULL))
+
     (FunctionBody 
       (SourceElements) : $1)
 
     (Statement 
       (Print) : $1
       (Var) : $1 
-      (word open-paren close-paren semi) : `(call ,$1)) 
+      (word open-paren close-paren semi) : `(call ,$1)
+      (word open-paren ParameterList close-paren semi) : `(call ,$1 ,$3))
 
     (Print 
       (T_PRINT T_CONSTANT_ENCAPSULATED_STRING semi) : `(print ,$2) 
       (T_PRINT T_VARIABLE semi) : `(print-var ,$2))
 
     (Var 
-      (T_VARIABLE semi) : `(var ,$1)
+      (T_VARIABLE equals null semi) : `(var ,$1)
       (T_VARIABLE equals T_LNUMBER semi) : `(var ,$1 (num ,$3))
       (T_VARIABLE equals T_CONSTANT_ENCAPSULATED_STRING semi) : `(var ,$1 (string ,$3)))
     
