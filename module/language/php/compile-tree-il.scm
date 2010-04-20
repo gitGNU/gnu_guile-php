@@ -42,6 +42,14 @@
     ((_ sym arg ...)
      (-> (apply (@implv sym) arg ...)))))
 
+(define (econs name gensym env)
+  (let ((name (string->symbol name)))
+    (acons name (-> (lexical name gensym)) env)))
+
+(define (lookup name env)
+  (let ((name (string->symbol name)))
+    (or (assq-ref env name) (-> (toplevel name)))))
+
 (define (empty-lexical-environment)
   '())
 
@@ -52,9 +60,26 @@
    env
    env))
 
+(define (location x)
+  (and (pair? x)
+       (let ((props (source-properties x)))
+         (and (not (null? props))
+              props))))
+
+(define-syntax pmatch/source
+  (syntax-rules ()
+    ((_ x clause ...)
+     (let ((x x))
+       (let ((res (pmatch x
+                    clause ...)))
+         (let ((loc (location x)))
+           (if loc
+               (set-source-properties! res (location x))))
+         res)))))
+
 (define (comp exp env)
 
-  (pmatch exp
+  (pmatch/source exp
     
     ((begin ,form)
       (comp form env))
@@ -67,12 +92,13 @@
     ((print ,x)
       (-> (apply (-> (primitive 'display)) (-> (const x)))))
     ((print-var ,x)
-      (-> (apply (-> (primitive 'display)) (-> (toplevel (string->symbol x))))))
+      (-> (apply (-> (primitive 'display)) (lookup x env))))
     ((var ,varname ,val)
       (-> (define (string->symbol varname) (comp val env))))
     ((var ,varname)
       (-> (define (string->symbol varname) (-> (const 'NULL)))))
     ((lambda ,formals ,body)
+      (map (lambda (a) (set! env (econs a (gensym) env))) formals)
       (-> (lambda formals (comp body env))))
     ((call ,proc)
       (-> (apply (-> (primitive (string->symbol proc))))))

@@ -42,8 +42,8 @@ function testFunc3(
 function testFunc4($paramA, $paramB, $paramC) {
   print "Inside testFunc4....\n";
   print "---------\n";
-  #print $paramA;
-  #print "\n";
+  print $paramA;
+  print "\n";
   #print $paramB;
   #print "\n";
   #print $paramC;
