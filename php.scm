@@ -21,7 +21,7 @@
 ;; 02110-1301 USA
 
 (use-modules 
-  (language php compile-tree-il)  
+  (language php compile-scheme)  
   (language php parse))
 
 (define (err msg)

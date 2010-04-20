@@ -20,7 +20,7 @@
 ;;; Code:
 
 (define-module (language php spec)
-  #:use-module (language php compile-tree-il)
+  #:use-module (language php compile-scheme)
   #:use-module (language php parse)
   #:use-module (system base language)
   #:export (php))
@@ -29,5 +29,5 @@
   #:title	"Guile PHP"
   #:version	"1.0"
   #:reader	(lambda (port env) (read-php port))
-  #:compilers	`((tree-il . ,compile-tree-il))
+  #:compilers	`((scheme . ,compile-scheme))
   #:printer	write)
