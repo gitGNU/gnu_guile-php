@@ -27,8 +27,10 @@
   #:export (compile-scheme))
 
 (define (compile-scheme exp env opts)
+  ;(display exp)(newline)(newline)
   (values
-    (let ((c (map (lambda (e) (comp e env)) exp)))
+    (let ((c (map (lambda (e) (comp e '())) exp)))
+      (display `(begin ,@c))(newline)(newline)
       `(begin ,@c))
     env
     env))
@@ -45,6 +47,24 @@
       `(begin ,@(map (lambda (x) (comp x env)) forms)))
     ((print ,val)
       `(display ,val))
+    ((print-var ,var)
+      `(display ,(string->symbol var)))
+    ((string ,s)
+      s)
+    ((num ,n)
+      n)
+    ((var ,name)
+      `(define ,(string->symbol name)))
+    ((var ,name ,val)
+      `(define ,(string->symbol name) ,(comp val env)))
+    ((func ,body)
+      `(lambda () ,(comp body env)))
+    ((func ,formals ,body)
+      `(lambda ,(map (lambda (x) (string->symbol x)) formals) ,(comp body env)))
+    ((call ,proc)
+      `(,(string->symbol proc)))
+    ((call ,proc ,args)
+      `(,(string->symbol proc) ,@(map (lambda (a) (comp a env)) args)))
     (else 
       (apply throw 'CompileError "Exp not implemented: " exp))))     
 

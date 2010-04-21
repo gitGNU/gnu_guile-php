@@ -85,8 +85,8 @@
       )
 
     (FunctionDeclaration 
-      (T_FUNCTION word open-paren close-paren open-brace FunctionBody close-brace) : `(var ,$2 (lambda () ,$6))
-      (T_FUNCTION word open-paren FormalParameterList close-paren open-brace FunctionBody close-brace) : `(var ,$2 (lambda ,$4 ,$7))
+      (T_FUNCTION word open-paren close-paren open-brace FunctionBody close-brace) : `(var ,$2 (func ,$6))
+      (T_FUNCTION word open-paren FormalParameterList close-paren open-brace FunctionBody close-brace) : `(var ,$2 (func ,$4 ,$7))
       )
 
     (FormalParameterList 
