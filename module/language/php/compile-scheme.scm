@@ -30,7 +30,7 @@
   ;(display exp)(newline)(newline)
   (values
     (let ((c (map (lambda (e) (comp e '())) exp)))
-      (display `(begin ,@c))(newline)(newline)
+      ;(display `(begin ,@c))(newline)(newline)
       `(begin ,@c))
     env
     env))

@@ -44,9 +44,9 @@ function testFunc4($paramA, $paramB, $paramC) {
   print "---------\n";
   print $paramA;
   print "\n";
-  #print $paramB;
-  #print "\n";
-  #print $paramC;
+  print $paramB;
+  print "\n";
+  print $paramC;
   print "---------\n";
 }
 
