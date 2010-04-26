@@ -72,10 +72,10 @@
      (let ((x x))
        (let ((res (pmatch x
                     clause ...)))
-         (let ((loc (location x)))
+	 (let ((loc (location x)))
            (if loc
                (set-source-properties! res (location x))))
-         res)))))
+	 res)))))
 
 (define (comp exp env)
 
@@ -98,12 +98,20 @@
     ((var ,varname)
       (-> (define (string->symbol varname) (-> (const 'NULL)))))
     ((lambda ,formals ,body)
-      (map (lambda (a) (set! env (econs a (gensym) env))) formals)
-      (-> (lambda formals (comp body env))))
+      (let ((syms (map (lambda (p)
+			 (let ((sym (gensym)))
+			   (set! env (econs p sym env))
+			   sym))
+		       formals)))
+	(let ((defaults (map (lambda (p)
+			       (-> (const 'NULL))) formals)))
+	  `(lambda '()
+		(lambda-case ((() ,formals #f #f ,defaults ,syms)
+				   ,(comp body env)))))))
     ((call ,proc)
-      (-> (apply (-> (primitive (string->symbol proc))))))
+      (-> (apply (-> (toplevel (string->symbol proc))))))
     ((call ,proc ,args)
-      `(apply (primitive ,(string->symbol proc)) ,@(map (lambda(x) (comp x env)) args)))
+      `(apply (toplevel ,(string->symbol proc)) ,@(map (lambda(x) (comp x env)) args)))
     ((void)
       (-> (void)))
 

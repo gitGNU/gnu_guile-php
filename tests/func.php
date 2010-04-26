@@ -1,4 +1,4 @@
-Some text before php tag...
+Testing function calls...
 
 <?php
 
@@ -32,12 +32,7 @@ function testFunc1()
 	print "\n";
 }
 
-function testFunc2 ( ) { print "from testFunc2\n"; }
-
-function testFunc3(
-) {
-							print "from testFunc3\n";
-}
+print "\n\n**************\n\n";
 
 function testFunc4($paramA, $paramB, $paramC) {
   print "Inside testFunc4....\n";
@@ -50,33 +45,9 @@ function testFunc4($paramA, $paramB, $paramC) {
   print "---------\n";
 }
 
-#comment1
-/* comment2 */
-//comment 3
-
-$a = null;
-$x = 11111;
-$y = 2;
-$z = "some string var value";
-
-print $a;
-print $x;
-print $y;
-print $z;
-
-print "\n";
-print "\Z";
-print "testing";
-
-print "\n-----------\n";
-
 testFunc1();
-testFunc2();
-testFunc3();
 testFunc4(1, "testing", 555); 
 
 
 
 ?>
-
-Some text after php tag..........
