@@ -30,6 +30,8 @@ function testFunc1()
 	print "\n";
 	print $a;
 	print "\n";
+
+	return $a;
 }
 
 function testFunc2 ( ) { print "from testFunc2\n"; }
@@ -108,6 +110,18 @@ if(1 == 1) {
 }
 #else
 #  print "single line else after multi line if\n";
+
+
+function testReturn()
+{
+	return "return value from testReturn\n";
+}
+
+$testFuncRes = testReturn();
+
+print "testReturn returned: ";
+print $testFuncRes;
+print "\n";
 
 ?>
 

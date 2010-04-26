@@ -104,8 +104,16 @@
       (Print) : $1
       (Var) : $1
       (IfBlock) : $1
+      (FunctionCall) : $1
+      (Return) : $1
       (T_WHITESPACE) : `(void)
-      (T_COMMENT) : `(void)
+      (T_COMMENT) : `(void))
+
+    (Return
+      (T_RETURN semi) : `(return)
+      (T_RETURN Value semi) : `(return ,$2))
+
+    (FunctionCall
       (word open-paren close-paren semi) : `(call ,$1)
       (word open-paren ValueList close-paren semi) : `(call ,$1 ,$3))
 
@@ -115,6 +123,7 @@
 
     (Var 
       (T_VARIABLE equals null semi) : `(var ,$1)
+      (T_VARIABLE equals FunctionCall) : `(var ,$1 ,$3)
       (T_VARIABLE equals T_LNUMBER semi) : `(var ,$1 (num ,$3))
       (T_VARIABLE equals T_CONSTANT_ENCAPSULATED_STRING semi) : `(var ,$1 (string ,$3)))
     
