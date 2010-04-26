@@ -116,6 +116,8 @@
       `(apply (toplevel ,(string->symbol proc)) ,@(map (lambda(x) (comp x env)) args)))
     ((if ,cond ,tbody)
       (-> (if (comp cond env) (comp tbody env) (-> (void)))))
+    ((if ,cond ,tbody ,else)
+      (-> (if (comp cond env) (comp tbody env) (comp else env))))
     ((equal ,a ,b)
       (-> (apply (-> (primitive '=)) (comp a env) (comp b env))))
     ((not ,x)

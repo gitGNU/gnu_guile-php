@@ -1,0 +1,20 @@
+* Single line if/else/elseif blocks with no braces
+* else if blocks
+* !==, === support
+* <, >, <=, >= support
+* &&, || support
+* default param values for functions
+* return values for functions
+* better support for variable names
+* set vars to function returns
+* switch statements
+* string interpolation
+* heredoc strings
+* null handling improvements
+
+---- high level todos...
+
+* arrays
+* objects
+* OOP
+* stdlib

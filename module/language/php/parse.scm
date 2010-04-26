@@ -123,7 +123,8 @@
       (T_VARIABLE equals T_CONSTANT_ENCAPSULATED_STRING semi) : `(var ,$1 (string ,$3)))
     
     (IfBlock
-      (T_IF open-paren Comparison close-paren open-brace SourceElements close-brace) : `(if ,$3 ,$6))
+      (T_IF open-paren Comparison close-paren open-brace SourceElements close-brace) : `(if ,$3 ,$6)
+      (T_IF open-paren Comparison close-paren open-brace SourceElements close-brace T_ELSE open-brace SourceElements close-brace) : `(if ,$3 ,$6 ,$10))
 
     (Comparison
       (Value T_IS_EQUAL Value) : `(equal ,$1 ,$3)

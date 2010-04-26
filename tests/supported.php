@@ -75,8 +75,11 @@ testFunc2();
 testFunc3();
 testFunc4(1, "testing", 555); 
 
-if ($x != 10) {
+if ($x == 10) {
   testFunc1();
+} else 
+{
+  testFunc4("from", "else", "statement");
 }
 
 #if($y == 2) {
