@@ -93,23 +93,25 @@
       (T_VARIABLE) : `(,$1)
       (FormalParameterList comma T_VARIABLE) : `(,@$1 ,$3))
 
-    (ParameterList
-      (Parameter) : `(,$1)
-      (ParameterList comma Parameter) : `(,@$1 ,$3))
+    (ValueList
+      (Value) : `(,$1)
+      (ValueList comma Value) : `(,@$1 ,$3))
     
-    (Parameter
+    (Value
       (T_CONSTANT_ENCAPSULATED_STRING) : `(string ,$1)
       (T_LNUMBER) : `(num ,$1)
-      (null) : `(const 'NULL))
+      (null) : `(const 'NULL)
+      (T_VARIABLE) : `(var-resolve ,$1))
 
     (FunctionBody 
       (SourceElements) : $1)
 
     (Statement 
       (Print) : $1
-      (Var) : $1 
+      (Var) : $1
+      (IfBlock) : $1 
       (word open-paren close-paren semi) : `(call ,$1)
-      (word open-paren ParameterList close-paren semi) : `(call ,$1 ,$3))
+      (word open-paren ValueList close-paren semi) : `(call ,$1 ,$3))
 
     (Print 
       (T_PRINT T_CONSTANT_ENCAPSULATED_STRING semi) : `(print ,$2) 
@@ -120,4 +122,11 @@
       (T_VARIABLE equals T_LNUMBER semi) : `(var ,$1 (num ,$3))
       (T_VARIABLE equals T_CONSTANT_ENCAPSULATED_STRING semi) : `(var ,$1 (string ,$3)))
     
+    (IfBlock
+      (T_IF open-paren Comparison close-paren open-brace SourceElements close-brace) : `(if ,$3 ,$6))
+
+    (Comparison
+      (Value T_IS_EQUAL Value) : `(equal ,$1 ,$3)
+      (Value T_IS_NOT_EQUAL Value) : `(not (equal ,$1 ,$3)))
+
     ))

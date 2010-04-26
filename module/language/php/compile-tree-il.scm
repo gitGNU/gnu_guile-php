@@ -55,8 +55,10 @@
 
 (define (compile-tree-il exp env opts)
   (values
-   (parse-tree-il
-    (comp exp (empty-lexical-environment)))
+   (let ((il (parse-tree-il
+    (comp exp (empty-lexical-environment)))))
+      ;(display il)(newline)
+      il)
    env
    env))
 
@@ -86,7 +88,7 @@
     ((begin . ,forms)
       `(begin ,@(map (lambda (x) (comp x env)) forms)))
     ((num ,n)
-      (-> (const n)))
+      (-> (const (string->number n))))
     ((string ,s)
       (-> (const s)))
     ((print ,x)
@@ -97,21 +99,27 @@
       (-> (define (string->symbol varname) (comp val env))))
     ((var ,varname)
       (-> (define (string->symbol varname) (-> (const 'NULL)))))
+    ((var-resolve ,varname)
+      (lookup varname env))
     ((lambda ,formals ,body)
       (let ((syms (map (lambda (p)
 			 (let ((sym (gensym)))
 			   (set! env (econs p sym env))
 			   sym))
 		       formals)))
-	(let ((defaults (map (lambda (p)
-			       (-> (const 'NULL))) formals)))
+	(let ((defaults (map (lambda (p) (-> (const 'NULL))) formals)))
 	  `(lambda '()
-		(lambda-case ((() ,formals #f #f ,defaults ,syms)
-				   ,(comp body env)))))))
+	     (lambda-case ((() ,formals #f #f ,defaults ,syms) ,(comp body env)))))))
     ((call ,proc)
       (-> (apply (-> (toplevel (string->symbol proc))))))
     ((call ,proc ,args)
       `(apply (toplevel ,(string->symbol proc)) ,@(map (lambda(x) (comp x env)) args)))
+    ((if ,cond ,tbody)
+      (-> (if (comp cond env) (comp tbody env) (-> (void)))))
+    ((equal ,a ,b)
+      (-> (apply (-> (primitive '=)) (comp a env) (comp b env))))
+    ((not ,x)
+      (-> (apply (-> (primitive 'not)) (comp x env))))
     ((void)
       (-> (void)))
 

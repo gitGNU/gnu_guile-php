@@ -75,7 +75,20 @@ testFunc2();
 testFunc3();
 testFunc4(1, "testing", 555); 
 
+if ($x != 10) {
+  testFunc1();
+}
 
+#if($y == 2) {
+#  testFunc2();
+#} else {
+#  testFunc3();
+#}
+
+if($y == 2)
+{
+  testFunc4(90,12,41);
+}
 
 ?>
 
