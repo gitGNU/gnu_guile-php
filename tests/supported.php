@@ -82,16 +82,32 @@ if ($x == 10) {
   testFunc4("from", "else", "statement");
 }
 
-#if($y == 2) {
-#  testFunc2();
-#} else {
-#  testFunc3();
-#}
+if($y == 2) {
+  testFunc2();
+} else {
+  testFunc3();
+}
 
 if($y == 2)
 {
   testFunc4(90,12,41);
 }
+
+if(2 == 2)
+  print "one line if statement...\n";
+
+if(3 == 2)
+  print "weird...\n";
+else
+  print "one line else...\n";
+
+if(1 == 1) {
+  print "multi\n";
+  print "line\n";
+  print "if\n";
+}
+#else
+#  print "single line else after multi line if\n";
 
 ?>
 

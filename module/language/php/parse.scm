@@ -75,19 +75,13 @@
     (SourceElement 
       (Statement) : $1
       (FunctionDeclaration) : $1
-
       (T_INLINE_HTML) : `(print ,$1)
       (T_OPEN_TAG) : `(void) 
-      (T_CLOSE_TAG) : `(void) 
-      (T_WHITESPACE) : `(void)
-      (T_COMMENT) : `(void)
-      
-      )
+      (T_CLOSE_TAG) : `(void))
 
     (FunctionDeclaration 
       (T_FUNCTION word open-paren close-paren open-brace FunctionBody close-brace) : `(var ,$2 (lambda () ,$6))
-      (T_FUNCTION word open-paren FormalParameterList close-paren open-brace FunctionBody close-brace) : `(var ,$2 (lambda ,$4 ,$7))
-      )
+      (T_FUNCTION word open-paren FormalParameterList close-paren open-brace FunctionBody close-brace) : `(var ,$2 (lambda ,$4 ,$7)))
 
     (FormalParameterList 
       (T_VARIABLE) : `(,$1)
@@ -109,7 +103,9 @@
     (Statement 
       (Print) : $1
       (Var) : $1
-      (IfBlock) : $1 
+      (IfBlock) : $1
+      (T_WHITESPACE) : `(void)
+      (T_COMMENT) : `(void)
       (word open-paren close-paren semi) : `(call ,$1)
       (word open-paren ValueList close-paren semi) : `(call ,$1 ,$3))
 
@@ -124,7 +120,9 @@
     
     (IfBlock
       (T_IF open-paren Comparison close-paren open-brace SourceElements close-brace) : `(if ,$3 ,$6)
-      (T_IF open-paren Comparison close-paren open-brace SourceElements close-brace T_ELSE open-brace SourceElements close-brace) : `(if ,$3 ,$6 ,$10))
+      (T_IF open-paren Comparison close-paren Statement) : `(if ,$3 ,$5)
+      (T_IF open-paren Comparison close-paren open-brace SourceElements close-brace T_ELSE open-brace SourceElements close-brace) : `(if ,$3 ,$6 ,$10)
+      (T_IF open-paren Comparison close-paren Statement T_ELSE Statement) : `(if ,$3 ,$5 ,$7))
 
     (Comparison
       (Value T_IS_EQUAL Value) : `(equal ,$1 ,$3)
