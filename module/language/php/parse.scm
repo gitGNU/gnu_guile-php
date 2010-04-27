@@ -60,7 +60,8 @@
       T_WHITESPACE T_XOR_EQUAL 
 
       open-paren close-paren open-brace close-brace open-bracket close-bracket 
-      comma semi asteriks plus minus divide equals dot qmark null word)
+      comma semi asteriks plus minus divide equals dot qmark null word
+      greater-than less-than)
 
     (Program   
       (SourceElements) : $1
@@ -146,6 +147,10 @@
 
     (Comparison
       (Value T_IS_EQUAL Value) : `(equal ,$1 ,$3)
-      (Value T_IS_NOT_EQUAL Value) : `(not (equal ,$1 ,$3)))
+      (Value T_IS_NOT_EQUAL Value) : `(not (equal ,$1 ,$3))
+      (Value greater-than Value) : `(greater-than ,$1 ,$3)
+      (Value less-than Value) : `(less-than ,$1 ,$3)
+      (Value T_IS_GREATER_OR_EQUAL Value) : `(greater-or-equal ,$1 ,$3)
+      (Value T_IS_SMALLER_OR_EQUAL Value) : `(less-or-equal ,$1 ,$3))
 
     ))

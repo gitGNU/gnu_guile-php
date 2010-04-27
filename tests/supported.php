@@ -139,6 +139,27 @@ print "\n";
 print $r;
 print "\n";
 
+if($r < 10)
+  print "r is less than 10\n";
+
+if($r > 1)
+  print "r is greater than 1\n";
+
+if($r < 0)
+  print "this is not correct!\n";
+
+if($r <= 5)
+  print "r is <= 5\n";
+
+if($r >= 5)
+  print "r is >= 5\n";
+
+if($r <= 3)
+  print "not right\n";
+
+if($r >= 100)
+  print "really wrong\n";
+
 ?>
 
 After another php block..

@@ -203,6 +203,8 @@
 "="              (make-token 'equals yytext)
 "."              (make-token 'dot yytext)
 "?"              (make-token 'qmark yytext)
+">"              (make-token 'greater-than yytext)
+"<"              (make-token 'less-than yytext)
 
 "null"|"NULL"    (make-token 'null yytext)
 

@@ -21,10 +21,23 @@
 
 (define-module (language php impl)
   #:use-module (system base language)
-  #:export (php/print php/==))
+  #:export (php/print
+	    php/== php/< php/> php/<= php/>=))
 
 (define (php/print arg)
   (display arg))
 
 (define (php/== a b)
   (= a b))
+
+(define (php/< a b)
+  (< a b))
+
+(define (php/> a b)
+  (> a b))
+
+(define (php/<= a b)
+  (<= a b))
+
+(define (php/>= a b)
+  (>= a b))

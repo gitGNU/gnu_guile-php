@@ -1,16 +1,14 @@
-* Single line if/else/elseif blocks with no braces
-* else if blocks
+* else if/elseif blocks
 * !==, === support
-* <, >, <=, >= support
 * &&, || support
 * default param values for functions
-* return values for functions
 * better support for variable names
-* set vars to function returns
 * switch statements
 * string interpolation
 * heredoc strings
 * null handling improvements
+* for, foreach, while, do while loops
+* break, continue
 
 ---- high level todos...
 
@@ -18,3 +16,8 @@
 * objects
 * OOP
 * stdlib
+
+---- low priority
+
+* alternate syntax support
+* goto
