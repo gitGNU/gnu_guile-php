@@ -75,7 +75,7 @@
     (SourceElement 
       (Statement) : $1
       (FunctionDeclaration) : $1
-      (T_INLINE_HTML) : `(print ,$1)
+      (T_INLINE_HTML) : `(print (string ,$1))
       (T_OPEN_TAG) : `(void) 
       (T_CLOSE_TAG) : `(void))
 
@@ -95,6 +95,9 @@
       (T_CONSTANT_ENCAPSULATED_STRING) : `(string ,$1)
       (T_LNUMBER) : `(num ,$1)
       (null) : `(const 'NULL)
+      (Variable) : $1)
+
+    (Variable
       (T_VARIABLE) : `(var-resolve ,$1))
 
     (FunctionBody 
@@ -106,6 +109,7 @@
       (IfBlock) : $1
       (FunctionCall) : $1
       (Return) : $1
+      (IncDec) : $1
       (T_WHITESPACE) : `(void)
       (T_COMMENT) : `(void))
 
@@ -113,13 +117,20 @@
       (T_RETURN semi) : `(return)
       (T_RETURN Value semi) : `(return ,$2))
 
+    (IncDec
+      (T_INC Variable) : `(pre-inc ,$2)
+      (Variable T_INC) : `(post-inc ,$1)
+      (T_DEC Variable) : `(pre-dec ,$2)
+      (Variable T_DEC) : `(post-dec ,$1))
+
     (FunctionCall
       (word open-paren close-paren semi) : `(call ,$1)
       (word open-paren ValueList close-paren semi) : `(call ,$1 ,$3))
 
     (Print 
-      (T_PRINT T_CONSTANT_ENCAPSULATED_STRING semi) : `(print ,$2) 
-      (T_PRINT T_VARIABLE semi) : `(print-var ,$2))
+      (T_PRINT T_CONSTANT_ENCAPSULATED_STRING semi) : `(print (string ,$2)) 
+      (T_PRINT Variable semi) : `(print-var ,$2)
+      (T_PRINT IncDec semi) : `(print ,$2))
 
     (Var 
       (T_VARIABLE equals null semi) : `(var ,$1)

@@ -126,3 +126,20 @@ print "\n";
 ?>
 
 Some text after php tag..........
+
+
+<?php
+
+$r = 5;
+
+print ++$r;
+print "\n";
+print --$r;
+print "\n";
+print $r;
+print "\n";
+
+?>
+
+After another php block..
+
