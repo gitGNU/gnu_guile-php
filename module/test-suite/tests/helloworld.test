@@ -28,32 +28,28 @@
 (define-syntax parse-php-str
   (syntax-rules ()
     ((_ expression expected)
-      (pass-if expression
-        (begin
-	  (let ((result (read-php-str expression)))
-	    (display (string-append "\n\nExpression:\n\n" expression " parsed to:\n\n"))
-	    (display result)
-	    (display "\n\n----------\n\n")
-            (equal? expected result)))))))
+      (pass-if expression (equal? expected (read-php-str expression))))))
 
 (define-syntax compile-php-str
   (syntax-rules ()
     ((_ expression expected)
       (pass-if expression
         (equal? expected
-	  (compile (read-php-str expression) #:from 'php #:to 'value))))))
+	  (with-output-to-string
+	    (lambda ()
+	      (compile (read-php-str expression) #:from 'php #:to 'value))))))))
 
 (with-test-prefix "parser"
-  (parse-php-str "hello world" '(begin (print (string "hello")) (print (string " ")) (print (string "world")))))
+  (parse-php-str "hello world" '(begin (print (string "hello")) (print (string " ")) (print (string "world"))))
+  (parse-php-str "<?php print \"hello world\"; ?>" '(begin (void) (print (string "hello world")) (void))))
 
-
-
-
-
-
-
-
-
+(with-test-prefix "compile"
+  (compile-php-str "hello world" "hello world")
+  (compile-php-str "<?php print \"hello world\"; ?>" "hello world")
+  (compile-php-str "hello <?php print \"world\"; ?>" "hello world")
+  (compile-php-str "<?php print \"hello \"; ?>world" "hello world")
+  (compile-php-str "hello<?php ?> world" "hello world")
+  (compile-php-str "<?php return \"hello world\"; ?>" ""))
 
 ;(define (tokenize file)
 ;  (let ((lexer (make-tokenizer (open-file file "r"))))

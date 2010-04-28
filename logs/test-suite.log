@@ -1,7 +1,14 @@
 PASS: helloworld.test: parser: hello world
+PASS: helloworld.test: parser: <?php print "hello world"; ?>
+PASS: helloworld.test: compile: hello world
+PASS: helloworld.test: compile: <?php print "hello world"; ?>
+PASS: helloworld.test: compile: hello <?php print "world"; ?>
+PASS: helloworld.test: compile: <?php print "hello "; ?>world
+PASS: helloworld.test: compile: hello<?php ?> world
+PASS: helloworld.test: compile: <?php return "hello world"; ?>
 
 Totals for this test run:
-passes:                 1
+passes:                 8
 failures:               0
 unexpected passes:      0
 expected failures:      0
