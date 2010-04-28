@@ -1,0 +1,66 @@
+;;; PHP for GNU Guile
+
+;; Copyright (C) 2010 Jon Herron
+
+;; This library is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU Lesser General Public
+;; License as published by the Free Software Foundation; either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This library is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Lesser General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Lesser General Public
+;; License along with this library; if not, write to the Free Software
+;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+;; 02110-1301 USA
+
+(define-module (test-suite test helloworld)
+  #:use-module (test-suite lib)
+  #:use-module (language php parse)
+  #:use-module (system base compile))
+
+(define (read-php-str str)
+  (call-with-input-string str read-php))
+
+(define-syntax parse-php-str
+  (syntax-rules ()
+    ((_ expression expected)
+      (pass-if expression
+        (begin
+	  (let ((result (read-php-str expression)))
+	    (display (string-append "\n\nExpression:\n\n" expression " parsed to:\n\n"))
+	    (display result)
+	    (display "\n\n----------\n\n")
+            (equal? expected result)))))))
+
+(define-syntax compile-php-str
+  (syntax-rules ()
+    ((_ expression expected)
+      (pass-if expression
+        (equal? expected
+	  (compile (read-php-str expression) #:from 'php #:to 'value))))))
+
+(with-test-prefix "parser"
+  (parse-php-str "hello world" '(begin (print (string "hello")) (print (string " ")) (print (string "world")))))
+
+
+
+
+
+
+
+
+
+
+;(define (tokenize file)
+;  (let ((lexer (make-tokenizer (open-file file "r"))))
+;    (let loop ((tok (lexer)))
+;      (display tok)
+;      (newline)
+;      (if (not (eq? tok '*eoi*))
+;        (loop (lexer))))))
+;
+

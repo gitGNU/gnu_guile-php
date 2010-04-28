@@ -1,0 +1,3 @@
+#!/bin/bash
+
+guile -L ./module/ -e main -s module/test-suite/guile-test --test-suite module/test-suite/tests/ --log-file logs/test-suite.log

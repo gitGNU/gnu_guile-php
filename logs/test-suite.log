@@ -1,0 +1,12 @@
+PASS: helloworld.test: parser: hello world
+
+Totals for this test run:
+passes:                 1
+failures:               0
+unexpected passes:      0
+expected failures:      0
+unresolved test cases:  0
+untested test cases:    0
+unsupported test cases: 0
+errors:                 0
+
