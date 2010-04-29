@@ -17,44 +17,22 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301 USA
 
-(define-module (test-suite test comments)
+(define-module (test-suite test vars)
   #:use-module (test-suite base)
   #:use-module (test-suite lib))
 
 (with-test-prefix "compile"
-  (compile-php-str "<?php #function test() { print \"ok\"; } test(); ?>" "")
-  (compile-php-str "<?php //function test() { return 5; } $a = test(); print $a; ?>" "")
-  (compile-php-str "<?php /* some comment */ ?>" "")
-
-  (compile-php-str "<?
-#this #is a # comment # nested #shouldn't matter
-?>" "")
-
-  (compile-php-str "<%
-//this is a comment ?>
-%>" "")
-
-  (compile-php-str "<script language=\"php\">
-/* multi-line comment on a single line*/
-</script>" "")
-
-  (compile-php-str "<?
-/*
-
-multi-line 
-comment 
-on
-#test
-multiple
-//what?
-lines
-
-*/" "")
-
-  (compile-php-str "<?php
-#comment
-//comment
-/*comment*/" ""))
-
+  (compile-php-str "<? $a = 1; print $a; ?>" "1")
+  (compile-php-str "<?php $a = \"a\"; print $a; ?>" "a")
+  (compile-php-str "<?php $a = 'b'; print $a; ?>" "b")
+  (compile-php-str "<?php $x = 1; $y = $x; print $x; ?>" "1")
+  (compile-php-str "<? $x = 2; $x = 1; $x = 3; print $x; ?>" "3")
+  (compile-php-str "<? $x = \"ok\"; $gggg = \"$x\"; print $gggg; ?>" "ok")
+  (compile-php-str "<? $var = \"val\"; $varb = '$var'; print $varb; ?>" "$var")
+  (compile-php-str "<?php $a1 = 1; print $a1; ?>" "1")
+  (compile-php-str "<?php $_a = 2; print $_a; ?>" "2")
+  (compile-php-str "<? $_a1_2b = 3; print $_a1_2b; ?>" "3")
+  (compile-php-str "<? $x = 1; $y = ++$x; print $x; ?>" "2")
+  (compile-php-str "<? $aa = null; ?>" ""))
 
 

@@ -17,7 +17,7 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301 USA
 
-(define-module (test-suite test print)
+(define-module (test-suite test functions)
   #:use-module (test-suite base)
   #:use-module (test-suite lib))
 
@@ -54,7 +54,7 @@ test_some_func();" "yar")
   (compile-php-str "<?php
 function a() { return 1; }
 function b() { return 2; }
-function c() { retunr 3; }
+function c() { return 3; }
 
 function test($a, $b, $c) {
   print $c;print $b; print $a;

@@ -52,17 +52,17 @@ function test_some_func() {
 }
 
 test_some_func();
-ERROR: functions.test: compile: <?php
+PASS: functions.test: compile: <?php
 function a() { return 1; }
 function b() { return 2; }
-function c() { retunr 3; }
+function c() { return 3; }
 
 function test($a, $b, $c) {
   print $c;print $b; print $a;
 }
 
 test(a(), b(), c());
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_LNUMBER source: #f value: "3">))
+?>
 ERROR: functions.test: compile: <script language="php">
 notyetdefined();
 
@@ -85,14 +85,26 @@ ERROR: print.test: compile: <?php $a = 2; print "$a"; ?> - arguments: ((ParseSyn
 PASS: print.test: compile: <?php function test() { return 12; } print test(); ?>
 PASS: print.test: compile: <?php $a = 3; print ++$a; ?>
 PASS: print.test: compile: <?php $a = 4; print --$a; ?>
+PASS: vars.test: compile: <? $a = 1; print $a; ?>
+PASS: vars.test: compile: <?php $a = "a"; print $a; ?>
+ERROR: vars.test: compile: <?php $a = 'b'; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\'))
+PASS: vars.test: compile: <?php $x = 1; $y = $x; print $x; ?>
+PASS: vars.test: compile: <? $x = 2; $x = 1; $x = 3; print $x; ?>
+ERROR: vars.test: compile: <? $x = "ok"; $gggg = "$x"; print $gggg; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ENCAPSED_AND_WHITESPACE source: #f value: "\"$x\"">))
+ERROR: vars.test: compile: <? $var = "val"; $varb = '$var'; print $varb; ?> - arguments: ((SyntaxError "Invalid token: " #\'))
+ERROR: vars.test: compile: <?php $a1 = 1; print $a1; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_LNUMBER source: #f value: "1">))
+ERROR: vars.test: compile: <?php $_a = 2; print $_a; ?> - arguments: ((SyntaxError "Invalid token: " #\$))
+ERROR: vars.test: compile: <? $_a1_2b = 3; print $_a1_2b; ?> - arguments: ((SyntaxError "Invalid token: " #\$))
+PASS: vars.test: compile: <? $x = 1; $y = ++$x; print $x; ?>
+PASS: vars.test: compile: <? $aa = null; ?>
 
 Totals for this test run:
-passes:                 27
+passes:                 34
 failures:               0
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 7
+errors:                 12
 
