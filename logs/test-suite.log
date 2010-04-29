@@ -28,6 +28,46 @@ PASS: comments.test: compile: <?php
 /*comment*/
 PASS: functions.test: compile: <?php function test() { print "ok"; } test(); ?>
 PASS: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?>
+PASS: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?>
+ERROR: functions.test: compile: <? function a(){} ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-brace source: #f value: "}">))
+PASS: functions.test: compile: <?php function _aFunc() { print "sure"; } _aFunc(); ?>
+PASS: functions.test: compile: <?php
+function test1($a, $b, $c)
+{
+  if($a == $b)
+    return $c;
+  else
+    return $b;
+}
+
+$a = test1(1, 1, 2);
+$b = test1(1, 2, 1);
+
+print $a;
+print $b;
+?>
+PASS: functions.test: compile: <?php
+function test_some_func() {
+  print "yar";
+}
+
+test_some_func();
+ERROR: functions.test: compile: <?php
+function a() { return 1; }
+function b() { return 2; }
+function c() { retunr 3; }
+
+function test($a, $b, $c) {
+  print $c;print $b; print $a;
+}
+
+test(a(), b(), c());
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_LNUMBER source: #f value: "3">))
+ERROR: functions.test: compile: <script language="php">
+notyetdefined();
+
+function notyetdefined() { print "works"; }
+?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" (notyetdefined) #f))
 PASS: helloworld.test: parser: hello world
 PASS: helloworld.test: parser: <?php print "hello world"; ?>
 PASS: helloworld.test: compile: hello world
@@ -47,12 +87,12 @@ PASS: print.test: compile: <?php $a = 3; print ++$a; ?>
 PASS: print.test: compile: <?php $a = 4; print --$a; ?>
 
 Totals for this test run:
-passes:                 23
+passes:                 27
 failures:               0
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 4
+errors:                 7
 

@@ -23,7 +23,51 @@
 
 (with-test-prefix "compile"
   (compile-php-str "<?php function test() { print \"ok\"; } test(); ?>" "ok")
-  (compile-php-str "<?php function test() { return 5; } $a = test(); print $a; ?>" "5"))
+  (compile-php-str "<?php function test() { return 5; } $a = test(); print $a; ?>" "5")
+  (compile-php-str "<?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?>" "1")
+  (compile-php-str "<? function a(){} ?>" "")
+  (compile-php-str "<?php function _aFunc() { print \"sure\"; } _aFunc(); ?>" "sure")
+
+  (compile-php-str "<?php
+function test1($a, $b, $c)
+{
+  if($a == $b)
+    return $c;
+  else
+    return $b;
+}
+
+$a = test1(1, 1, 2);
+$b = test1(1, 2, 1);
+
+print $a;
+print $b;
+?>" "22")
+
+  (compile-php-str "<?php
+function test_some_func() {
+  print \"yar\";
+}
+
+test_some_func();" "yar")
+
+  (compile-php-str "<?php
+function a() { return 1; }
+function b() { return 2; }
+function c() { retunr 3; }
+
+function test($a, $b, $c) {
+  print $c;print $b; print $a;
+}
+
+test(a(), b(), c());
+?>" "321")
+
+  (compile-php-str "<script language=\"php\">
+notyetdefined();
+
+function notyetdefined() { print \"works\"; }
+?>" "works"))
 
 
 
