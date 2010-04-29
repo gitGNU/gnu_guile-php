@@ -17,28 +17,19 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301 USA
 
-(define-module (test-suite test helloworld)
+(define-module (test-suite test print)
   #:use-module (test-suite base)
   #:use-module (test-suite lib))
 
-(with-test-prefix "parser"
-  (parse-php-str "hello world" '(begin (print (string "hello")) (print (string " ")) (print (string "world"))))
-  (parse-php-str "<?php print \"hello world\"; ?>" '(begin (void) (print (string "hello world")) (void))))
-
 (with-test-prefix "compile"
-  (compile-php-str "hello world" "hello world")
-  (compile-php-str "<?php print \"hello world\"; ?>" "hello world")
-  (compile-php-str "hello <?php print \"world\"; ?>" "hello world")
-  (compile-php-str "<?php print \"hello \"; ?>world" "hello world")
-  (compile-php-str "hello<?php ?> world" "hello world")
-  (compile-php-str "<?php return \"hello world\"; ?>" ""))
+  (compile-php-str "<?php print \"\"; ?>"  "")
+  (compile-php-str "<?php print null; ?>" "")
+  (compile-php-str "<?php print 5; ?>" "5")
+  (compile-php-str "<?php print \"some string\"; print \"another string\"; ?>" "some stringanother string")
+  (compile-php-str "<?php $a = 1; print $a; ?>" "1")
+  (compile-php-str "<?php $a = 2; print \"$a\"; ?>" "2")
+  (compile-php-str "<?php function test() { return 12; } print test(); ?>" "12")
+  (compile-php-str "<?php $a = 3; print ++$a; ?>" "4")
+  (compile-php-str "<?php $a = 4; print --$a; ?>" "3"))
 
-;(define (tokenize file)
-;  (let ((lexer (make-tokenizer (open-file file "r"))))
-;    (let loop ((tok (lexer)))
-;      (display tok)
-;      (newline)
-;      (if (not (eq? tok '*eoi*))
-;        (loop (lexer))))))
-;
 
