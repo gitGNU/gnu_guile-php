@@ -1,3 +1,5 @@
+PASS: functions.test: compile: <?php function test() { print "ok"; } test(); ?>
+PASS: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?>
 PASS: helloworld.test: parser: hello world
 PASS: helloworld.test: parser: <?php print "hello world"; ?>
 PASS: helloworld.test: compile: hello world
@@ -7,22 +9,22 @@ PASS: helloworld.test: compile: <?php print "hello "; ?>world
 PASS: helloworld.test: compile: hello<?php ?> world
 PASS: helloworld.test: compile: <?php return "hello world"; ?>
 PASS: print.test: compile: <?php print ""; ?>
-ERROR: print.test: compile: <?php print null; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: null source: #f value: "null">))
-ERROR: print.test: compile: <?php print 5; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_LNUMBER source: #f value: "5">))
+FAIL: print.test: compile: <?php print null; ?>
+PASS: print.test: compile: <?php print 5; ?>
 PASS: print.test: compile: <?php print "some string"; print "another string"; ?>
 PASS: print.test: compile: <?php $a = 1; print $a; ?>
 ERROR: print.test: compile: <?php $a = 2; print "$a"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ENCAPSED_AND_WHITESPACE source: #f value: "\"$a\"">))
-ERROR: print.test: compile: <?php function test() { return 12; } print test(); ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: word source: #f value: "test">))
+PASS: print.test: compile: <?php function test() { return 12; } print test(); ?>
 PASS: print.test: compile: <?php $a = 3; print ++$a; ?>
 PASS: print.test: compile: <?php $a = 4; print --$a; ?>
 
 Totals for this test run:
-passes:                 13
-failures:               0
+passes:                 17
+failures:               1
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 4
+errors:                 1
 

@@ -77,8 +77,13 @@
       (Statement) : $1
       (FunctionDeclaration) : $1
       (T_INLINE_HTML) : `(print (string ,$1))
-      (T_OPEN_TAG) : `(void) 
+      (OpenTag) : $1
       (T_CLOSE_TAG) : `(void))
+
+    (OpenTag
+      (T_OPEN_TAG) : `(void)
+      (T_OPEN_TAG_WITH_ECHO Value) : `(echo ,$2)
+      (T_OPEN_TAG_WITH_ECHO Value semi) : `(echo ,$2))
 
     (FunctionDeclaration 
       (T_FUNCTION word open-paren close-paren open-brace FunctionBody close-brace) : `(var ,$2 (lambda () ,$6))
@@ -95,8 +100,10 @@
     (Value
       (T_CONSTANT_ENCAPSULATED_STRING) : `(string ,$1)
       (T_LNUMBER) : `(num ,$1)
-      (null) : `(const 'NULL)
-      (Variable) : $1)
+      (null) : `(null)
+      (Variable) : $1
+      (IncDec) : $1
+      (FunctionCall) : $1)
 
     (Variable
       (T_VARIABLE) : `(var-resolve ,$1))
@@ -105,10 +112,11 @@
       (SourceElements) : $1)
 
     (Statement 
+      (Echo) : $1
       (Print) : $1
       (Var) : $1
       (IfBlock) : $1
-      (FunctionCall) : $1
+      (FunctionCall semi) : $1
       (Return) : $1
       (IncDec) : $1
       (T_WHITESPACE) : `(void)
@@ -125,19 +133,17 @@
       (Variable T_DEC) : `(post-dec ,$1))
 
     (FunctionCall
-      (word open-paren close-paren semi) : `(call ,$1)
-      (word open-paren ValueList close-paren semi) : `(call ,$1 ,$3))
+      (word open-paren close-paren) : `(call ,$1)
+      (word open-paren ValueList close-paren) : `(call ,$1 ,$3))
+
+    (Echo
+      (T_ECHO Value semi) : `(echo ,$2))
 
     (Print 
-      (T_PRINT T_CONSTANT_ENCAPSULATED_STRING semi) : `(print (string ,$2)) 
-      (T_PRINT Variable semi) : `(print-var ,$2)
-      (T_PRINT IncDec semi) : `(print ,$2))
+      (T_PRINT Value semi) : `(print ,$2))
 
     (Var 
-      (T_VARIABLE equals null semi) : `(var ,$1)
-      (T_VARIABLE equals FunctionCall) : `(var ,$1 ,$3)
-      (T_VARIABLE equals T_LNUMBER semi) : `(var ,$1 (num ,$3))
-      (T_VARIABLE equals T_CONSTANT_ENCAPSULATED_STRING semi) : `(var ,$1 (string ,$3)))
+      (T_VARIABLE equals Value semi) : `(var ,$1 ,$3))
     
     (IfBlock
       (T_IF open-paren Comparison close-paren open-brace SourceElements close-brace) : `(if ,$3 ,$6)

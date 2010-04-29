@@ -162,5 +162,12 @@ if($r >= 100)
 
 ?>
 
-After another php block..
+<h1>After another php block..</h1>
+
+<?php if(2 == 1) { ?> ok..... <?php } else { ?> hrm.... <?php } ?>
+
+<hr />
+<p><?php echo "testing echo....\n"; ?></p>
+<h2><?= $r ?></h2>
+<h3><%= ++$r %></h3>
 

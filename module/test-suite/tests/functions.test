@@ -1,4 +1,4 @@
-;;; PHP for GNU Guile.
+;;; PHP for GNU Guile
 
 ;; Copyright (C) 2010 Jon Herron
 
@@ -17,34 +17,13 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301 USA
 
-;;; Code:
+(define-module (test-suite test print)
+  #:use-module (test-suite base)
+  #:use-module (test-suite lib))
 
-(define-module (language php impl)
-  #:use-module (system base language)
-  #:export (php/print php/echo 
-	    php/== php/< php/> php/<= php/>=))
+(with-test-prefix "compile"
+  (compile-php-str "<?php function test() { print \"ok\"; } test(); ?>" "ok")
+  (compile-php-str "<?php function test() { return 5; } $a = test(); print $a; ?>" "5"))
 
-;;
-;;  Currently all these methods are just stubs, not even close to complete...
-;;
 
-(define (php/echo arg)
-  (display arg))
 
-(define (php/print arg)
-  (display arg))
-
-(define (php/== a b)
-  (= a b))
-
-(define (php/< a b)
-  (< a b))
-
-(define (php/> a b)
-  (> a b))
-
-(define (php/<= a b)
-  (<= a b))
-
-(define (php/>= a b)
-  (>= a b))

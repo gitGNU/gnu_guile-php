@@ -46,16 +46,16 @@
 "break"  (make-token 'T_BREAK yytext)
 "case"  (make-token 'T_CASE yytext)
 "catch"  (make-token 'T_CATCH yytext)
-"class"          (make-token 'T_CLASS yytext)
-"__CLASS__"      (make-token 'T_CLASS_C yytext)
-"clone"          (make-token 'T_CLONE yytext)
+"class"  (make-token 'T_CLASS yytext)
+"__CLASS__"  (make-token 'T_CLASS_C yytext)
+"clone"  (make-token 'T_CLONE yytext)
 
-"?>"|"%>"        (begin (let ((token (make-token 'T_CLOSE_TAG yytext))) (set! parse-mode 'txt) token))
+"?>"|"%>"|"</script>"  (begin (let ((token (make-token 'T_CLOSE_TAG yytext))) (set! parse-mode 'txt) token))
 
-\#(.*)[\n]      (make-token 'T_COMMENT yytext)
-\/\/(.*)[\n]    (make-token 'T_COMMENT yytext)
+\#(.*)[\n]  (make-token 'T_COMMENT yytext)
+\/\/(.*)[\n]  (make-token 'T_COMMENT yytext)
 \/\*{1}(.*)\*\/  (make-token 'T_COMMENT yytext)
-".="            (make-token 'T_CONCAT_EQUAL yytext)
+".="  (make-token 'T_CONCAT_EQUAL yytext)
 "const"          (make-token 'T_CONST yytext)
 "\""            (read-string 'T_CONSTANT_ENCAPSULATED_STRING yygetc yyungetc) 
 "continue"      (make-token 'T_CONTINUE yytext)
@@ -135,12 +135,9 @@
 "(object)"      (make-token 'T_OBJECT_CAST yytext)
 "->"            (make-token 'T_OBJECT_OPERATOR yytext)
 
-"<?"            (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG yytext))
-"<?php"          (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG yytext))
-"<%"            (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG yytext))
+"<?"|"<?php"|"<%"|"<script language=\"php\">"            (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG yytext))
 
-"<?="            (make-token 'T_OPEN_TAG_WITH_ECHO yytext)
-"<%="            (make-token 'T_OPEN_TAG_WITH_ECHO yytext)
+"<?="|"<%="      (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG_WITH_ECHO yytext))
 
 "|="            (make-token 'T_OR_EQUAL yytext)
 "+="            (make-token 'T_PLUS_EQUAL yytext)
