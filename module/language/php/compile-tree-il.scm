@@ -101,8 +101,6 @@
       (@impl php/echo (comp x env)))
     ((print ,x)
       (@impl php/print (comp x env)))
-    ((print-var ,x)
-      (@impl php/print (comp x env))) 
     ((var ,varname ,val)
       (-> (define (string->symbol varname) (comp val env))))
     ((var ,varname)

@@ -1,3 +1,31 @@
+ERROR: comments.test: compile: <?php #function test() { print "ok"; } test(); ?> - arguments: ((SyntaxError "Invalid token: " #\#))
+ERROR: comments.test: compile: <?php //function test() { return 5; } $a = test(); print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: divide source: #f value: "/">))
+PASS: comments.test: compile: <?php /* some comment */ ?>
+PASS: comments.test: compile: <?
+#this #is a # comment # nested #shouldn't matter
+?>
+PASS: comments.test: compile: <%
+//this is a comment ?>
+%>
+PASS: comments.test: compile: <script language="php">
+/* multi-line comment on a single line*/
+</script>
+ERROR: comments.test: compile: <?
+/*
+
+multi-line 
+comment 
+on
+#test
+multiple
+//what?
+lines
+
+*/ - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: divide source: #f value: "/">))
+PASS: comments.test: compile: <?php
+#comment
+//comment
+/*comment*/
 PASS: functions.test: compile: <?php function test() { print "ok"; } test(); ?>
 PASS: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?>
 PASS: helloworld.test: parser: hello world
@@ -9,7 +37,7 @@ PASS: helloworld.test: compile: <?php print "hello "; ?>world
 PASS: helloworld.test: compile: hello<?php ?> world
 PASS: helloworld.test: compile: <?php return "hello world"; ?>
 PASS: print.test: compile: <?php print ""; ?>
-FAIL: print.test: compile: <?php print null; ?>
+PASS: print.test: compile: <?php print null; ?>
 PASS: print.test: compile: <?php print 5; ?>
 PASS: print.test: compile: <?php print "some string"; print "another string"; ?>
 PASS: print.test: compile: <?php $a = 1; print $a; ?>
@@ -19,12 +47,12 @@ PASS: print.test: compile: <?php $a = 3; print ++$a; ?>
 PASS: print.test: compile: <?php $a = 4; print --$a; ?>
 
 Totals for this test run:
-passes:                 17
-failures:               1
+passes:                 23
+failures:               0
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 1
+errors:                 4
 

@@ -1,4 +1,4 @@
-;;; PHP for GNU Guile.
+;;; PHP for GNU Guile
 
 ;; Copyright (C) 2010 Jon Herron
 
@@ -17,35 +17,44 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301 USA
 
-;;; Code:
+(define-module (test-suite test print)
+  #:use-module (test-suite base)
+  #:use-module (test-suite lib))
 
-(define-module (language php impl)
-  #:use-module (system base language)
-  #:export (php/print php/echo 
-	    php/== php/< php/> php/<= php/>=))
+(with-test-prefix "compile"
+  (compile-php-str "<?php #function test() { print \"ok\"; } test(); ?>" "")
+  (compile-php-str "<?php //function test() { return 5; } $a = test(); print $a; ?>" "")
+  (compile-php-str "<?php /* some comment */ ?>" "")
 
-;;
-;;  Currently all these methods are just stubs, not even close to complete...
-;;
+  (compile-php-str "<?
+#this #is a # comment # nested #shouldn't matter
+?>" "")
 
-(define (php/echo arg)
-  (display arg))
+  (compile-php-str "<%
+//this is a comment ?>
+%>" "")
 
-(define (php/print arg)
-  (if (not (eq? arg 'NULL))
-    (display arg)))
+  (compile-php-str "<script language=\"php\">
+/* multi-line comment on a single line*/
+</script>" "")
 
-(define (php/== a b)
-  (= a b))
+  (compile-php-str "<?
+/*
 
-(define (php/< a b)
-  (< a b))
+multi-line 
+comment 
+on
+#test
+multiple
+//what?
+lines
 
-(define (php/> a b)
-  (> a b))
+*/" "")
 
-(define (php/<= a b)
-  (<= a b))
+  (compile-php-str "<?php
+#comment
+//comment
+/*comment*/" ""))
 
-(define (php/>= a b)
-  (>= a b))
+
+
