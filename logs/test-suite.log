@@ -26,6 +26,15 @@ PASS: comments.test: compile: <?php
 #comment
 //comment
 /*comment*/
+PASS: echo.test: compile: <?php echo ""; ?>
+PASS: echo.test: compile: <?php echo null; ?>
+PASS: echo.test: compile: <?php echo 5; ?>
+PASS: echo.test: compile: <?php echo "some string"; echo "another string"; ?>
+PASS: echo.test: compile: <?php $a = 1; echo $a; ?>
+ERROR: echo.test: compile: <?php $a = 2; echo "$a"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ENCAPSED_AND_WHITESPACE source: #f value: "\"$a\"">))
+PASS: echo.test: compile: <?php function test() { return 12; } echo test(); ?>
+PASS: echo.test: compile: <?php $a = 3; echo ++$a; ?>
+PASS: echo.test: compile: <?php $a = 4; echo --$a; ?>
 PASS: functions.test: compile: <?php function test() { print "ok"; } test(); ?>
 PASS: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?>
 PASS: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?>
@@ -137,6 +146,7 @@ else
   print "passed";
 
 ?>
+PASS: ifs.test: compile: <?php if(1 == 2) { ?> "a" <?php } else { ?> "b" <?php } ?>
 ERROR: ifs.test: compile: <? if("aaa" === "aaa") { print "a"; } else { print "b"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IS_IDENTICAL source: #f value: "===">))
 ERROR: ifs.test: compile: <?php if("1" == 1) print "ok"; else print "wrong"; ?> - arguments: ((wrong-type-arg "=" "Wrong type argument in position ~A: ~S" (1 "1") ("1")))
 ERROR: ifs.test: compile: <?php if(1 === "1") print "wrong"; else print "true"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IS_IDENTICAL source: #f value: "===">))
@@ -192,12 +202,12 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 44
+passes:                 53
 failures:               2
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 33
+errors:                 34
 

@@ -22,7 +22,7 @@
   #:use-module (test-suite lib))
 
 (with-test-prefix "parser"
-  (parse-php-str "hello world" '(begin (print (string "hello")) (print (string " ")) (print (string "world"))))
+  (parse-php-str "hello world" '(begin (echo (string "hello")) (echo (string " ")) (echo (string "world"))))
   (parse-php-str "<?php print \"hello world\"; ?>" '(begin (void) (print (string "hello world")) (void))))
 
 (with-test-prefix "compile"

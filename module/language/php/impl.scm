@@ -29,7 +29,7 @@
 ;;
 
 (define (php/echo arg)
-  (display arg))
+  (php/print arg))
 
 (define (php/print arg)
   (if (not (eq? arg 'NULL))

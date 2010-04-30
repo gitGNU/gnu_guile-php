@@ -75,7 +75,7 @@
 
     (SourceElement
       (Statement) : $1
-      (T_INLINE_HTML) : `(print (string ,$1))
+      (T_INLINE_HTML) : `(echo (string ,$1))
       (OpenTag) : $1
       (T_CLOSE_TAG) : `(void))
 
@@ -118,7 +118,7 @@
       (BracedStatements) : $1)
 
     (BracedStatements
-      (open-brace Statements close-brace) : $2)
+      (open-brace SourceElements close-brace) : $2)
 
     (Statement
       (open-brace close-brace) : `(void)
@@ -156,10 +156,14 @@
 
     (Var 
       (T_VARIABLE equals Value semi) : `(var ,$1 ,$3))
+
+    (ConditionalStatement
+      (Statement) : $1
+      (BracedStatements) : $1)
     
     (IfBlock
-      (T_IF Comparison Statement) : `(if ,$2 ,$3)
-      (T_IF Comparison Statement T_ELSE Statement) : `(if ,$2 ,$3 ,$5))
+      (T_IF Comparison ConditionalStatement) : `(if ,$2 ,$3)
+      (T_IF Comparison ConditionalStatement T_ELSE ConditionalStatement) : `(if ,$2 ,$3 ,$5))
 
     (Comparison
       (open-paren Comparison close-paren) : $2
