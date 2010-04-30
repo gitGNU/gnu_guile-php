@@ -73,23 +73,29 @@
                                           `(begin ,@(cdr $1) ,$2)
                                           `(begin ,$1 ,$2)))
 
-    (SourceElement 
+    (SourceElement
       (Statement) : $1
-      (FunctionDeclaration) : $1
       (T_INLINE_HTML) : `(print (string ,$1))
       (OpenTag) : $1
       (T_CLOSE_TAG) : `(void))
+
+    (Statements
+      (Statement) : $1
+      (Statements Statement) : (if (and (pair? $1) (eq? (car $1) 'begin))
+				   `(begin ,@(cdr $1) ,$2)
+				   `(begin ,$1 ,$2)))
 
     (OpenTag
       (T_OPEN_TAG) : `(void)
       (T_OPEN_TAG_WITH_ECHO Value) : `(echo ,$2)
       (T_OPEN_TAG_WITH_ECHO Value semi) : `(echo ,$2))
 
-    (FunctionDeclaration 
-      (T_FUNCTION word open-paren close-paren open-brace FunctionBody close-brace) : `(var ,$2 (lambda () ,$6))
-      (T_FUNCTION word open-paren FormalParameterList close-paren open-brace FunctionBody close-brace) : `(var ,$2 (lambda ,$4 ,$7)))
+    (FunctionDeclaration
+      (T_FUNCTION word FormalParameterList FunctionBody) : `(var ,$2 (lambda ,$3 ,$4)))
 
     (FormalParameterList 
+      (open-paren close-paren) : '()
+      (open-paren FormalParameterList close-paren) : $2 
       (T_VARIABLE) : `(,$1)
       (FormalParameterList comma T_VARIABLE) : `(,@$1 ,$3))
 
@@ -108,10 +114,16 @@
     (Variable
       (T_VARIABLE) : `(var-resolve ,$1))
 
-    (FunctionBody 
-      (SourceElements) : $1)
+    (FunctionBody
+      (BracedStatements) : $1)
 
-    (Statement 
+    (BracedStatements
+      (open-brace Statements close-brace) : $2)
+
+    (Statement
+      (open-brace close-brace) : `(void)
+      (BracedStatements) : $1
+      (FunctionDeclaration) : $1
       (Echo) : $1
       (Print) : $1
       (Var) : $1
@@ -146,12 +158,11 @@
       (T_VARIABLE equals Value semi) : `(var ,$1 ,$3))
     
     (IfBlock
-      (T_IF open-paren Comparison close-paren open-brace SourceElements close-brace) : `(if ,$3 ,$6)
-      (T_IF open-paren Comparison close-paren Statement) : `(if ,$3 ,$5)
-      (T_IF open-paren Comparison close-paren open-brace SourceElements close-brace T_ELSE open-brace SourceElements close-brace) : `(if ,$3 ,$6 ,$10)
-      (T_IF open-paren Comparison close-paren Statement T_ELSE Statement) : `(if ,$3 ,$5 ,$7))
+      (T_IF Comparison Statement) : `(if ,$2 ,$3)
+      (T_IF Comparison Statement T_ELSE Statement) : `(if ,$2 ,$3 ,$5))
 
     (Comparison
+      (open-paren Comparison close-paren) : $2
       (Value T_IS_EQUAL Value) : `(equal ,$1 ,$3)
       (Value T_IS_NOT_EQUAL Value) : `(not (equal ,$1 ,$3))
       (Value greater-than Value) : `(greater-than ,$1 ,$3)

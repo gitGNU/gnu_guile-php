@@ -24,6 +24,7 @@
 (with-test-prefix "compile"
   (compile-php-str "<?php if(1 == 1) { print \"1\"; } else { print \"2\"; } ?>" "1")
   (compile-php-str "<? if(2 == 1) { print \"1\"; } else { print \"2\"; } ?>" "2")
+  (compile-php-str "<?php if(((((((((((1 == 1))))))))))) { print \"aeiou?\"; } ?>" "aeiou?")
 
   (compile-php-str "<?php
 

@@ -47,7 +47,7 @@ function testFunc4($paramA, $paramB, $paramC) {
 
 testFunc1();
 testFunc4(1, "testing", 555); 
-
+tsetFunc666();
 
 
 ?>

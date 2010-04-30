@@ -78,6 +78,7 @@ PASS: helloworld.test: compile: hello<?php ?> world
 PASS: helloworld.test: compile: <?php return "hello world"; ?>
 PASS: ifs.test: compile: <?php if(1 == 1) { print "1"; } else { print "2"; } ?>
 PASS: ifs.test: compile: <? if(2 == 1) { print "1"; } else { print "2"; } ?>
+PASS: ifs.test: compile: <?php if(((((((((((1 == 1))))))))))) { print "aeiou?"; } ?>
 ERROR: ifs.test: compile: <?php
 
 if("a" == "a")
@@ -121,7 +122,7 @@ elseif ($a == $d)
   print "good";
 
 ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ELSEIF source: #f value: "elseif">))
-ERROR: ifs.test: compile: <?php
+PASS: ifs.test: compile: <?php
 
 if(1 == 2)
 {
@@ -135,7 +136,7 @@ if(1 == 2)
 else
   print "passed";
 
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+?>
 ERROR: ifs.test: compile: <? if("aaa" === "aaa") { print "a"; } else { print "b"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IS_IDENTICAL source: #f value: "===">))
 ERROR: ifs.test: compile: <?php if("1" == 1) print "ok"; else print "wrong"; ?> - arguments: ((wrong-type-arg "=" "Wrong type argument in position ~A: ~S" (1 "1") ("1")))
 ERROR: ifs.test: compile: <?php if(1 === "1") print "wrong"; else print "true"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IS_IDENTICAL source: #f value: "===">))
@@ -191,12 +192,12 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 42
+passes:                 44
 failures:               2
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 34
+errors:                 33
 
