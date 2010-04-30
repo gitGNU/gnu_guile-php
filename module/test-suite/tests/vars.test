@@ -33,6 +33,11 @@
   (compile-php-str "<?php $_a = 2; print $_a; ?>" "2")
   (compile-php-str "<? $_a1_2b = 3; print $_a1_2b; ?>" "3")
   (compile-php-str "<? $x = 1; $y = ++$x; print $x; ?>" "2")
-  (compile-php-str "<? $aa = null; ?>" ""))
+  (compile-php-str "<? $t = true; ?>" "")
+  (compile-php-str "<? $f = false; ?>" "")
+  (compile-php-str "<? $T = TRUE; ?>" "")
+  (compile-php-str "<? $F = FALSE; ?>" "")
+  (compile-php-str "<?php $N = NULL; ?>" "")
+  (compile-php-str "<? $n = null; ?>" ""))
 
 
