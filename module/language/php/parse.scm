@@ -163,7 +163,13 @@
     
     (IfBlock
       (T_IF Comparison ConditionalStatement) : `(if ,$2 ,$3)
-      (T_IF Comparison ConditionalStatement T_ELSE ConditionalStatement) : `(if ,$2 ,$3 ,$5))
+      (T_IF Comparison ConditionalStatement ElseBlock) : `(if ,$2 ,$3 ,$4))
+
+    (ElseBlock
+      (IfBlock) : $1
+      (T_ELSE ConditionalStatement) : $2
+      (T_ELSEIF Comparison ConditionalStatement) : `(if ,$2 ,$3)
+      (T_ELSEIF Comparison ConditionalStatement ElseBlock) : `(if ,$2 ,$3 ,$4))
 
     (Comparison
       (open-paren Comparison close-paren) : $2

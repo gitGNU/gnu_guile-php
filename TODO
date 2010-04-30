@@ -1,4 +1,3 @@
-* else if/elseif blocks
 * !==, === support
 * &&, || support
 * default param values for functions
@@ -9,6 +8,8 @@
 * null handling improvements
 * for, foreach, while, do while loops
 * break, continue
+* add "label" support to php.l - don't use word for everything
+* fix failing tests...
 
 ---- high level todos...
 
