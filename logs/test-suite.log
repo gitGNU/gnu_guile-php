@@ -91,14 +91,14 @@ PASS: helloworld.test: compile: <?php return "hello world"; ?>
 PASS: ifs.test: compile: <?php if(1 == 1) { print "1"; } else { print "2"; } ?>
 PASS: ifs.test: compile: <? if(2 == 1) { print "1"; } else { print "2"; } ?>
 PASS: ifs.test: compile: <?php if(((((((((((1 == 1))))))))))) { print "aeiou?"; } ?>
-ERROR: ifs.test: compile: <?php
+PASS: ifs.test: compile: <?php
 
 if("a" == "a")
   print "a";
 else
   print "b";
 
-?> - arguments: ((wrong-type-arg "=" "Wrong type argument in position ~A: ~S" (1 "a") ("a")))
+?>
 PASS: ifs.test: compile: <?php
 
 $a = 1;
@@ -151,7 +151,7 @@ else
 ?>
 PASS: ifs.test: compile: <?php if(1 == 2) { ?> "a" <?php } else { ?> "b" <?php } ?>
 ERROR: ifs.test: compile: <? if("aaa" === "aaa") { print "a"; } else { print "b"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IS_IDENTICAL source: #f value: "===">))
-ERROR: ifs.test: compile: <?php if("1" == 1) print "ok"; else print "wrong"; ?> - arguments: ((wrong-type-arg "=" "Wrong type argument in position ~A: ~S" (1 "1") ("1")))
+PASS: ifs.test: compile: <?php if("1" == 1) print "ok"; else print "wrong"; ?>
 ERROR: ifs.test: compile: <?php if(1 === "1") print "wrong"; else print "true"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IS_IDENTICAL source: #f value: "===">))
 ERROR: ifs.test: compile: <?php if(1 === 1) print "right"; else print "wrong"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IS_IDENTICAL source: #f value: "===">))
 PASS: nums.test: compile: <? $n = 1; print $n; ?>
@@ -205,12 +205,12 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 55
+passes:                 57
 failures:               2
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 35
+errors:                 33
 

@@ -36,7 +36,11 @@
     (display arg)))
 
 (define (php/== a b)
-  (= a b))
+  (cond
+   ((and (number? a) (number? b))
+    (= a b))
+   ((and (string? a) (string? b))
+    (string=? a b))))
 
 (define (php/< a b)
   (< a b))
