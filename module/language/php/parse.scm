@@ -173,6 +173,7 @@
 
     (Comparison
       (open-paren Comparison close-paren) : $2
+      (Comparison T_BOOLEAN_AND Comparison) : `(and ,$1 ,$3)
       (Value T_IS_EQUAL Value) : `(equal ,$1 ,$3)
       (Value T_IS_NOT_EQUAL Value) : `(not (equal ,$1 ,$3))
       (Value greater-than Value) : `(greater-than ,$1 ,$3)

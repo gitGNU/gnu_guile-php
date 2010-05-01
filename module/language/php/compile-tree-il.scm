@@ -124,6 +124,8 @@
      (-> (if (comp cond env) (comp then env) (-> (void)))))
     ((if ,cond ,then ,else)
      (-> (if (comp cond env) (comp then env) (comp else env))))
+    ((and ,a ,b)
+     (-> (if (comp a env) (comp b env) (-> (const #f)))))
     ((equal ,a ,b)
      (@impl php/== (comp a env) (comp b env)))
     ((greater-than ,a ,b)

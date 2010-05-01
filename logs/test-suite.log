@@ -41,6 +41,8 @@ ERROR: comparisons.test: compile: <?php if(0) print 1; else print 2; ?> - argume
 ERROR: comparisons.test: compile: <?php if("a") print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-paren source: #f value: ")">))
 PASS: comparisons.test: compile: <?php if(1 !== 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(1 == 1 && 1 == 2) print 1; else print 2; ?>
+ERROR: comparisons.test: compile: <?php if(1 == 1 || 1 == 2) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_BOOLEAN_OR source: #f value: "||">))
 PASS: echo.test: compile: <?php echo ""; ?>
 PASS: echo.test: compile: <?php echo null; ?>
 PASS: echo.test: compile: <?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?>
@@ -220,12 +222,12 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 76
+passes:                 77
 failures:               3
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 28
+errors:                 29
 
