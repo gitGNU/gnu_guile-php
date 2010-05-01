@@ -87,14 +87,6 @@
 	(char=? c str-char)))
   (make-token tok (read-til stop-reading yygetc yyungetc)))
 
-;  (let loop ((s '()))
-;    (let ((c (get-char yygetc yyungetc)))
-;      (if (eq? c 'eof)
-;        (syntax-error "Unexpected eof inside string"))
-;      (if (char=? c str-char)
-;        (make-token tok (list->string (reverse s)))
-;        (loop (cons c s))))))
-
 ;;; below merged in from tokenize-silex.scm
 
 
