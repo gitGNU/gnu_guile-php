@@ -32,7 +32,7 @@
   (php/print arg))
 
 (define (php/print arg)
-  (if (not (eq? arg 'NULL))
+  (if (not (eq? arg #nil))
     (display arg)))
 
 (define (php/== a b)

@@ -1,12 +1,9 @@
-* &&, || support
 * default param values for functions
 * better support for variable names
 * switch statements
 * string interpolation
 * heredoc strings
-* null handling improvements
-* true, false, TRUE, FALSE handling
-* values passed to if statements
+* values passed to if statements (close...)
 * for, foreach, while, do while loops
 * break, continue
 * add "label" support to php.l - don't use word for everything

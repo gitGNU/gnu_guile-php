@@ -61,7 +61,7 @@
 
       open-paren close-paren open-brace close-brace open-bracket close-bracket 
       comma semi asteriks plus minus divide equals dot qmark null word
-      greater-than less-than)
+      greater-than less-than true false)
 
     (Program   
       (SourceElements) : $1
@@ -107,6 +107,8 @@
       (T_CONSTANT_ENCAPSULATED_STRING) : `(string ,$1)
       (T_LNUMBER) : `(num ,$1)
       (null) : `(null)
+      (true) : `(true)
+      (false) : `(false)
       (Variable) : $1
       (IncDec) : $1
       (FunctionCall) : $1)
@@ -175,6 +177,7 @@
       (open-paren Comparison close-paren) : $2
       (Comparison T_BOOLEAN_AND Comparison) : `(and ,$1 ,$3)
       (Comparison T_BOOLEAN_OR Comparison) : `(or ,$1 ,$3)
+      (Value) : $1
       (Value T_IS_EQUAL Value) : `(equal ,$1 ,$3)
       (Value T_IS_NOT_EQUAL Value) : `(not (equal ,$1 ,$3))
       (Value greater-than Value) : `(greater-than ,$1 ,$3)

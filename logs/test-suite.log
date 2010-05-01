@@ -1,6 +1,13 @@
 PASS: comments.test: compile: <?php #function test() { print "ok"; } test(); ?>
 PASS: comments.test: compile: <?php //function test() { return 5; } $a = test(); print $a; ?>
 PASS: comments.test: compile: <?php /* some comment */ ?>
+ERROR: comments.test: compile: <?php
+
+#else
+#  print "single line else after multi line if
+";
+
+?> - arguments: ((SyntaxError "Unexpected eof inside string"))
 PASS: comments.test: compile: <?
 #this #is a # comment # nested #shouldn't matter
 ?>
@@ -30,15 +37,15 @@ PASS: comparisons.test: compile: <?php if(1 == 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 === 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if("1" == 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if("1" === 1) print 1; else print 2; ?>
-ERROR: comparisons.test: compile: <?php if(true) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-paren source: #f value: ")">))
-ERROR: comparisons.test: compile: <?php if(false) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-paren source: #f value: ")">))
-ERROR: comparisons.test: compile: <?php if(TRUE) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-paren source: #f value: ")">))
-ERROR: comparisons.test: compile: <?php if(FALSE) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-paren source: #f value: ")">))
-ERROR: comparisons.test: compile: <?php if(null) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-paren source: #f value: ")">))
-ERROR: comparisons.test: compile: <?php if(NULL) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-paren source: #f value: ")">))
-ERROR: comparisons.test: compile: <?php if(1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-paren source: #f value: ")">))
-ERROR: comparisons.test: compile: <?php if(0) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-paren source: #f value: ")">))
-ERROR: comparisons.test: compile: <?php if("a") print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-paren source: #f value: ")">))
+PASS: comparisons.test: compile: <?php if(true) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(false) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(TRUE) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(FALSE) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(null) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(NULL) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(1) print 1; else print 2; ?>
+FAIL: comparisons.test: compile: <?php if(0) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if("a") print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 !== 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 == 1 && 1 == 2) print 1; else print 2; ?>
@@ -214,20 +221,20 @@ ERROR: vars.test: compile: <?php $a1 = 1; print $a1; ?> - arguments: ((ParseSynt
 ERROR: vars.test: compile: <?php $_a = 2; print $_a; ?> - arguments: ((SyntaxError "Invalid token: " #\$))
 ERROR: vars.test: compile: <? $_a1_2b = 3; print $_a1_2b; ?> - arguments: ((SyntaxError "Invalid token: " #\$))
 PASS: vars.test: compile: <? $x = 1; $y = ++$x; print $x; ?>
-ERROR: vars.test: compile: <? $t = true; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: semi source: #f value: ";">))
-ERROR: vars.test: compile: <? $f = false; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: semi source: #f value: ";">))
-ERROR: vars.test: compile: <? $T = TRUE; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: semi source: #f value: ";">))
-ERROR: vars.test: compile: <? $F = FALSE; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: semi source: #f value: ";">))
+PASS: vars.test: compile: <? $t = true; ?>
+PASS: vars.test: compile: <? $f = false; ?>
+PASS: vars.test: compile: <? $T = TRUE; ?>
+PASS: vars.test: compile: <? $F = FALSE; ?>
 PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 78
-failures:               3
+passes:                 90
+failures:               4
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 28
+errors:                 16
 

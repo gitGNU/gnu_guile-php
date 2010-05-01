@@ -26,6 +26,13 @@
   (compile-php-str "<?php //function test() { return 5; } $a = test(); print $a; ?>" "")
   (compile-php-str "<?php /* some comment */ ?>" "")
 
+  (compile-php-str "<?php
+
+#else
+#  print \"single line else after multi line if\n\";
+
+?>" "")
+
   (compile-php-str "<?
 #this #is a # comment # nested #shouldn't matter
 ?>" "")

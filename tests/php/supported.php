@@ -108,8 +108,8 @@ if(1 == 1) {
   print "line\n";
   print "if\n";
 }
-#else
-#  print "single line else after multi line if\n";
+else
+  print "single line else after multi line if\n";
 
 
 function testReturn()

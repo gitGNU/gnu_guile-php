@@ -204,6 +204,8 @@
 "<"              (make-token 'less-than yytext)
 
 "null"|"NULL"    (make-token 'null yytext)
+"true"|"TRUE"    (make-token 'true yytext)
+"false"|"FALSE"  (make-token 'false yytext)
 
 ([a-zA-Z]|_)([a-zA-Z]|_|[0-9])* (make-token 'word yytext)
 
