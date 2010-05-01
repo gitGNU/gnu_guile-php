@@ -1,13 +1,12 @@
 * default param values for functions
-* better support for variable names
 * switch statements
 * string interpolation
 * heredoc strings
-* values passed to if statements (close...)
 * for, foreach, while, do while loops
 * break, continue
-* add "label" support to php.l - don't use word for everything
+* add "label" support to php.l - don't use word for everything (will fix variable/function name issues)
 * fix failing tests...
+* look at SHIFT/REDUCE and REDUCE/REDUCE errors/warnings
 
 ---- high level todos...
 

@@ -152,6 +152,8 @@
     ((pre-dec ,var)
      (let ((v (comp var env)))
        (-> (begin (-> (set! v (-> (apply (-> (primitive '-)) v (-> (const 1)))))) v))))
+    ((->bool ,x)
+     (@impl php/->bool (comp x env)))
     ((void)
      (-> (void)))
 

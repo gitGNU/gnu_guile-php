@@ -44,14 +44,14 @@ PASS: comparisons.test: compile: <?php if(FALSE) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(null) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(NULL) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1) print 1; else print 2; ?>
-FAIL: comparisons.test: compile: <?php if(0) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(0) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if("a") print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 !== 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 == 1 && 1 == 2) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 == 1 || 1 == 2) print 1; else print 2; ?>
 PASS: echo.test: compile: <?php echo ""; ?>
-PASS: echo.test: compile: <?php echo null; ?>
+PASS: echo.test: compile: <?php echo ''; ?>
 PASS: echo.test: compile: <?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?>
 PASS: echo.test: compile: <?php echo 5; ?>
 PASS: echo.test: compile: <?php echo "some string"; echo "another string"; ?>
@@ -62,10 +62,16 @@ PASS: echo.test: compile: <?php $a = 3; echo ++$a; ?>
 PASS: echo.test: compile: <?php $a = 4; echo --$a; ?>
 ERROR: echo.test: compile: <?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: comma source: #f value: ",">))
 ERROR: echo.test: compile: <? echo "a", "b", 1, 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: comma source: #f value: ",">))
+PASS: echo.test: compile: <?php echo true; ?>
+PASS: echo.test: compile: <?php echo TRUE; ?>
+PASS: echo.test: compile: <?php echo false; ?>
+PASS: echo.test: compile: <?php echo FALSE; ?>
+PASS: echo.test: compile: <?php echo null; ?>
+PASS: echo.test: compile: <?php echo NULL; ?>
 PASS: functions.test: compile: <?php function test() { print "ok"; } test(); ?>
 PASS: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?>
 PASS: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?>
-ERROR: functions.test: compile: <? function a(){} ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: close-brace source: #f value: "}">))
+PASS: functions.test: compile: <? function a(){} ?>
 PASS: functions.test: compile: <?php function _aFunc() { print "sure"; } _aFunc(); ?>
 PASS: functions.test: compile: <?php
 function test1($a, $b, $c)
@@ -229,12 +235,12 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 90
-failures:               4
+passes:                 98
+failures:               3
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 16
+errors:                 15
 

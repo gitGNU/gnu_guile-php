@@ -120,6 +120,7 @@
       (BracedStatements) : $1)
 
     (BracedStatements
+      (open-brace close-brace) : `(void)
       (open-brace SourceElements close-brace) : $2)
 
     (Statement
@@ -177,7 +178,7 @@
       (open-paren Comparison close-paren) : $2
       (Comparison T_BOOLEAN_AND Comparison) : `(and ,$1 ,$3)
       (Comparison T_BOOLEAN_OR Comparison) : `(or ,$1 ,$3)
-      (Value) : $1
+      (Value) : `(->bool ,$1)
       (Value T_IS_EQUAL Value) : `(equal ,$1 ,$3)
       (Value T_IS_NOT_EQUAL Value) : `(not (equal ,$1 ,$3))
       (Value greater-than Value) : `(greater-than ,$1 ,$3)

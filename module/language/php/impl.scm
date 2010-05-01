@@ -22,7 +22,8 @@
 (define-module (language php impl)
   #:use-module (system base language)
   #:export (php/print php/echo 
-	    php/== php/=== php/< php/> php/<= php/>=))
+	    php/== php/=== php/< php/> php/<= php/>=
+	    php/->bool php/->string))
 
 ;;
 ;;  Currently all these methods are just stubs, not even close to complete...
@@ -32,15 +33,14 @@
   (php/print arg))
 
 (define (php/print arg)
-  (if (not (eq? arg #nil))
-    (display arg)))
+  (display (php/->string arg)))
 
 (define (php/== a b)
   (cond
    ((and (string? a) (number? b))
-    (string=? a (number->string b)))
+    (string=? a (php/->string b)))
    ((and (number? a) (string? b))
-    (string=? (number->string a) b))
+    (string=? (php/->string a) b))
    (else
     (php/=== a b))))
     
@@ -65,3 +65,17 @@
 
 (define (php/>= a b)
   (>= a b))
+
+(define (php/->bool x)
+  (cond
+   ((boolean? x) x)
+   ((string? x) (and (not (string=? x "0")) (not (string=? x ""))))
+   ((number? x) (not (= x 0)))
+   (else #t)))
+
+(define (php/->string x)
+  (cond
+   ((string? x) x)
+   ((boolean? x) (if x "1" ""))
+   ((number? x) (number->string x))
+   (else "UNSUPPORTED TYPE PASSED TO php/->string")))

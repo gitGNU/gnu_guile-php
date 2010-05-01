@@ -23,7 +23,7 @@
 
 (with-test-prefix "compile"
   (compile-php-str "<?php echo \"\"; ?>"  "")
-  (compile-php-str "<?php echo null; ?>" "")
+  (compile-php-str "<?php echo ''; ?>" "")
   (compile-php-str "<?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?>" "aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*")
   (compile-php-str "<?php echo 5; ?>" "5")
   (compile-php-str "<?php echo \"some string\"; echo \"another string\"; ?>" "some stringanother string")
@@ -33,6 +33,12 @@
   (compile-php-str "<?php $a = 3; echo ++$a; ?>" "4")
   (compile-php-str "<?php $a = 4; echo --$a; ?>" "3")
   (compile-php-str "<?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?>" "123")
-  (compile-php-str "<? echo \"a\", \"b\", 1, 2; ?>" "ab12"))
+  (compile-php-str "<? echo \"a\", \"b\", 1, 2; ?>" "ab12")
+  (compile-php-str "<?php echo true; ?>" "1")
+  (compile-php-str "<?php echo TRUE; ?>" "1")
+  (compile-php-str "<?php echo false; ?>" "")
+  (compile-php-str "<?php echo FALSE; ?>" "")
+  (compile-php-str "<?php echo null; ?>" "")
+  (compile-php-str "<?php echo NULL; ?>" ""))
 
 
