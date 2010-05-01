@@ -43,7 +43,7 @@ PASS: comparisons.test: compile: <?php if(1 !== 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?>
 PASS: echo.test: compile: <?php echo ""; ?>
 PASS: echo.test: compile: <?php echo null; ?>
-ERROR: echo.test: compile: <?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?> - arguments: ((SyntaxError "Invalid token: " #\'))
+PASS: echo.test: compile: <?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?>
 PASS: echo.test: compile: <?php echo 5; ?>
 PASS: echo.test: compile: <?php echo "some string"; echo "another string"; ?>
 PASS: echo.test: compile: <?php $a = 1; echo $a; ?>
@@ -186,7 +186,7 @@ PASS: print.test: compile: <?php function test() { return 12; } print test(); ?>
 PASS: print.test: compile: <?php $a = 3; print ++$a; ?>
 PASS: print.test: compile: <?php $a = 4; print --$a; ?>
 PASS: strings.test: compile: <? $s = "string"; print $s; ?>
-ERROR: strings.test: compile: <? $s = 'string'; print $s; ?> - arguments: ((SyntaxError "Invalid token: " #\'))
+PASS: strings.test: compile: <? $s = 'string'; print $s; ?>
 PASS: strings.test: compile: <? $s = "this 
 is 
 a 
@@ -194,20 +194,20 @@ string"; print $s;
 ERROR: strings.test: compile: <?php $s = 'this 
 is 
 a 
-string'; print $s - arguments: ((SyntaxError "Invalid token: " #\'))
+string'; print $s - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
 FAIL: strings.test: compile: <?php $a = 5; print "a = $a"; ?>
-ERROR: strings.test: compile: <?php $a = 5; print 'a = $a'; ?> - arguments: ((SyntaxError "Invalid token: " #\'))
+PASS: strings.test: compile: <?php $a = 5; print 'a = $a'; ?>
 FAIL: strings.test: compile: <?php $a = "test"; print "a = $a"; ?>
-ERROR: strings.test: compile: <?php $a = 'test'; print "a = $a"; ?> - arguments: ((SyntaxError "Invalid token: " #\'))
-ERROR: strings.test: compile: <?php $a = "test"; print 'a = $a'; ?> - arguments: ((SyntaxError "Invalid token: " #\'))
-ERROR: strings.test: compile: <?php $a = 'test'; print 'a = $a'; ?> - arguments: ((SyntaxError "Invalid token: " #\'))
+FAIL: strings.test: compile: <?php $a = 'test'; print "a = $a"; ?>
+PASS: strings.test: compile: <?php $a = "test"; print 'a = $a'; ?>
+PASS: strings.test: compile: <?php $a = 'test'; print 'a = $a'; ?>
 PASS: vars.test: compile: <? $a = 1; print $a; ?>
 PASS: vars.test: compile: <?php $a = "a"; print $a; ?>
-ERROR: vars.test: compile: <?php $a = 'b'; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\'))
+PASS: vars.test: compile: <?php $a = 'b'; print $a; ?>
 PASS: vars.test: compile: <?php $x = 1; $y = $x; print $x; ?>
 PASS: vars.test: compile: <? $x = 2; $x = 1; $x = 3; print $x; ?>
 ERROR: vars.test: compile: <? $x = "ok"; $gggg = "$x"; print $gggg; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ENCAPSED_AND_WHITESPACE source: #f value: "\"$x\"">))
-ERROR: vars.test: compile: <? $var = "val"; $varb = '$var'; print $varb; ?> - arguments: ((SyntaxError "Invalid token: " #\'))
+PASS: vars.test: compile: <? $var = "val"; $varb = '$var'; print $varb; ?>
 ERROR: vars.test: compile: <?php $a1 = 1; print $a1; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_LNUMBER source: #f value: "1">))
 ERROR: vars.test: compile: <?php $_a = 2; print $_a; ?> - arguments: ((SyntaxError "Invalid token: " #\$))
 ERROR: vars.test: compile: <? $_a1_2b = 3; print $_a1_2b; ?> - arguments: ((SyntaxError "Invalid token: " #\$))
@@ -220,12 +220,12 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 66
-failures:               2
+passes:                 73
+failures:               3
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 39
+errors:                 31
 

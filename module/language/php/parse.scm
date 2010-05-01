@@ -166,7 +166,7 @@
       (T_IF Comparison ConditionalStatement ElseBlock) : `(if ,$2 ,$3 ,$4))
 
     (ElseBlock
-      (IfBlock) : $1
+      (T_ELSE IfBlock) : $1
       (T_ELSE ConditionalStatement) : $2
       (T_ELSEIF Comparison ConditionalStatement) : `(if ,$2 ,$3)
       (T_ELSEIF Comparison ConditionalStatement ElseBlock) : `(if ,$2 ,$3 ,$4))

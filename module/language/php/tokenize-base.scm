@@ -42,7 +42,8 @@
 (define (syntax-error message . args)
   (apply throw 'SyntaxError message args))
 
-(define (read-string tok yygetc yyungetc)
+(define (read-string str-char yygetc yyungetc)
+  (define tok 'T_CONSTANT_ENCAPSULATED_STRING)
   (define (get-char)
     (let ((c (yygetc)))
       (if (char=? c #\\)
@@ -56,7 +57,7 @@
     (let ((c (get-char)))
       (if (eq? c 'eof)
         (syntax-error "Unexpected eof inside string"))
-      (if (char=? c #\")
+      (if (char=? c str-char)
         (make-token tok (list->string (reverse s)))
         (loop (cons c s))))))
 
