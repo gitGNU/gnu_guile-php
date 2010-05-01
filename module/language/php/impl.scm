@@ -22,7 +22,7 @@
 (define-module (language php impl)
   #:use-module (system base language)
   #:export (php/print php/echo 
-	    php/== php/< php/> php/<= php/>=))
+	    php/== php/=== php/< php/> php/<= php/>=))
 
 ;;
 ;;  Currently all these methods are just stubs, not even close to complete...
@@ -37,10 +37,22 @@
 
 (define (php/== a b)
   (cond
+   ((and (string? a) (number? b))
+    (string=? a (number->string b)))
+   ((and (number? a) (string? b))
+    (string=? (number->string a) b))
+   (else
+    (php/=== a b))))
+    
+
+(define (php/=== a b)
+  (cond
    ((and (number? a) (number? b))
     (= a b))
    ((and (string? a) (string? b))
-    (string=? a b))))
+    (string=? a b))
+   (else
+    #f)))
 
 (define (php/< a b)
   (< a b))

@@ -178,6 +178,8 @@
       (Value greater-than Value) : `(greater-than ,$1 ,$3)
       (Value less-than Value) : `(less-than ,$1 ,$3)
       (Value T_IS_GREATER_OR_EQUAL Value) : `(greater-or-equal ,$1 ,$3)
-      (Value T_IS_SMALLER_OR_EQUAL Value) : `(less-or-equal ,$1 ,$3))
+      (Value T_IS_SMALLER_OR_EQUAL Value) : `(less-or-equal ,$1 ,$3)
+      (Value T_IS_IDENTICAL Value) : `(identical ,$1 ,$3)
+      (Value T_IS_NOT_IDENTICAL Value) : `(not (identical ,$1 ,$3)))
 
     ))
