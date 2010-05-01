@@ -42,24 +42,58 @@
 (define (syntax-error message . args)
   (apply throw 'SyntaxError message args))
 
+(define (get-char yygetc yyungetc)
+  (let ((c (yygetc)))
+    (if (and (char? c) (char=? c #\\))
+	(let ((nc (yygetc)))
+	  (cond
+	   ((char=? nc #\n) #\newline)
+	   ((char=? nc #\t) #\tab)
+	   (else
+	    (begin (yyungetc) c))))
+	c)))
+
+(define (read-til stop-reading yygetc yyungetc)
+  (let loop ((s '()))
+    (let ((c (get-char yygetc yyungetc)))
+      (if (stop-reading c)
+	  (list->string (reverse s))
+	  (loop (cons c s))))))
+
+(define (read-single-line-comment yygetc yyungetc)
+  (define (stop-reading c)
+    (if (or (eq? c 'eof) (not (char? c)))
+	#t
+	(char=? c #\newline)))
+  (make-token 'T_COMMENT (read-til stop-reading yygetc yyungetc)))
+
+(define (read-multi-line-comment yygetc yyungetc)
+  (define (stop-reading c)
+    (if (or (eq? c 'eof) (not (char? c)))
+	#t
+	(if (eq? c #\*)
+	    (let ((nc (yygetc)))
+	      (if (and (char? nc) (char=? nc #\/))
+		  #t
+		  (begin (yyungetc) #f)))
+	    #f)))
+  (make-token 'T_COMMENT (read-til stop-reading yygetc yyungetc)))
+	
 (define (read-string str-char yygetc yyungetc)
   (define tok 'T_CONSTANT_ENCAPSULATED_STRING)
-  (define (get-char)
-    (let ((c (yygetc)))
-      (if (char=? c #\\)
-        (let ((nc (yygetc)))
-          (cond 
-            ((char=? nc #\n) #\newline)
-            ((char=? nc #\t) #\tab)
-            (else (begin (yyungetc) c))))
-        c)))
-  (let loop ((s '()))
-    (let ((c (get-char)))
-      (if (eq? c 'eof)
-        (syntax-error "Unexpected eof inside string"))
-      (if (char=? c str-char)
-        (make-token tok (list->string (reverse s)))
-        (loop (cons c s))))))
+  (define (stop-reading c)
+    (if (eq? c 'eof)
+	(syntax-error "Unexpected eof inside string")
+	(char=? c str-char)))
+  (make-token tok (read-til stop-reading yygetc yyungetc)))
+
+;  (let loop ((s '()))
+;    (let ((c (get-char yygetc yyungetc)))
+;      (if (eq? c 'eof)
+;        (syntax-error "Unexpected eof inside string"))
+;      (if (char=? c str-char)
+;        (make-token tok (list->string (reverse s)))
+;        (loop (cons c s))))))
 
 ;;; below merged in from tokenize-silex.scm
 

@@ -1,5 +1,5 @@
-ERROR: comments.test: compile: <?php #function test() { print "ok"; } test(); ?> - arguments: ((SyntaxError "Invalid token: " #\#))
-ERROR: comments.test: compile: <?php //function test() { return 5; } $a = test(); print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: divide source: #f value: "/">))
+PASS: comments.test: compile: <?php #function test() { print "ok"; } test(); ?>
+PASS: comments.test: compile: <?php //function test() { return 5; } $a = test(); print $a; ?>
 PASS: comments.test: compile: <?php /* some comment */ ?>
 PASS: comments.test: compile: <?
 #this #is a # comment # nested #shouldn't matter
@@ -10,7 +10,7 @@ PASS: comments.test: compile: <%
 PASS: comments.test: compile: <script language="php">
 /* multi-line comment on a single line*/
 </script>
-ERROR: comments.test: compile: <?
+PASS: comments.test: compile: <?
 /*
 
 multi-line 
@@ -21,7 +21,7 @@ multiple
 //what?
 lines
 
-*/ - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: divide source: #f value: "/">))
+*/
 PASS: comments.test: compile: <?php
 #comment
 //comment
@@ -220,12 +220,12 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 73
+passes:                 76
 failures:               3
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 31
+errors:                 28
 

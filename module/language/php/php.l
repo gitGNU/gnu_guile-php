@@ -52,9 +52,8 @@
 
 "?>"|"%>"|"</script>"  (begin (let ((token (make-token 'T_CLOSE_TAG yytext))) (set! parse-mode 'txt) token))
 
-\#(.*)[\n]  (make-token 'T_COMMENT yytext)
-\/\/(.*)[\n]  (make-token 'T_COMMENT yytext)
-\/\*{1}(.*)\*\/  (make-token 'T_COMMENT yytext)
+"#"|"//"  (read-single-line-comment yygetc yyungetc)
+"/*"      (read-multi-line-comment yygetc yyungetc)
 ".="  (make-token 'T_CONCAT_EQUAL yytext)
 "const"          (make-token 'T_CONST yytext)
 "\""            (read-string #\" yygetc yyungetc) 
