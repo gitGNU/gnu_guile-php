@@ -132,6 +132,7 @@
       (Var) : $1
       (IfBlock) : $1
       (FunctionCall semi) : $1
+      (Loop) : $1
       (Return) : $1
       (IncDec) : $1
       (T_WHITESPACE) : `(void)
@@ -160,19 +161,18 @@
     (Var 
       (T_VARIABLE equals Value semi) : `(var ,$1 ,$3))
 
-    (ConditionalStatement
-      (Statement) : $1
-      (BracedStatements) : $1)
-    
     (IfBlock
-      (T_IF Comparison ConditionalStatement) : `(if ,$2 ,$3)
-      (T_IF Comparison ConditionalStatement ElseBlock) : `(if ,$2 ,$3 ,$4))
+      (T_IF Comparison Statement) : `(if ,$2 ,$3)
+      (T_IF Comparison Statement ElseBlock) : `(if ,$2 ,$3 ,$4))
 
     (ElseBlock
       (T_ELSE IfBlock) : $1
-      (T_ELSE ConditionalStatement) : $2
-      (T_ELSEIF Comparison ConditionalStatement) : `(if ,$2 ,$3)
-      (T_ELSEIF Comparison ConditionalStatement ElseBlock) : `(if ,$2 ,$3 ,$4))
+      (T_ELSE Statement) : $2
+      (T_ELSEIF Comparison Statement) : `(if ,$2 ,$3)
+      (T_ELSEIF Comparison Statement ElseBlock) : `(if ,$2 ,$3 ,$4))
+
+    (Loop
+     (T_DO Statement T_WHILE Comparison semi) : `(do ,$2 ,$4))
 
     (Comparison
       (open-paren Comparison close-paren) : $2

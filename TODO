@@ -6,7 +6,9 @@
 * break, continue
 * fix failing tests...
 * look at SHIFT/REDUCE and REDUCE/REDUCE errors/warnings
-* T_INLINE_HTML needs to work when text is not a valid token
+* casting
+* post-dec/pre-dec
+* include, require, include_once, require_once
 
 ---- high level todos...
 

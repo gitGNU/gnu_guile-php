@@ -185,6 +185,23 @@ PASS: inlinehtml.test: compile: <?php print "hello "; ?>world
 PASS: inlinehtml.test: compile: hello<?php ?> world
 PASS: inlinehtml.test: compile: <?php return "hello world"; ?>
 FAIL: inlinehtml.test: compile: ~`!@#$%^&*()_=+-{{]]}}:;;"'<<>>?//..,,
+PASS: loops.test: compile: <?php
+
+$i = 0;
+
+do {
+  print $i;
+}
+while($i > 1);
+
+?>
+PASS: loops.test: compile: <?php
+
+$i = 0;
+
+do { print ++$i; } while ($i < 5);
+
+?>
 PASS: nums.test: compile: <? $n = 1; print $n; ?>
 PASS: nums.test: compile: <? $n = 11; print $n; ?>
 ERROR: nums.test: compile: <? $n = -1; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
@@ -236,7 +253,7 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 101
+passes:                 103
 failures:               4
 unexpected passes:      0
 expected failures:      0

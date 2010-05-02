@@ -43,7 +43,7 @@
      (-> (apply (@implv sym) arg ...)))))
 
 (define (econs name gensym env)
-  (let ((name (string->symbol name)))
+  (let ((name (if (string? name) (string->symbol name) name)))
     (acons name (-> (lexical name gensym)) env)))
 
 (define (lookup name env)
@@ -111,6 +111,24 @@
      (-> (define (string->symbol varname) (-> (const #nil)))))
     ((var-resolve ,varname)
      (lookup varname env))
+    ((do ,body ,test)
+     (let ((%body (gensym "%body ")) (%test (gensym "%test ")))
+       (let ((e (econs '%body %body (econs '%test %test env))))
+	 (-> (letrec '(%body %test) (list %body %test)
+		     (list (-> (lambda '()
+				 (-> (lambda-case
+				      `((() #f #f #f () ())
+					,(-> (begin
+					       (comp body e)
+					       (-> (apply (-> (lexical '%test %test)))))))))))
+			   (-> (lambda '()
+				 (-> (lambda-case
+				      `((() #f #f #f () ())
+					,(-> (if (comp test e)
+						(-> (apply (-> (lexical '%body %body))))
+						(-> (const #f))))))))))
+		     (-> (apply (-> (lexical '%body %body)))))))))
+	 
     ((lambda ,formals ,body)
       (let ((syms (map (lambda (p)
 			 (let ((sym (gensym)))
