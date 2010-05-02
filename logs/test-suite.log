@@ -110,14 +110,6 @@ notyetdefined();
 
 function notyetdefined() { print "works"; }
 ?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" (notyetdefined) #f))
-PASS: helloworld.test: parser: hello world
-PASS: helloworld.test: parser: <?php print "hello world"; ?>
-PASS: helloworld.test: compile: hello world
-PASS: helloworld.test: compile: <?php print "hello world"; ?>
-PASS: helloworld.test: compile: hello <?php print "world"; ?>
-PASS: helloworld.test: compile: <?php print "hello "; ?>world
-PASS: helloworld.test: compile: hello<?php ?> world
-PASS: helloworld.test: compile: <?php return "hello world"; ?>
 PASS: ifs.test: compile: <?php if(1 == 1) { print "1"; } else { print "2"; } ?>
 PASS: ifs.test: compile: <? if(2 == 1) { print "1"; } else { print "2"; } ?>
 PASS: ifs.test: compile: <?php if(((((((((((1 == 1))))))))))) { print "aeiou?"; } ?>
@@ -184,6 +176,15 @@ PASS: ifs.test: compile: <? if("aaa" === "aaa") { print "a"; } else { print "b";
 PASS: ifs.test: compile: <?php if("1" == 1) print "ok"; else print "wrong"; ?>
 PASS: ifs.test: compile: <?php if(1 === "1") print "wrong"; else print "true"; ?>
 PASS: ifs.test: compile: <?php if(1 === 1) print "right"; else print "wrong"; ?>
+PASS: inlinehtml.test: parser: hello world
+PASS: inlinehtml.test: parser: <?php print "hello world"; ?>
+PASS: inlinehtml.test: compile: hello world
+PASS: inlinehtml.test: compile: <?php print "hello world"; ?>
+PASS: inlinehtml.test: compile: hello <?php print "world"; ?>
+PASS: inlinehtml.test: compile: <?php print "hello "; ?>world
+PASS: inlinehtml.test: compile: hello<?php ?> world
+PASS: inlinehtml.test: compile: <?php return "hello world"; ?>
+ERROR: inlinehtml.test: compile: ~`!@#$%^&*()_=+-{{]]}}:;;"'<<>>?//..,, - arguments: ((SyntaxError "Invalid token: " #\~))
 PASS: nums.test: compile: <? $n = 1; print $n; ?>
 PASS: nums.test: compile: <? $n = 11; print $n; ?>
 ERROR: nums.test: compile: <? $n = -1; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
@@ -223,9 +224,9 @@ PASS: vars.test: compile: <?php $x = 1; $y = $x; print $x; ?>
 PASS: vars.test: compile: <? $x = 2; $x = 1; $x = 3; print $x; ?>
 ERROR: vars.test: compile: <? $x = "ok"; $gggg = "$x"; print $gggg; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ENCAPSED_AND_WHITESPACE source: #f value: "\"$x\"">))
 PASS: vars.test: compile: <? $var = "val"; $varb = '$var'; print $varb; ?>
-ERROR: vars.test: compile: <?php $a1 = 1; print $a1; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_LNUMBER source: #f value: "1">))
-ERROR: vars.test: compile: <?php $_a = 2; print $_a; ?> - arguments: ((SyntaxError "Invalid token: " #\$))
-ERROR: vars.test: compile: <? $_a1_2b = 3; print $_a1_2b; ?> - arguments: ((SyntaxError "Invalid token: " #\$))
+PASS: vars.test: compile: <?php $a1 = 1; print $a1; ?>
+PASS: vars.test: compile: <?php $_a = 2; print $_a; ?>
+PASS: vars.test: compile: <? $_a1_2b = 3; print $_a1_2b; ?>
 PASS: vars.test: compile: <? $x = 1; $y = ++$x; print $x; ?>
 PASS: vars.test: compile: <? $t = true; ?>
 PASS: vars.test: compile: <? $f = false; ?>
@@ -235,12 +236,12 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 98
+passes:                 101
 failures:               3
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 15
+errors:                 13
 

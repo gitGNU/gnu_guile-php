@@ -60,7 +60,7 @@
       T_WHITESPACE T_XOR_EQUAL 
 
       open-paren close-paren open-brace close-brace open-bracket close-bracket 
-      comma semi asteriks plus minus divide equals dot qmark null word
+      comma semi asteriks plus minus divide equals dot qmark null label
       greater-than less-than true false)
 
     (Program   
@@ -91,7 +91,7 @@
       (T_OPEN_TAG_WITH_ECHO Value semi) : `(echo ,$2))
 
     (FunctionDeclaration
-      (T_FUNCTION word FormalParameterList FunctionBody) : `(var ,$2 (lambda ,$3 ,$4)))
+      (T_FUNCTION label FormalParameterList FunctionBody) : `(var ,$2 (lambda ,$3 ,$4)))
 
     (FormalParameterList 
       (open-paren close-paren) : '()
@@ -148,8 +148,8 @@
       (Variable T_DEC) : `(post-dec ,$1))
 
     (FunctionCall
-      (word open-paren close-paren) : `(call ,$1)
-      (word open-paren ValueList close-paren) : `(call ,$1 ,$3))
+      (label open-paren close-paren) : `(call ,$1)
+      (label open-paren ValueList close-paren) : `(call ,$1 ,$3))
 
     (Echo
       (T_ECHO Value semi) : `(echo ,$2))

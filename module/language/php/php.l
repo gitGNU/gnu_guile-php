@@ -168,7 +168,7 @@
 "(unset)"        (make-token 'T_UNSET_CAST yytext)
 "use"            (make-token 'T_USE yytext)
 "var"            (make-token 'T_VAR yytext)
-\$[a-zA-Z]+      (make-token 'T_VARIABLE yytext)  ;todo: handle all legal var name
+\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*      (make-token 'T_VARIABLE yytext)
 "while"          (make-token 'T_WHILE yytext)
 \9+              (if (eq? parse-mode 'txt) (make-token 'T_WHITESPACE yytext) (yycontinue))
 \10+            (if (eq? parse-mode 'txt) (make-token 'T_WHITESPACE yytext) (yycontinue))
@@ -207,7 +207,7 @@
 "true"|"TRUE"    (make-token 'true yytext)
 "false"|"FALSE"  (make-token 'false yytext)
 
-([a-zA-Z]|_)([a-zA-Z]|_|[0-9])* (make-token 'word yytext)
+[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]* (make-token 'label yytext)
 
 <<EOF>>          '*eoi*
 <<ERROR>>        (lexer-error (yygetc))

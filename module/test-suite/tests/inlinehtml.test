@@ -17,7 +17,7 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301 USA
 
-(define-module (test-suite test helloworld)
+(define-module (test-suite test inlinehtml)
   #:use-module (test-suite base)
   #:use-module (test-suite lib))
 
@@ -31,14 +31,7 @@
   (compile-php-str "hello <?php print \"world\"; ?>" "hello world")
   (compile-php-str "<?php print \"hello \"; ?>world" "hello world")
   (compile-php-str "hello<?php ?> world" "hello world")
-  (compile-php-str "<?php return \"hello world\"; ?>" ""))
+  (compile-php-str "<?php return \"hello world\"; ?>" "")
+  (compile-php-str "~`!@#$%^&*()_=+-{{]]}}:;;\"'<<>>?//..,," "~`!@#$%^&*()_=+-{{]]}}:;;\"'<<>>?//..,,"))
 
-;(define (tokenize file)
-;  (let ((lexer (make-tokenizer (open-file file "r"))))
-;    (let loop ((tok (lexer)))
-;      (display tok)
-;      (newline)
-;      (if (not (eq? tok '*eoi*))
-;        (loop (lexer))))))
-;
 

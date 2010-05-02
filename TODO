@@ -4,9 +4,9 @@
 * heredoc strings
 * for, foreach, while, do while loops
 * break, continue
-* add "label" support to php.l - don't use word for everything (will fix variable/function name issues)
 * fix failing tests...
 * look at SHIFT/REDUCE and REDUCE/REDUCE errors/warnings
+* T_INLINE_HTML needs to work when text is not a valid token
 
 ---- high level todos...
 
