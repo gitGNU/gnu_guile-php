@@ -78,12 +78,19 @@
 		  (begin (yyungetc) #f)))
 	    #f)))
   (make-token 'T_COMMENT (read-til stop-reading yygetc yyungetc)))
+
+(define (read-inline-html yygetc yyungetc)
+  (define (stop-reading c)
+    (or (eq? c 'eof) (and (char? c) (char=? c #\<))))
+  (make-token 'T_INLINE_HTML (read-til stop-reading yygetc yyungetc)))
 	
 (define (read-string str-char yygetc yyungetc)
   (define tok 'T_CONSTANT_ENCAPSULATED_STRING)
   (define (stop-reading c)
     (if (eq? c 'eof)
-	(syntax-error "Unexpected eof inside string")
+	(if (eq? parse-mode 'php)
+	    (syntax-error "Unexpected eof inside string")
+	    #t)
 	(char=? c str-char)))
   (make-token tok (read-til stop-reading yygetc yyungetc)))
 

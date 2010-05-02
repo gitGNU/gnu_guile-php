@@ -1144,7 +1144,7 @@
        ))
    (lambda (yycontinue yygetc yyungetc)
      (lambda (yytext yyline)
-                 (lexer-error (yygetc))
+                 (if (eq? parse-mode 'txt) (read-inline-html yygetc yyungetc) (lexer-error (yygetc)))
        ))
    (vector
     #t

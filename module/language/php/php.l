@@ -210,4 +210,4 @@
 [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]* (make-token 'label yytext)
 
 <<EOF>>          '*eoi*
-<<ERROR>>        (lexer-error (yygetc))
+<<ERROR>>        (if (eq? parse-mode 'txt) (read-inline-html yygetc yyungetc) (lexer-error (yygetc)))

@@ -184,7 +184,7 @@ PASS: inlinehtml.test: compile: hello <?php print "world"; ?>
 PASS: inlinehtml.test: compile: <?php print "hello "; ?>world
 PASS: inlinehtml.test: compile: hello<?php ?> world
 PASS: inlinehtml.test: compile: <?php return "hello world"; ?>
-ERROR: inlinehtml.test: compile: ~`!@#$%^&*()_=+-{{]]}}:;;"'<<>>?//..,, - arguments: ((SyntaxError "Invalid token: " #\~))
+FAIL: inlinehtml.test: compile: ~`!@#$%^&*()_=+-{{]]}}:;;"'<<>>?//..,,
 PASS: nums.test: compile: <? $n = 1; print $n; ?>
 PASS: nums.test: compile: <? $n = 11; print $n; ?>
 ERROR: nums.test: compile: <? $n = -1; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
@@ -237,11 +237,11 @@ PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
 passes:                 101
-failures:               3
+failures:               4
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 13
+errors:                 12
 
