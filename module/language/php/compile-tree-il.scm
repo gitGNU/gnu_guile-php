@@ -128,7 +128,19 @@
 						(-> (apply (-> (lexical '%body %body))))
 						(-> (const #f))))))))))
 		     (-> (apply (-> (lexical '%body %body)))))))))
-	 
+    ((while ,test ,body)
+     (let ((%body (gensym "%body ")))
+       (let ((e (econs '%body %body env)))
+	 (-> (letrec '(%body) (list %body)
+		     (list (-> (lambda '()
+				 (-> (lambda-case
+				  `((() #f #f #f () ())
+				    ,(-> (if (comp test e)
+					   (-> (begin
+						 (comp body e)
+						 (-> (apply (-> (lexical '%body %body))))))
+					   (-> (const #f))))))))))
+		     (-> (apply (-> (lexical '%body %body)))))))))
     ((lambda ,formals ,body)
       (let ((syms (map (lambda (p)
 			 (let ((sym (gensym)))

@@ -39,6 +39,23 @@ $i = 0;
 
 do { print ++$i; } while ($i < 5);
 
-?>" "12345"))
+?>" "12345")
 
+  (compile-php-str "<?php
 
+$i = 0;
+
+while($i > 5)
+{
+	print \"wrong\";
+}
+
+?>" "")
+
+  (compile-php-str "<?php
+
+$i = 5;
+
+while($i == 5) { print ++$i; }
+
+?>" "6"))

@@ -172,7 +172,8 @@
       (T_ELSEIF Comparison Statement ElseBlock) : `(if ,$2 ,$3 ,$4))
 
     (Loop
-     (T_DO Statement T_WHILE Comparison semi) : `(do ,$2 ,$4))
+     (T_DO Statement T_WHILE Comparison semi) : `(do ,$2 ,$4)
+     (T_WHILE Comparison Statement) : `(while ,$2 ,$3))
 
     (Comparison
       (open-paren Comparison close-paren) : $2
