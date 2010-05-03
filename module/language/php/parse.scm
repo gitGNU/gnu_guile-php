@@ -173,7 +173,8 @@
 
     (Loop
      (T_DO Statement T_WHILE Comparison semi) : `(do ,$2 ,$4)
-     (T_WHILE Comparison Statement) : `(while ,$2 ,$3))
+     (T_WHILE Comparison Statement) : `(while ,$2 ,$3)
+     (T_FOR open-paren Var Comparison semi IncDec close-paren Statement) : `(for ,$3 ,$4 ,$6 ,$8))
 
     (Comparison
       (open-paren Comparison close-paren) : $2

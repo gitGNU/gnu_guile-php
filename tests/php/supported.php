@@ -171,3 +171,30 @@ if($r >= 100)
 <h2><?= $r ?></h2>
 <h3><%= ++$r %></h3>
 
+<script language="php">
+
+for($loopVar = 0; $loopVar < 10; ++$loopVar)
+{
+	print $loopVar;
+	print "\n";
+}
+
+print "loopVar is: ";
+print $loopVar;
+print "\n\n";
+
+while($loopVar > 0)
+{
+	print --$loopVar;
+	print "\n";
+}
+
+print "loopVar is: ";
+print $loopVar;
+print "\n\n";
+
+do {
+   print "should only see this line once...\n";
+} while($loopVar > 0);
+
+</script>

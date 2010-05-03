@@ -141,6 +141,22 @@
 						 (-> (apply (-> (lexical '%body %body))))))
 					   (-> (const #f))))))))))
 		     (-> (apply (-> (lexical '%body %body)))))))))
+    ((for ,init ,test ,inc ,body)
+     (let ((%body (gensym "%body ")))
+       (let ((e (econs '%body %body env)))
+	 (-> (letrec '(%body) (list %body)
+		     (list (-> (lambda '()
+				 (-> (lambda-case
+				      `((() #f #f #f () ())
+					,(-> (if (comp (or test '(true)) e)
+						 (-> (begin
+							(comp body e)
+							(comp (or inc '(begin)) e)
+							(-> (apply (-> (lexical '%body %body))))))
+						 (-> (const #f))))))))))
+		     (-> (begin
+			   (comp (or init '(begin)) e)
+			   (-> (apply (-> (lexical '%body %body)))))))))))
     ((lambda ,formals ,body)
       (let ((syms (map (lambda (p)
 			 (let ((sym (gensym)))

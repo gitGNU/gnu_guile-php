@@ -58,4 +58,6 @@ $i = 5;
 
 while($i == 5) { print ++$i; }
 
-?>" "6"))
+?>" "6")
+
+  (compile-php-str "<?php for($i = 0; $i < 10; ++$i) { print $i; } ?>" "0123456789"))

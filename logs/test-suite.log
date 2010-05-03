@@ -219,6 +219,7 @@ $i = 5;
 while($i == 5) { print ++$i; }
 
 ?>
+PASS: loops.test: compile: <?php for($i = 0; $i < 10; ++$i) { print $i; } ?>
 PASS: nums.test: compile: <? $n = 1; print $n; ?>
 PASS: nums.test: compile: <? $n = 11; print $n; ?>
 ERROR: nums.test: compile: <? $n = -1; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
@@ -241,10 +242,10 @@ PASS: strings.test: compile: <? $s = "this
 is 
 a 
 string"; print $s;
-ERROR: strings.test: compile: <?php $s = 'this 
+PASS: strings.test: compile: <?php $s = 'this 
 is 
 a 
-string'; print $s - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
+string'; print $s;
 FAIL: strings.test: compile: <?php $a = 5; print "a = $a"; ?>
 PASS: strings.test: compile: <?php $a = 5; print 'a = $a'; ?>
 FAIL: strings.test: compile: <?php $a = "test"; print "a = $a"; ?>
@@ -270,12 +271,12 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 105
+passes:                 107
 failures:               4
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 12
+errors:                 11
 
