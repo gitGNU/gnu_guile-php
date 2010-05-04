@@ -184,7 +184,7 @@ PASS: inlinehtml.test: compile: hello <?php print "world"; ?>
 PASS: inlinehtml.test: compile: <?php print "hello "; ?>world
 PASS: inlinehtml.test: compile: hello<?php ?> world
 PASS: inlinehtml.test: compile: <?php return "hello world"; ?>
-FAIL: inlinehtml.test: compile: ~`!@#$%^&*()_=+-{{]]}}:;;"'<<>>?//..,,
+FAIL: inlinehtml.test: compile: ~`!@#$%^&*()_=+-{{]]}}:;;"'<<>>?//..,,/**/
 PASS: loops.test: compile: <?php
 
 $i = 0;
@@ -236,6 +236,8 @@ ERROR: print.test: compile: <?php $a = 2; print "$a"; ?> - arguments: ((ParseSyn
 PASS: print.test: compile: <?php function test() { return 12; } print test(); ?>
 PASS: print.test: compile: <?php $a = 3; print ++$a; ?>
 PASS: print.test: compile: <?php $a = 4; print --$a; ?>
+PASS: print.test: compile: <?php $a = 1; print $a++; ?>
+PASS: print.test: compile: <?php $a = 1; print $a--; ?>
 PASS: strings.test: compile: <? $s = "string"; print $s; ?>
 PASS: strings.test: compile: <? $s = 'string'; print $s; ?>
 PASS: strings.test: compile: <? $s = "this 
@@ -271,7 +273,7 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 107
+passes:                 109
 failures:               4
 unexpected passes:      0
 expected failures:      0

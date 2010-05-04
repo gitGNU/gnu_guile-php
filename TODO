@@ -2,12 +2,11 @@
 * switch statements
 * string interpolation
 * heredoc strings
-* for, foreach, while, do while loops
+* foreach loop
 * break, continue
 * fix failing tests...
 * look at SHIFT/REDUCE and REDUCE/REDUCE errors/warnings
 * casting
-* post-dec/pre-dec
 * include, require, include_once, require_once
 
 ---- high level todos...

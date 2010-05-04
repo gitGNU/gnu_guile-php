@@ -30,6 +30,8 @@
   (compile-php-str "<?php $a = 2; print \"$a\"; ?>" "2")
   (compile-php-str "<?php function test() { return 12; } print test(); ?>" "12")
   (compile-php-str "<?php $a = 3; print ++$a; ?>" "4")
-  (compile-php-str "<?php $a = 4; print --$a; ?>" "3"))
+  (compile-php-str "<?php $a = 4; print --$a; ?>" "3")
+  (compile-php-str "<?php $a = 1; print $a++; ?>" "1")
+  (compile-php-str "<?php $a = 1; print $a--; ?>" "1"))
 
 
