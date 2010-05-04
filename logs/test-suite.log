@@ -220,6 +220,12 @@ while($i == 5) { print ++$i; }
 
 ?>
 PASS: loops.test: compile: <?php for($i = 0; $i < 10; ++$i) { print $i; } ?>
+PASS: loops.test: compile: <?php do { print 1; continue; } while(0); ?>
+PASS: loops.test: compile: <?php do { print 1; break; } while(1); ?>
+ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { break; } ?> - arguments: ((#{\ %loop_break%\ }# 1))
+ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { print ++$i; continue; } ?> - arguments: ((#{\ %loop_continue%\ }# 1))
+ERROR: loops.test: compile: <?php for($i = 0; $i < 5; ++$i) { continue; print "a"; } ?> - arguments: ((#{\ %loop_continue%\ }# 1))
+ERROR: loops.test: compile: <?php for($i = 0; $i < 50; ++$i) { print "a"; break; } ?> - arguments: ((#{\ %loop_break%\ }# 1))
 PASS: nums.test: compile: <? $n = 1; print $n; ?>
 PASS: nums.test: compile: <? $n = 11; print $n; ?>
 ERROR: nums.test: compile: <? $n = -1; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
@@ -273,12 +279,12 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 109
+passes:                 111
 failures:               4
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 11
+errors:                 15
 

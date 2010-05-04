@@ -135,8 +135,18 @@
       (Loop) : $1
       (Return) : $1
       (IncDec) : $1
+      (Break) : $1
+      (Continue) : $1
       (T_WHITESPACE) : `(void)
       (T_COMMENT) : `(void))
+
+    (Break
+     (T_BREAK semi) : `(break)
+     (T_BREAK T_LNUMBER semi) : `(break ,$1))
+    
+    (Continue
+     (T_CONTINUE semi) : `(continue)
+     (T_CONTINUE T_LNUMBER semi) : `(continue ,$1))
 
     (Return
       (T_RETURN semi) : `(return)
