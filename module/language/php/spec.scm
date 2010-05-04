@@ -27,7 +27,6 @@
 
 (define-language php
   #:title	"Guile PHP"
-  #:version	"1.0"
   #:reader	(lambda (port env) (read-php port))
   #:compilers	`((tree-il . ,compile-tree-il))
   #:printer	write)
