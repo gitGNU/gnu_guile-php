@@ -1,0 +1,1 @@
+<?php $i = 0; do { print ++$i; continue; } while($i < 5); ?>

@@ -64,6 +64,7 @@ while($i == 5) { print ++$i; }
   
 
   (compile-php-str "<?php do { print 1; continue; } while(0); ?>" "1")
+  (compile-php-str "<?php $i = 0; do { print ++$i; continue; } while($i < 5); ?>" "12345")
   (compile-php-str "<?php do { print 1; break; } while(1); ?>" "1")
   (compile-php-str "<?php $i = 0; while($i < 5) { break; } ?>" "")
   (compile-php-str "<?php $i = 0; while($i < 5) { print ++$i; continue; } ?>" "12345")
