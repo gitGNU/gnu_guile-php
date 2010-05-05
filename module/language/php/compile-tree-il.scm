@@ -25,12 +25,32 @@
   #:use-module (language tree-il)
   #:use-module (ice-9 format)
   #:use-module (system base pmatch)
-  #:export (compile-tree-il comp))
+  #:export (compile-tree-il comp handle-break-continue))
 
 (define-syntax ->
   (syntax-rules ()
     ((_ (type arg ...))
      `(type ,arg ...))))
+
+(define-syntax handle-break-continue
+  (syntax-rules ()
+    ((_ vars syms construct entry continue-handler)
+     (let ((%key (gensym "%catch-key ")) (%args (gensym "%catch-args ")))
+       `(letrec vars syms
+		construct
+		(begin
+		  (apply (toplevel catch) (const #t)
+			 (lambda () (lambda-case ((() #f #f #f () ()) entry)))
+			 (lambda ()
+			   (lambda-case (((%key) #f (%args) #f () (,%key ,%args))
+					 (if (apply (toplevel eq?)
+						    (lexical %key ,%key) (const ,(loop-break-symbol)))
+					     (const #f)
+					     (if (apply (toplevel eq?)
+							(lexical %key ,%key) (const ,(loop-continue-symbol)))
+						 continue-handler
+						 (begin (apply (toplevel throw) (lexical %key ,%key)) (const #f)))))))
+			 (const #f))))))))
 
 (define-syntax @implv
   (syntax-rules ()
@@ -70,10 +90,6 @@
    (let ((il (comp exp '())))
      ;(newline)(display il)(newline)
      (parse-tree-il il))
-   ;(let ((il (parse-tree-il
-   ; (comp exp (empty-lexical-environment)))))
-   ;   (newline)(display il)(newline)
-   ;   il)
    env
    env))
 
@@ -166,13 +182,15 @@
     ((while ,test ,body)
      (let ((%body (gensym "%body ")))
        (let ((e (econs '%body %body env)))
-	 `(letrec (%body) (,%body)
-		  ((lambda ()
-		     (lambda-case ((() #f #f #f () ())
-				   (if ,(comp test e)
-				       (begin ,(comp body e) (apply (lexical %body ,%body)))
-				       (const #f))))))
-		  (apply (lexical %body ,%body))))))
+	 (handle-break-continue
+	  (%body) (,%body)
+	  ((lambda ()
+	     (lambda-case ((() #f #f #f () ())
+			   (if ,(comp test e)
+			       (begin ,(comp body e) (apply (lexical %body ,%body)))
+			       (const #f))))))
+	  (apply (lexical %body ,%body))
+	  (apply (lexical %body ,%body))))))
     ((for ,init ,test ,inc ,body)
      (let ((%body (gensym "%body ")))
        (let ((e (econs '%body %body env)))
