@@ -35,17 +35,18 @@
 (define-syntax handle-break-continue
   (syntax-rules ()
     ((_ body continue-handler)
-     `(apply (toplevel catch) (const #t)
+     (let ((%key (gensym "%key ")) (%args (gensym "%args ")))
+       `(apply (toplevel catch) (const #t)
 	     (lambda ()
 	       (lambda-case ((() #f #f #f () ())
 			     body)))
 	     (lambda ()
-	       (lambda-case (((key) #f (args) #f () (key args))
-			     (if (apply (toplevel eq?) (lexical key key) ,(loop-break-symbol))
+	       (lambda-case (((%key) #f (%args) #f () (,%key ,%args))
+			     (if (apply (toplevel eq?) (lexical %key ,%key) ,(loop-break-symbol))
 				 (const #f)
-				 (if (apply (toplevel eq?) (lexical key key) ,(loop-continue-symbol))
+				 (if (apply (toplevel eq?) (lexical %key ,%key) ,(loop-continue-symbol))
 				     continue-handler
-				     (apply (toplevel throw) (lexical key key)))))))))))
+				     (apply (toplevel throw) (lexical %key ,%key))))))))))))
     
 
 (define-syntax @implv
