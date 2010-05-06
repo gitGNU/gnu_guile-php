@@ -66,5 +66,23 @@ case 6: print 'bad';
 default: print 'od';
 }
 
-?>" "good"))
+?>" "good")
+
+  (compile-php-str "<?php
+
+$i = 0;
+
+switch($i)
+{
+case 1:
+case 2:
+case 3:
+case 5:
+case 10:
+default:
+}
+
+print $i;
+
+?>" "0"))
 

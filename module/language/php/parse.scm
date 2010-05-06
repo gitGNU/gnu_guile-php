@@ -198,7 +198,9 @@
 				    `(begin ,$1 ,$2)))
 
     (SwitchCase
+     (T_CASE Value colon) : `(void)
      (T_CASE Value colon Statements) : `(case ,$2 ,$4)
+     (T_DEFAULT colon) : `(void)
      (T_DEFAULT colon Statements) : `(case-default ,$3))
     
     (Comparison

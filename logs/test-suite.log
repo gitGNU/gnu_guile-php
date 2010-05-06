@@ -304,6 +304,23 @@ default: print 'od';
 }
 
 ?>
+PASS: switch.test: compile: <?php
+
+$i = 0;
+
+switch($i)
+{
+case 1:
+case 2:
+case 3:
+case 5:
+case 10:
+default:
+}
+
+print $i;
+
+?>
 PASS: vars.test: compile: <? $a = 1; print $a; ?>
 PASS: vars.test: compile: <?php $a = "a"; print $a; ?>
 PASS: vars.test: compile: <?php $a = 'b'; print $a; ?>
@@ -324,7 +341,7 @@ PASS: vars.test: compile: <? $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 124
+passes:                 125
 failures:               4
 unexpected passes:      0
 expected failures:      0

@@ -198,3 +198,37 @@ do {
 } while($loopVar > 0);
 
 </script>
+
+Switch statements....
+
+<?php
+
+$i = 3;
+$x = 5;
+
+switch($i) {}
+switch($i) { default: print 'pointless but works'; }
+
+switch($i)
+{
+case 1:
+case 2:
+     break;
+
+case 3: print '$i matches 3'; print "\n"; break; 
+default: print "shouldn't see this printed out\n";
+}
+
+switch($x)
+{
+case 1:
+case 2:
+case 3:
+case 4:
+default:
+print '$x is not 1 - 4, its: ';
+print $x;
+print "\n";
+}
+
+?>
