@@ -137,6 +137,7 @@
       (IncDec) : $1
       (Break) : $1
       (Continue) : $1
+      (Switch) : $1
       (T_WHITESPACE) : `(void)
       (T_COMMENT) : `(void))
 
@@ -191,10 +192,13 @@
      (T_SWITCH open-paren Value close-paren open-brace SwitchCases close-brace) : `(switch ,$3 ,$6))
 
     (SwitchCases
-     (SwitchCases SwitchCase) : `(,@$1 ,$2))
+     (SwitchCase) : $1 
+     (SwitchCases SwitchCase) : (if (and (pair? $1) (eq? (car $1) 'begin))
+				    `(begin ,@(cdr $1) ,$2)
+				    `(begin ,$1 ,$2)))
 
     (SwitchCase
-     (T_CASE Value colon Statements) : `(case ,$1 ,$3)
+     (T_CASE Value colon Statements) : `(case ,$2 ,$4)
      (T_DEFAULT colon Statements) : `(case-default ,$3))
     
     (Comparison

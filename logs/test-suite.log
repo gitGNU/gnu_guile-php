@@ -261,6 +261,49 @@ FAIL: strings.test: compile: <?php $a = "test"; print "a = $a"; ?>
 FAIL: strings.test: compile: <?php $a = 'test'; print "a = $a"; ?>
 PASS: strings.test: compile: <?php $a = "test"; print 'a = $a'; ?>
 PASS: strings.test: compile: <?php $a = 'test'; print 'a = $a'; ?>
+PASS: switch.test: compile: <?php $i = 0; switch($i) {} ?>
+PASS: switch.test: compile: <?php 
+
+$i = 0;
+
+switch($i)
+{
+case 1: print '1'; break;
+case 2: print '2'; break;
+default: print 'good';
+}
+
+?>
+PASS: switch.test: compile: <?php
+
+$i = 10;
+
+switch($i)
+{
+case 1: print 'wrong';
+case 2: print 'wrong';
+case 10: print 'good'; break;
+case 10: print 'bad'; break;
+default: print 'bad';
+}
+
+?>
+PASS: switch.test: compile: <?php
+
+$i = 5;
+
+switch($i)
+{
+case 1: print 'bad';
+case 2: print 'bad';
+case 3: print 'bad';
+case 4: print 'bad';
+case 5: print 'go';
+case 6: print 'bad';
+default: print 'od';
+}
+
+?>
 PASS: vars.test: compile: <? $a = 1; print $a; ?>
 PASS: vars.test: compile: <?php $a = "a"; print $a; ?>
 PASS: vars.test: compile: <?php $a = 'b'; print $a; ?>
@@ -280,7 +323,7 @@ PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
 
 Totals for this test run:
-passes:                 116
+passes:                 120
 failures:               4
 unexpected passes:      0
 expected failures:      0

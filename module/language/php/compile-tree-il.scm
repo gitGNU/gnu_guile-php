@@ -236,6 +236,17 @@
 	     (begin
 	       (set! ,v (apply (primitive -) ,v (const 1)))
 	       (lexical ,tmp ,tmp)))))
+    ((switch ,val ,body)
+     (let ((%switch-val (gensym "%switch-val ")))
+       (let ((e (econs '%switch-val %switch-val env)))
+	 `(let (%switch-val) (,%switch-val) (,(comp val e))
+	       ,(handle-break-continue
+		 ,(comp body e)
+		 (const #f))))))
+    ((case ,val ,body)
+     `(if ,(@impl php/== (lookup '%switch-val env) (comp val env)) ,(comp body env) (void)))
+    ((case-default ,body)
+     (comp body env))
     ((->bool ,x)
      (@impl php/->bool (comp x env)))
     ((void)

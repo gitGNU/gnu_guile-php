@@ -1,0 +1,70 @@
+;;; PHP for GNU Guile
+
+;; Copyright (C) 2010 Jon Herron
+
+;; This library is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU Lesser General Public
+;; License as published by the Free Software Foundation; either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This library is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Lesser General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Lesser General Public
+;; License along with this library; if not, write to the Free Software
+;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+;; 02110-1301 USA
+
+(define-module (test-suite test switch)
+  #:use-module (test-suite base)
+  #:use-module (test-suite lib))
+
+(with-test-prefix "compile"
+  (compile-php-str "<?php $i = 0; switch($i) {} ?>" "")
+  (compile-php-str "<?php 
+
+$i = 0;
+
+switch($i)
+{
+case 1: print '1'; break;
+case 2: print '2'; break;
+default: print 'good';
+}
+
+?>" "good")
+
+  (compile-php-str "<?php
+
+$i = 10;
+
+switch($i)
+{
+case 1: print 'wrong';
+case 2: print 'wrong';
+case 10: print 'good'; break;
+case 10: print 'bad'; break;
+default: print 'bad';
+}
+
+?>" "good")
+
+  (compile-php-str "<?php
+
+$i = 5;
+
+switch($i)
+{
+case 1: print 'bad';
+case 2: print 'bad';
+case 3: print 'bad';
+case 4: print 'bad';
+case 5: print 'go';
+case 6: print 'bad';
+default: print 'od';
+}
+
+?>" "good"))
+
