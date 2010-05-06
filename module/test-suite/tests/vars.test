@@ -38,6 +38,7 @@
   (compile-php-str "<? $T = TRUE; ?>" "")
   (compile-php-str "<? $F = FALSE; ?>" "")
   (compile-php-str "<?php $N = NULL; ?>" "")
-  (compile-php-str "<? $n = null; ?>" ""))
+  (compile-php-str "<? $n = null; ?>" "")
+  (compile-php-str "<?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>" "5"))
 
 

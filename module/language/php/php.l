@@ -17,6 +17,10 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301 USA
 
+zero        [+\-]?0
+decimal     [+\-]?[1-9][0-9]*
+hexadecimal [+\-]?0[xX][0-9a-fA-F]+
+octal       [+\-]?0[0-7]+
 
 %%
 
@@ -120,7 +124,7 @@
 "<="            (make-token 'T_IS_SMALLER_OR_EQUAL yytext)
 "__LINE__"      (make-token 'T_LINE yytext)
 "list"          (make-token 'T_LIST yytext)
-0|[1-9][0-9]*    (make-token 'T_LNUMBER yytext)
+{zero}|{decimal}|{hexadecimal}|{octal}    (make-token 'T_LNUMBER yytext)
 "and"            (make-token 'T_LOGICAL_AND yytext)
 "or"            (make-token 'T_LOGICAL_OR yytext)
 "xor"            (make-token 'T_LOGICAL_XOR yytext)

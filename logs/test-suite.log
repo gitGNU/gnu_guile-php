@@ -229,10 +229,10 @@ PASS: loops.test: compile: <?php for($i = 0; $i < 5; ++$i) { if($i == 3) { conti
 PASS: loops.test: compile: <?php for($i = 0; $i < 50; ++$i) { print "a"; break; } ?>
 PASS: nums.test: compile: <? $n = 1; print $n; ?>
 PASS: nums.test: compile: <? $n = 11; print $n; ?>
-ERROR: nums.test: compile: <? $n = -1; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
-ERROR: nums.test: compile: <? $n = -1111111; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
+PASS: nums.test: compile: <? $n = -1; print $n; ?>
+PASS: nums.test: compile: <? $n = -1111111; print $n; ?>
 PASS: nums.test: compile: <? $n = 12345678901234567890; print $n; ?>
-ERROR: nums.test: compile: <? $n = -12345678901234567890; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
+PASS: nums.test: compile: <? $n = -12345678901234567890; print $n; ?>
 ERROR: nums.test: compile: <?php $n = 0; ++$n; --$n; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: semi source: #f value: ";">))
 PASS: print.test: compile: <?php print ""; ?>
 PASS: print.test: compile: <?php print null; ?>
@@ -321,14 +321,15 @@ PASS: vars.test: compile: <? $T = TRUE; ?>
 PASS: vars.test: compile: <? $F = FALSE; ?>
 PASS: vars.test: compile: <?php $N = NULL; ?>
 PASS: vars.test: compile: <? $n = null; ?>
+PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 120
+passes:                 124
 failures:               4
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 11
+errors:                 8
 

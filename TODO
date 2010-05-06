@@ -1,5 +1,4 @@
 * default param values for functions
-* switch statements
 * string interpolation
 * heredoc strings
 * foreach loop
@@ -7,9 +6,8 @@
 * look at SHIFT/REDUCE and REDUCE/REDUCE errors/warnings
 * casting
 * include, require, include_once, require_once
-
----- high level todos...
-
+* try/catch
+* type hinting
 * arrays
 * objects
 * OOP
