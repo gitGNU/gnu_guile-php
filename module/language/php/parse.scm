@@ -135,6 +135,7 @@
       (Loop) : $1
       (Return) : $1
       (IncDec) : $1
+      (IncDec semi) : $1
       (Break) : $1
       (Continue) : $1
       (Switch) : $1
