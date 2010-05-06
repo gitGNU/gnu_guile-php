@@ -42,7 +42,7 @@
       T_BOOLEAN_AND T_BOOLEAN_OR T_BOOL_CAST T_BREAK T_CASE T_CATCH 
       T_CLASS T_CLASS_C T_CLONE T_CLOSE_TAG T_COMMENT T_CONCAT_EQUAL 
       T_CONST T_CONSTANT_ENCAPSULATED_STRING T_CONTINUE T_CURLY_OPEN 
-      T_DEC T_DECLARE T_DIR T_DIV_EQUAL T_DNUMBER T_DOC_COMMENT 
+      T_DEC T_DECLARE T_DEFAULT T_DIR T_DIV_EQUAL T_DNUMBER T_DOC_COMMENT 
       T_DO T_DOLLAR_OPEN_CURLY_BRACES T_DOUBLE_ARROW T_DOUBLE_CAST 
       T_DOUBLE_COLON T_ECHO T_ELSE T_ELSEIF T_EMPTY T_ENCAPSULATED_AND_WHITESPACE 
       T_ENDDECLARE T_ENDFOR T_ENDFOREACH T_ENDIF T_ENDSWITCH T_ENDWHILE 
@@ -61,7 +61,7 @@
 
       open-paren close-paren open-brace close-brace open-bracket close-bracket 
       comma semi asteriks plus minus divide equals dot qmark null label
-      greater-than less-than true false)
+      greater-than less-than true false colon)
 
     (Program   
       (SourceElements) : $1
@@ -186,6 +186,17 @@
      (T_WHILE Comparison Statement) : `(while ,$2 ,$3)
      (T_FOR open-paren Var Comparison semi IncDec close-paren Statement) : `(for ,$3 ,$4 ,$6 ,$8))
 
+    (Switch
+     (T_SWITCH open-paren Value close-paren open-brace close-brace) : `(void)
+     (T_SWITCH open-paren Value close-paren open-brace SwitchCases close-brace) : `(switch ,$3 ,$6))
+
+    (SwitchCases
+     (SwitchCases SwitchCase) : `(,@$1 ,$2))
+
+    (SwitchCase
+     (T_CASE Value colon Statements) : `(case ,$1 ,$3)
+     (T_DEFAULT colon Statements) : `(case-default ,$3))
+    
     (Comparison
       (open-paren Comparison close-paren) : $2
       (Comparison T_BOOLEAN_AND Comparison) : `(and ,$1 ,$3)

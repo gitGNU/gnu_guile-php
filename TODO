@@ -3,7 +3,6 @@
 * string interpolation
 * heredoc strings
 * foreach loop
-* break, continue
 * fix failing tests...
 * look at SHIFT/REDUCE and REDUCE/REDUCE errors/warnings
 * casting

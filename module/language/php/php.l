@@ -62,6 +62,7 @@
 "{$"            (make-token 'T_CURLY_OPEN yytext)
 "--"            (make-token 'T_DEC yytext)
 "declare"        (make-token 'T_DECLARE yytext)
+"default"       (make-token 'T_DEFAULT yytext)
 "__DIR__"        (make-token 'T_DIR yytext)
 "/="            (make-token 'T_DIV_EQUAL yytext)
 \d\.\d          (make-token 'T_DNUMBER yytext)
@@ -191,6 +192,7 @@
 "["              (make-token 'open-bracket yytext)
 "]"              (make-token 'close-bracket yytext)
 
+":"              (make-token 'colon yytext)
 ","              (make-token 'comma yytext)
 ";"              (make-token 'semi yytext)
 "*"              (make-token 'asteriks yytext)
