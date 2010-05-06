@@ -68,5 +68,5 @@ while($i == 5) { print ++$i; }
   (compile-php-str "<?php do { print 1; break; } while(1); ?>" "1")
   (compile-php-str "<?php $i = 0; while($i < 5) { break; } ?>" "")
   (compile-php-str "<?php $i = 0; while($i < 5) { print ++$i; continue; } ?>" "12345")
-  (compile-php-str "<?php for($i = 0; $i < 5; ++$i) { continue; print \"a\"; } ?>" "")
+  (compile-php-str "<?php for($i = 0; $i < 5; ++$i) { if($i == 3) { continue; } print $i; } ?>" "0124")
   (compile-php-str "<?php for($i = 0; $i < 50; ++$i) { print \"a\"; break; } ?>" "a"))
