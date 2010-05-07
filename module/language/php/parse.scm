@@ -166,7 +166,7 @@
       (label open-paren ValueList close-paren) : `(call ,$1 ,$3))
 
     (Echo
-      (T_ECHO Value semi) : `(echo ,$2))
+      (T_ECHO ValueList semi) : `(echo ,@$2))
 
     (Print 
       (T_PRINT Value semi) : `(print ,$2))
@@ -206,7 +206,8 @@
      (T_DEFAULT colon Statements) : `(case-default ,$3))
 
     (Concat
-     (Value period Value) : `(concat ,$1 ,$3))
+     (Value period Value) : `(concat ,$1 ,$3)
+     (Concat period Value) : `(concat ,@$1 ,$3))
     
     (Comparison
       (open-paren Comparison close-paren) : $2

@@ -66,8 +66,8 @@ ERROR: echo.test: compile: <?php $a = 2; echo "$a"; ?> - arguments: ((ParseSynta
 PASS: echo.test: compile: <?php function test() { return 12; } echo test(); ?>
 PASS: echo.test: compile: <?php $a = 3; echo ++$a; ?>
 PASS: echo.test: compile: <?php $a = 4; echo --$a; ?>
-ERROR: echo.test: compile: <?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: comma source: #f value: ",">))
-ERROR: echo.test: compile: <? echo "a", "b", 1, 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: comma source: #f value: ",">))
+PASS: echo.test: compile: <?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?>
+PASS: echo.test: compile: <? echo "a", "b", 1, 2; ?>
 PASS: echo.test: compile: <?php echo true; ?>
 PASS: echo.test: compile: <?php echo TRUE; ?>
 PASS: echo.test: compile: <?php echo false; ?>
@@ -347,12 +347,12 @@ PASS: vars.test: compile: <? $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 132
+passes:                 134
 failures:               4
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 7
+errors:                 5
 

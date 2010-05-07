@@ -30,8 +30,8 @@
 ;;  Currently all these methods are just stubs, not even close to complete...
 ;;
 
-(define (php/echo arg)
-  (php/print arg))
+(define (php/echo . args)
+  (display (apply php/concat args)))
 
 (define (php/print arg)
   (display (php/->string arg)))
@@ -79,7 +79,8 @@
    ((string? x) x)
    ((boolean? x) (if x "1" ""))
    ((number? x) (number->string x))
-   (else "UNSUPPORTED TYPE PASSED TO php/->string")))
+   (else "UNSUPPORTED TYPE PASSED TO php/->string\n")))
 
-(define (php/concat s1 s2)
-  (string-append (php/->string s1) (php/->string s2)))
+(define (php/concat . args)
+  (apply string-append (map (lambda (a) (php/->string a)) args)))
+

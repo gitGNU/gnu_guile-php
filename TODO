@@ -15,5 +15,6 @@
 
 ---- low priority
 
+* T_DOC comments
 * alternate syntax support
 * goto
