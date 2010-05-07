@@ -247,6 +247,8 @@
      `(if ,(@impl php/== (lookup '%switch-val env) (comp val env)) ,(comp body env) (void)))
     ((case-default ,body)
      (comp body env))
+    ((concat ,a ,b)
+     (@impl php/concat (comp a env) (comp b env)))
     ((->bool ,x)
      (@impl php/->bool (comp x env)))
     ((void)

@@ -23,7 +23,8 @@
   #:use-module (system base language)
   #:export (php/print php/echo 
 	    php/== php/=== php/< php/> php/<= php/>=
-	    php/->bool php/->string))
+	    php/->bool php/->string
+	    php/concat))
 
 ;;
 ;;  Currently all these methods are just stubs, not even close to complete...
@@ -79,3 +80,6 @@
    ((boolean? x) (if x "1" ""))
    ((number? x) (number->string x))
    (else "UNSUPPORTED TYPE PASSED TO php/->string")))
+
+(define (php/concat s1 s2)
+  (string-append (php/->string s1) (php/->string s2)))

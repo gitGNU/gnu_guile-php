@@ -50,6 +50,12 @@ PASS: comparisons.test: compile: <?php if(1 !== 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 == 1 && 1 == 2) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 == 1 || 1 == 2) print 1; else print 2; ?>
+PASS: concat.test: compile: <?php print 'a' . 'b'; ?>
+PASS: concat.test: compile: <?php print 'a' . 1; ?>
+PASS: concat.test: compile: <?php print 1 . 'a'; ?>
+PASS: concat.test: compile: <?php print 1 . 1; ?>
+PASS: concat.test: compile: <?php print true . false . true . null; ?>
+PASS: concat.test: compile: <?php $a = 'a' . 'b' . 'c' . 1 . FALSE . 2 . NULL . 3; print $a; ?>
 PASS: echo.test: compile: <?php echo ""; ?>
 PASS: echo.test: compile: <?php echo ''; ?>
 PASS: echo.test: compile: <?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?>
@@ -341,7 +347,7 @@ PASS: vars.test: compile: <? $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 126
+passes:                 132
 failures:               4
 unexpected passes:      0
 expected failures:      0

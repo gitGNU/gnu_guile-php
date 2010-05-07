@@ -196,6 +196,7 @@ octal       [+\-]?0[0-7]+
 "["              (make-token 'open-bracket yytext)
 "]"              (make-token 'close-bracket yytext)
 
+"."              (make-token 'period yytext)
 ":"              (make-token 'colon yytext)
 ","              (make-token 'comma yytext)
 ";"              (make-token 'semi yytext)

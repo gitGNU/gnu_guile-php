@@ -1,4 +1,4 @@
-;;; PHP for GNU Guile.
+;; PHP for GNU Guile.
 
 ;; Copyright (C) 2010 Jon Herron
 
@@ -61,7 +61,7 @@
 
       open-paren close-paren open-brace close-brace open-bracket close-bracket 
       comma semi asteriks plus minus divide equals dot qmark null label
-      greater-than less-than true false colon)
+      greater-than less-than true false colon period)
 
     (Program   
       (SourceElements) : $1
@@ -111,6 +111,7 @@
       (false) : `(false)
       (Variable) : $1
       (IncDec) : $1
+      (Concat) : $1
       (FunctionCall) : $1)
 
     (Variable
@@ -203,6 +204,9 @@
      (T_CASE Value colon Statements) : `(case ,$2 ,$4)
      (T_DEFAULT colon) : `(void)
      (T_DEFAULT colon Statements) : `(case-default ,$3))
+
+    (Concat
+     (Value period Value) : `(concat ,$1 ,$3))
     
     (Comparison
       (open-paren Comparison close-paren) : $2

@@ -1,0 +1,1 @@
+<?php print 'a' . 'b'; print "\n\n"; ?>
