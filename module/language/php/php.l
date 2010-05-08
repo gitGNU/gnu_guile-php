@@ -22,6 +22,8 @@ decimal     [+\-]?[1-9][0-9]*
 hexadecimal [+\-]?0[xX][0-9a-fA-F]+
 octal       [+\-]?0[0-7]+
 
+label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
+
 %%
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -42,8 +44,6 @@ octal       [+\-]?0[0-7]+
 "(array)"  (make-token 'T_ARRAY_CAST yytext)
 " as "  (make-token 'T_AS yytext)
 
-;todo:          (make-token 'T_BAD_CHARACTER yytext)
-
 "&&"  (make-token 'T_BOOLEAN_AND yytext)
 "||"  (make-token 'T_BOOLEAN_OR yytext)
 "(bool)"|"(boolean)"  (make-token 'T_BOOL_CAST yytext)
@@ -60,8 +60,8 @@ octal       [+\-]?0[0-7]+
 "/*"      (read-multi-line-comment yygetc yyungetc)
 ".="  (make-token 'T_CONCAT_EQUAL yytext)
 "const"          (make-token 'T_CONST yytext)
-"\""            (read-string #\" yygetc yyungetc) 
-"'"             (read-string #\' yygetc yyungetc)
+"\""            (read-parse-string #\" yygetc yyungetc) 
+"'"             (read-const-string #\' yygetc yyungetc)
 "continue"      (make-token 'T_CONTINUE yytext)
 "{$"            (make-token 'T_CURLY_OPEN yytext)
 "--"            (make-token 'T_DEC yytext)
@@ -83,15 +83,12 @@ octal       [+\-]?0[0-7]+
 "else"          (make-token 'T_ELSE yytext)
 "elseif"        (make-token 'T_ELSEIF yytext)
 "empty"          (make-token 'T_EMPTY yytext)
-\"(.?)\$(.*)\"  (make-token 'T_ENCAPSED_AND_WHITESPACE yytext)
 "enddeclare"    (make-token 'T_ENDDECLARE yytext)
 "endfor"        (make-token 'T_ENDFOR yytext)
 "endforeach"    (make-token 'T_ENDFOREACH yytext)
 "endif"          (make-token 'T_ENDIF yytext)
 "endswitch"      (make-token 'T_ENDSWITCH yytext)
 "endwhile"      (make-token 'T_ENDWHILE yytext)
-
-;todo:          (make-token 'T_END_HEREDOC yytext)
 
 "eval"          (make-token 'T_EVAL yytext)
 "extends"        (make-token 'T_EXTENDS yytext)
@@ -135,8 +132,6 @@ octal       [+\-]?0[0-7]+
 
 "new"            (make-token 'T_NEW yytext)
 
-\"(.?)\$(.*)\[\d\](.*)\' (make-token 'T_NUM_STRING yytext)
-
 "(object)"      (make-token 'T_OBJECT_CAST yytext)
 "->"            (make-token 'T_OBJECT_OPERATOR yytext)
 
@@ -160,11 +155,7 @@ octal       [+\-]?0[0-7]+
 "<<<"            (make-token 'T_START_HEREDOC yytext)
 "static"        (make-token 'T_STATIC yytext)
 
-\"(.?)\$(.*)\[\w\](.*)\" (make-token 'T_STRING yytext)
-
 "(string)"      (make-token 'T_STRING_CAST yytext)
-
-\"\$\{(.*)\}(.*)\" (make-token 'T_STRING_VARNAME yytext)
 
 "switch"        (make-token 'T_SWITCH yytext)
 "throw"          (make-token 'T_THROW yytext)
@@ -173,7 +164,7 @@ octal       [+\-]?0[0-7]+
 "(unset)"        (make-token 'T_UNSET_CAST yytext)
 "use"            (make-token 'T_USE yytext)
 "var"            (make-token 'T_VAR yytext)
-\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*      (make-token 'T_VARIABLE yytext)
+\${label}      (make-token 'T_VARIABLE yytext)
 "while"          (make-token 'T_WHILE yytext)
 \9+              (if (eq? parse-mode 'txt) (make-token 'T_WHITESPACE yytext) (yycontinue))
 \10+            (if (eq? parse-mode 'txt) (make-token 'T_WHITESPACE yytext) (yycontinue))
@@ -214,7 +205,7 @@ octal       [+\-]?0[0-7]+
 "true"|"TRUE"    (make-token 'true yytext)
 "false"|"FALSE"  (make-token 'false yytext)
 
-[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]* (make-token 'label yytext)
+{label} (make-token 'label yytext)
 
 <<EOF>>          '*eoi*
 <<ERROR>>        (if (eq? parse-mode 'txt) (read-inline-html yygetc yyungetc) (lexer-error (yygetc)))

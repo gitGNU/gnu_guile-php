@@ -62,7 +62,7 @@ PASS: echo.test: compile: <?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?
 PASS: echo.test: compile: <?php echo 5; ?>
 PASS: echo.test: compile: <?php echo "some string"; echo "another string"; ?>
 PASS: echo.test: compile: <?php $a = 1; echo $a; ?>
-ERROR: echo.test: compile: <?php $a = 2; echo "$a"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ENCAPSED_AND_WHITESPACE source: #f value: "\"$a\"">))
+FAIL: echo.test: compile: <?php $a = 2; echo "$a"; ?>
 PASS: echo.test: compile: <?php function test() { return 12; } echo test(); ?>
 PASS: echo.test: compile: <?php $a = 3; echo ++$a; ?>
 PASS: echo.test: compile: <?php $a = 4; echo --$a; ?>
@@ -245,7 +245,7 @@ PASS: print.test: compile: <?php print null; ?>
 PASS: print.test: compile: <?php print 5; ?>
 PASS: print.test: compile: <?php print "some string"; print "another string"; ?>
 PASS: print.test: compile: <?php $a = 1; print $a; ?>
-ERROR: print.test: compile: <?php $a = 2; print "$a"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ENCAPSED_AND_WHITESPACE source: #f value: "\"$a\"">))
+FAIL: print.test: compile: <?php $a = 2; print "$a"; ?>
 PASS: print.test: compile: <?php function test() { return 12; } print test(); ?>
 PASS: print.test: compile: <?php $a = 3; print ++$a; ?>
 PASS: print.test: compile: <?php $a = 4; print --$a; ?>
@@ -332,7 +332,7 @@ PASS: vars.test: compile: <?php $a = "a"; print $a; ?>
 PASS: vars.test: compile: <?php $a = 'b'; print $a; ?>
 PASS: vars.test: compile: <?php $x = 1; $y = $x; print $x; ?>
 PASS: vars.test: compile: <? $x = 2; $x = 1; $x = 3; print $x; ?>
-ERROR: vars.test: compile: <? $x = "ok"; $gggg = "$x"; print $gggg; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ENCAPSED_AND_WHITESPACE source: #f value: "\"$x\"">))
+FAIL: vars.test: compile: <? $x = "ok"; $gggg = "$x"; print $gggg; ?>
 PASS: vars.test: compile: <? $var = "val"; $varb = '$var'; print $varb; ?>
 PASS: vars.test: compile: <?php $a1 = 1; print $a1; ?>
 PASS: vars.test: compile: <?php $_a = 2; print $_a; ?>
@@ -348,11 +348,11 @@ PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a
 
 Totals for this test run:
 passes:                 134
-failures:               4
+failures:               7
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 5
+errors:                 2
 

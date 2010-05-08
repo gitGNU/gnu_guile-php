@@ -83,16 +83,28 @@
   (define (stop-reading c)
     (or (eq? c 'eof) (and (char? c) (char=? c #\<))))
   (make-token 'T_INLINE_HTML (read-til stop-reading yygetc yyungetc)))
-	
+
 (define (read-string str-char yygetc yyungetc)
-  (define tok 'T_CONSTANT_ENCAPSULATED_STRING)
   (define (stop-reading c)
     (if (eq? c 'eof)
 	(if (eq? parse-mode 'php)
 	    (syntax-error "Unexpected eof inside string")
 	    #t)
 	(char=? c str-char)))
-  (make-token tok (read-til stop-reading yygetc yyungetc)))
+  (read-til stop-reading yygetc yyungetc))
+	
+(define (read-const-string str-char yygetc yyungetc)
+  (make-token 'T_CONSTANT_ENCAPSED_STRING (read-string str-char yygetc yyungetc)))
+
+
+(define (read-parse-string str-char yygetc yyungetc)
+  (let ((str (read-string str-char yygetc yyungetc)))
+    ;(display str)(newline)(newline)
+    ;(let ((lex (call-with-input-string str make-tokenizer)))
+    ;  (let loop ((tok (lex)))
+;	(display tok)(newline)
+;	(if (not (eq? tok '*eoi*)) (loop (lex))))
+      (make-token 'T_CONSTANT_ENCAPSED_STRING str)))
 
 ;;; below merged in from tokenize-silex.scm
 
