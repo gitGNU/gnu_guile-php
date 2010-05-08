@@ -67,7 +67,7 @@
 	(char=? c #\newline)))
   (make-token 'T_COMMENT (read-til stop-reading yygetc yyungetc)))
 
-(define (read-multi-line-comment yygetc yyungetc)
+(define (read-multi-line-comment tok yygetc yyungetc)
   (define (stop-reading c)
     (if (or (eq? c 'eof) (not (char? c)))
 	#t
@@ -77,7 +77,7 @@
 		  #t
 		  (begin (yyungetc) #f)))
 	    #f)))
-  (make-token 'T_COMMENT (read-til stop-reading yygetc yyungetc)))
+  (make-token tok (read-til stop-reading yygetc yyungetc)))
 
 (define (read-inline-html yygetc yyungetc)
   (define (stop-reading c)
@@ -99,9 +99,9 @@
 
 (define (read-parse-string str-char yygetc yyungetc)
   (let ((str (read-string str-char yygetc yyungetc)))
-    ;(display str)(newline)(newline)
-    ;(let ((lex (call-with-input-string str make-tokenizer)))
-    ;  (let loop ((tok (lex)))
+;    (display str)(newline)(newline)
+;    (let ((lex (call-with-input-string str make-tokenizer)))
+;      (let loop ((tok (lex)))
 ;	(display tok)(newline)
 ;	(if (not (eq? tok '*eoi*)) (loop (lex))))
       (make-token 'T_CONSTANT_ENCAPSED_STRING str)))

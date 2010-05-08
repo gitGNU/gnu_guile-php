@@ -57,7 +57,8 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 "?>"|"%>"|"</script>"  (begin (let ((token (make-token 'T_CLOSE_TAG yytext))) (set! parse-mode 'txt) token))
 
 "#"|"//"  (read-single-line-comment yygetc yyungetc)
-"/*"      (read-multi-line-comment yygetc yyungetc)
+"/*"      (read-multi-line-comment 'T_COMMENT yygetc yyungetc)
+"/**"     (read-multi-line-comment 'T_DOC_COMMENT yygetc yyungetc)
 ".="  (make-token 'T_CONCAT_EQUAL yytext)
 "const"          (make-token 'T_CONST yytext)
 "\""            (read-parse-string #\" yygetc yyungetc) 
