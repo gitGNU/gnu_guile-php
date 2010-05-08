@@ -29,4 +29,3 @@
   (compile-php-str "<?php print true . false . true . null; ?>" "11")
   (compile-php-str "<?php $a = 'a' . 'b' . 'c' . 1 . FALSE . 2 . NULL . 3; print $a; ?>" "abc123"))
 
-

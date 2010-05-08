@@ -1,0 +1,40 @@
+;;; PHP for GNU Guile
+
+;; Copyright (C) 2010 Jon Herron
+
+;; This library is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU Lesser General Public
+;; License as published by the Free Software Foundation; either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This library is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Lesser General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Lesser General Public
+;; License along with this library; if not, write to the Free Software
+;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+;; 02110-1301 USA
+
+(define-module (test-suite test assignment)
+  #:use-module (test-suite base)
+  #:use-module (test-suite lib))
+
+(with-test-prefix "compile"
+  (compile-php-str "<?php $a = 'k'; print $a .= 'k'; ?>" "kk")
+  (compile-php-str "<?php $a = 'a'; $a .= 'b'; print $a; ?>" "ab")
+  (compile-php-str "<?php $a = 'bb'; $a .= 1; print $a; ?>" "bb1")
+  (compile-php-str "<?php $a = 1; $a .= 1; print $a; ?>" "11")
+  (compile-php-str "<?php $a = 1; $a &= 0; print $a; ?>" "0")
+  (compile-php-str "<?php $a = 1111; print $a &= 1001; ?>" "65")
+  (compile-php-str "<?php $a = 10; print $a -= 7; ?>" "3")
+  (compile-php-str "<?php $a = '5' print $a -= '5'; ?>" "0")
+  (compile-php-str "<?php $a = 5; print $a -= 10; ?>" "-5")
+  (compile-php-str "<?php $a = 5; print $a *= 3; ?>" "15")
+  (compile-php-str "<?php $a = 25; print $a /= 5; ?>" "5")
+  (compile-php-str "<?php $a = 1111; print $a |= 1; ?>" "1111")
+  (compile-php-str "<?php $a = 10; print $a += 5; ?>" "15")
+  (compile-php-str "<?php $a = '11'; print $a += 6; ?>" "17")
+  (compile-php-str "<?php $a = 1111; print $a ^= 11; ?>" "1116"))
+
