@@ -23,7 +23,7 @@
 
 (with-test-prefix "parser"
   (parse-php-str "hello world" '(begin (echo (string "hello")) (echo (string " ")) (echo (string "world"))))
-  (parse-php-str "<?php print \"hello world\"; ?>" '(begin (void) (print (string "hello world")) (void))))
+  (parse-php-str "<?php print \"hello world\"; ?>" '(print (string "hello world"))))
 
 (with-test-prefix "compile"
   (compile-php-str "hello world" "hello world")

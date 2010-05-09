@@ -1,4 +1,3 @@
-
 ;; PHP for GNU Guile.
 
 ;; Copyright (C) 2010 Jon Herron
@@ -64,21 +63,28 @@
       comma semi asteriks plus minus divide equals dot qmark null label
       greater-than less-than true false colon period)
 
-    (Program   
+    (Program
       (SourceElements) : $1
       (*eoi*) : *eof-object*)
 
     (SourceElements  
-      (SourceElement) : $1 
-      (SourceElements SourceElement) : (if (and (pair? $1) (eq? (car $1) 'begin))
+     (SourceElement) : $1 
+     (SourceElements SourceElement) : (if (and (pair? $1) (eq? (car $1) 'begin))
                                           `(begin ,@(cdr $1) ,$2)
                                           `(begin ,$1 ,$2)))
 
     (SourceElement
-      (Statement) : $1
-      (T_INLINE_HTML) : `(echo (string ,$1))
-      (OpenTag) : $1
-      (T_CLOSE_TAG) : `(void))
+     (HTML) : $1
+     (PHP) : $1)
+
+    (HTML (T_INLINE_HTML) : `(echo (string ,$1)))
+    
+    (PHP
+     (T_OPEN_TAG Statements) : $2
+     (T_OPEN_TAG Statements T_CLOSE_TAG) : $2
+     (T_OPEN_TAG T_CLOSE_TAG) : `(void)
+     (T_OPEN_TAG_WITH_ECHO Value T_CLOSE_TAG) : $2
+     (T_OPEN_TAG_WITH_ECHO Value semi T_CLOSE_TAG) : $2)
 
     (Statements
       (Statement) : $1
@@ -86,10 +92,7 @@
 				   `(begin ,@(cdr $1) ,$2)
 				   `(begin ,$1 ,$2)))
 
-    (OpenTag
-      (T_OPEN_TAG) : `(void)
-      (T_OPEN_TAG_WITH_ECHO Value) : `(echo ,$2)
-      (T_OPEN_TAG_WITH_ECHO Value semi) : `(echo ,$2))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     (FunctionDeclaration
       (T_FUNCTION label FormalParameterList FunctionBody) : `(var ,$2 (lambda ,$3 ,$4)))
@@ -124,29 +127,29 @@
 
     (BracedStatements
       (open-brace close-brace) : `(void)
-      (open-brace SourceElements close-brace) : $2)
+      (open-brace Statements close-brace) : $2)
 
     (Statement
-      (open-brace close-brace) : `(void)
-      (BracedStatements) : $1
-      (FunctionDeclaration) : $1
-      (Assignment semi) : $1
-      (Echo) : $1
-      (Print) : $1
-      (IfBlock) : $1
-      (FunctionCall semi) : $1
-      (Loop) : $1
-      (Return) : $1
-      (IncDec semi) : $1
-      (Break) : $1
-      (Continue) : $1
-      (Switch) : $1
-      (T_WHITESPACE) : `(void)
-      (T_COMMENT) : `(void))
+     (T_COMMENT) : `(void)
+     (T_DOC_COMMENT) : `(void)
+     ;(T_CLOSE_TAG T_INLINE_HTML T_OPEN_TAG) : `(echo (string ,$2))
+     (BracedStatements) : $1
+     (FunctionDeclaration) : $1
+     (Assignment semi) : $1
+     (Echo) : $1
+     (Print) : $1
+     (IfBlock) : $1
+     (FunctionCall semi) : $1
+     (Loop) : $1
+     (Return) : $1
+     (IncDec semi) : $1
+     (Break semi) : $1
+     (Continue) : $1
+     (Switch) : $1)
 
     (Break
-     (T_BREAK semi) : `(break)
-     (T_BREAK T_LNUMBER semi) : `(break ,$1))
+     (T_BREAK) : `(break)
+     (T_BREAK T_LNUMBER) : `(break ,$1))
     
     (Continue
      (T_CONTINUE semi) : `(continue)
