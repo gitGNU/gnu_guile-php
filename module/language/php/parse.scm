@@ -87,47 +87,46 @@
      (T_OPEN_TAG_WITH_ECHO Value semi T_CLOSE_TAG) : $2)
 
     (Statements
-      (Statement) : $1
-      (Statements Statement) : (if (and (pair? $1) (eq? (car $1) 'begin))
-				   `(begin ,@(cdr $1) ,$2)
-				   `(begin ,$1 ,$2)))
+     (Statement) : $1
+     (Statements Statement) : (if (and (pair? $1) (eq? (car $1) 'begin))
+				  `(begin ,@(cdr $1) ,$2)
+				  `(begin ,$1 ,$2)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     (FunctionDeclaration
-      (T_FUNCTION label FormalParameterList FunctionBody) : `(var ,$2 (lambda ,$3 ,$4)))
+     (T_FUNCTION label open-paren close-paren FunctionBody) : `(var ,$2 (lambda () ,$5))
+     (T_FUNCTION label open-paren FormalParameterList close-paren FunctionBody) : `(var ,$2 (lambda ,$4 ,$6)))
 
     (FormalParameterList 
-      (open-paren close-paren) : '()
-      (open-paren FormalParameterList close-paren) : $2 
-      (T_VARIABLE) : `(,$1)
-      (FormalParameterList comma T_VARIABLE) : `(,@$1 ,$3))
+     (T_VARIABLE) : `(,$1)
+     (FormalParameterList comma T_VARIABLE) : `(,@$1 ,$3))
 
     (ValueList
-      (Value) : `(,$1)
-      (ValueList comma Value) : `(,@$1 ,$3))
+     (Value) : `(,$1)
+     (ValueList comma Value) : `(,@$1 ,$3))
     
     (Value
-      (T_CONSTANT_ENCAPSED_STRING) : `(string ,$1)
-      (T_LNUMBER) : `(num ,$1)
-      (null) : `(null)
-      (true) : `(true)
-      (false) : `(false)
-      (Variable) : $1
-      (Assignment) : $1
-      (IncDec) : $1
-      (Concat) : $1
-      (FunctionCall) : $1)
+     (T_CONSTANT_ENCAPSED_STRING) : `(string ,$1)
+     (T_LNUMBER) : `(num ,$1)
+     (null) : `(null)
+     (true) : `(true)
+     (false) : `(false)
+     (Variable) : $1
+     (Assignment) : $1
+     (IncDec) : $1
+     (Concat) : $1
+     (FunctionCall) : $1)
 
     (Variable
-      (T_VARIABLE) : `(var-resolve ,$1))
+     (T_VARIABLE) : `(var-resolve ,$1))
 
     (FunctionBody
-      (BracedStatements) : $1)
+     (BracedStatements) : $1)
 
     (BracedStatements
-      (open-brace close-brace) : `(void)
-      (open-brace Statements close-brace) : $2)
+     (open-brace close-brace) : `(void)
+     (open-brace Statements close-brace) : $2)
 
     (Statement
      (T_COMMENT) : `(void)
@@ -156,14 +155,14 @@
      (T_CONTINUE T_LNUMBER semi) : `(continue ,$1))
 
     (Return
-      (T_RETURN semi) : `(return)
-      (T_RETURN Value semi) : `(return ,$2))
+     (T_RETURN semi) : `(return)
+     (T_RETURN Value semi) : `(return ,$2))
 
     (IncDec
-      (T_INC Variable) : `(pre-inc ,$2)
-      (Variable T_INC) : `(post-inc ,$1)
-      (T_DEC Variable) : `(pre-dec ,$2)
-      (Variable T_DEC) : `(post-dec ,$1))
+     (T_INC Variable) : `(pre-inc ,$2)
+     (Variable T_INC) : `(post-inc ,$1)
+     (T_DEC Variable) : `(pre-dec ,$2)
+     (Variable T_DEC) : `(post-dec ,$1))
 
     (Assignment
      (T_VARIABLE equals Value) : `(var ,$1 ,$3)
@@ -219,8 +218,7 @@
      (T_DEFAULT colon Statements) : `(case-default ,$3))
 
     (Concat
-     (Value period Value) : `(concat ,$1 ,$3)
-     (Concat period Value) : `(concat ,@$1 ,$3))
+     (Value period Value) : `(concat ,$1 ,$3))
     
     (Comparison
       (open-paren Comparison close-paren) : $2
