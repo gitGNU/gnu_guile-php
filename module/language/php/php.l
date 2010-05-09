@@ -126,6 +126,7 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 "and"            (make-token 'T_LOGICAL_AND yytext)
 "or"            (make-token 'T_LOGICAL_OR yytext)
 "xor"            (make-token 'T_LOGICAL_XOR yytext)
+"-="            (make-token 'T_MINUS_EQUAL yytext)
 "%="            (make-token 'T_MOD_EQUAL yytext)
 "*="            (make-token 'T_MUL_EQUAL yytext)
 

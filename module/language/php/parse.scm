@@ -1,3 +1,4 @@
+
 ;; PHP for GNU Guile.
 
 ;; Copyright (C) 2010 Jon Herron
@@ -51,7 +52,7 @@
       T_IMPLEMENTS T_INC T_INCLUDE T_INCLUDE_ONCE T_INLINE_HTML T_INSTANCEOF T_INT_CAST 
       T_INTERFACE T_ISSET T_IS_EQUAL T_IS_GREATER_OR_EQUAL T_IS_IDENTICAL 
       T_IS_NOT_EQUAL T_IS_NOT_IDENTICAL T_IS_SMALLER_OR_EQUAL T_LINE T_LIST 
-      T_LNUMBER T_LOGICAL_AND T_LOGICAL_OR T_LOGICAL_XOR T_MOD_EQUAL T_MUL_EQUAL 
+      T_LNUMBER T_LOGICAL_AND T_LOGICAL_OR T_LOGICAL_XOR T_MINUS_EQUAL T_MOD_EQUAL T_MUL_EQUAL 
       T_NS_C T_NUM_STRING T_OBJECT_CAST T_OBJECT_OPERATOR T_OPEN_TAG 
       T_OPEN_TAG_WITH_ECHO T_OR_EQUAL T_PLUS_EQUAL T_PRINT T_PRIVATE T_PUBLIC 
       T_PROTECTED T_REQUIRE T_REQUIRE_ONCE T_RETURN T_SL T_SL_EQUAL T_SR 
@@ -110,6 +111,7 @@
       (true) : `(true)
       (false) : `(false)
       (Variable) : $1
+      (Assignment) : $1
       (IncDec) : $1
       (Concat) : $1
       (FunctionCall) : $1)
@@ -128,14 +130,13 @@
       (open-brace close-brace) : `(void)
       (BracedStatements) : $1
       (FunctionDeclaration) : $1
+      (Assignment semi) : $1
       (Echo) : $1
       (Print) : $1
-      (Var) : $1
       (IfBlock) : $1
       (FunctionCall semi) : $1
       (Loop) : $1
       (Return) : $1
-      (IncDec) : $1
       (IncDec semi) : $1
       (Break) : $1
       (Continue) : $1
@@ -161,6 +162,18 @@
       (T_DEC Variable) : `(pre-dec ,$2)
       (Variable T_DEC) : `(post-dec ,$1))
 
+    (Assignment
+     (T_VARIABLE equals Value) : `(var ,$1 ,$3)
+     (T_VARIABLE T_AND_EQUAL Value) : `(var ,$1 (bit-and (var-resolve ,$1) ,$3))
+     (T_VARIABLE T_OR_EQUAL Value) : `(var ,$1 (bit-or (var-resolve ,$1) ,$3))
+     (T_VARIABLE T_XOR_EQUAL Value) : `(var ,$1 (bit-xor (var-resolve ,$1) ,$3))
+     (T_VARIABLE T_PLUS_EQUAL Value) : `(var ,$1 (add (var-resolve ,$1) ,$3))
+     (T_VARIABLE T_MINUS_EQUAL Value) : `(var ,$1 (sub (var-resolve ,$1) ,$3))
+     (T_VARIABLE T_MUL_EQUAL Value) : `(var ,$1 (mul (var-resolve ,$1) ,$3))
+     (T_VARIABLE T_DIV_EQUAL Value) : `(var ,$1 (div (var-resolve ,$1) ,$3))
+     (T_VARIABLE T_MOD_EQUAL Value) : `(var ,$1 (mod (var-resolve ,$1) ,$3))
+     (T_VARIABLE T_CONCAT_EQUAL Value) : `(var ,$1 (concat (var-resolve ,$1) ,$3)))
+
     (FunctionCall
       (label open-paren close-paren) : `(call ,$1)
       (label open-paren ValueList close-paren) : `(call ,$1 ,$3))
@@ -170,9 +183,6 @@
 
     (Print 
       (T_PRINT Value semi) : `(print ,$2))
-
-    (Var 
-      (T_VARIABLE equals Value semi) : `(var ,$1 ,$3))
 
     (IfBlock
       (T_IF Comparison Statement) : `(if ,$2 ,$3)
@@ -187,7 +197,7 @@
     (Loop
      (T_DO Statement T_WHILE Comparison semi) : `(do ,$2 ,$4)
      (T_WHILE Comparison Statement) : `(while ,$2 ,$3)
-     (T_FOR open-paren Var Comparison semi IncDec close-paren Statement) : `(for ,$3 ,$4 ,$6 ,$8))
+     (T_FOR open-paren Assignment semi Comparison semi IncDec close-paren Statement) : `(for ,$3 ,$5 ,$7 ,$9))
 
     (Switch
      (T_SWITCH open-paren Value close-paren open-brace close-brace) : `(void)

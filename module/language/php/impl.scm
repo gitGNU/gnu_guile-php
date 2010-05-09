@@ -23,7 +23,9 @@
   #:use-module (system base language)
   #:export (php/print php/echo 
 	    php/== php/=== php/< php/> php/<= php/>=
-	    php/->bool php/->string
+	    php/- php/+ php// php/* php/%
+	    php/bit-and php/bit-or php/bit-xor  
+	    php/->bool php/->string php/->number 
 	    php/concat))
 
 ;;
@@ -81,6 +83,36 @@
    ((number? x) (number->string x))
    (else "UNSUPPORTED TYPE PASSED TO php/->string\n")))
 
+(define (php/->number x)
+  (cond
+   ((number? x) x)
+   ((string? x) (let ((n (string->number x))) (if n n 0)))
+   ((boolean? x) (if x 1 0))
+   (else 0)))
+
 (define (php/concat . args)
   (apply string-append (map (lambda (a) (php/->string a)) args)))
 
+(define (php/bit-and a b)
+  (logand (php/->number a) (php/->number b)))
+
+(define (php/bit-or a b)
+  (logior (php/->number a) (php/->number b)))
+
+(define (php/bit-xor a b)
+  (logxor (php/->number a) (php/->number b)))
+
+(define (php/- a b)
+  (- (php/->number a) (php/->number b)))
+
+(define (php/+ a b)
+  (+ (php/->number a) (php/->number b)))
+
+(define (php// a b)
+  (/ (php/->number a) (php/->number b)))
+
+(define (php/* a b)
+  (* (php/->number a) (php/->number b)))
+
+(define (php/% a b)
+  (modulo (php/->number a) (php/->number b)))

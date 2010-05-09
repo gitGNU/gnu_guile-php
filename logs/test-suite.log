@@ -1,18 +1,40 @@
-ERROR: assignment.test: compile: <?php $a = 'k'; print $a .= 'k'; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
-ERROR: assignment.test: compile: <?php $a = 'a'; $a .= 'b'; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
-ERROR: assignment.test: compile: <?php $a = 'bb'; $a .= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
-ERROR: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
-ERROR: assignment.test: compile: <?php $a = 1; $a &= 0; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_AND_EQUAL source: #f value: "&=">))
-ERROR: assignment.test: compile: <?php $a = 1111; print $a &= 1001; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_AND_EQUAL source: #f value: "&=">))
-ERROR: assignment.test: compile: <?php $a = 10; print $a -= 7; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
-ERROR: assignment.test: compile: <?php $a = '5' print $a -= '5'; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PRINT source: #f value: "print">))
-ERROR: assignment.test: compile: <?php $a = 5; print $a -= 10; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
-ERROR: assignment.test: compile: <?php $a = 5; print $a *= 3; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MUL_EQUAL source: #f value: "*=">))
-ERROR: assignment.test: compile: <?php $a = 25; print $a /= 5; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DIV_EQUAL source: #f value: "/=">))
-ERROR: assignment.test: compile: <?php $a = 1111; print $a |= 1; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_OR_EQUAL source: #f value: "|=">))
-ERROR: assignment.test: compile: <?php $a = 10; print $a += 5; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PLUS_EQUAL source: #f value: "+=">))
-ERROR: assignment.test: compile: <?php $a = '11'; print $a += 6; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PLUS_EQUAL source: #f value: "+=">))
-ERROR: assignment.test: compile: <?php $a = 1111; print $a ^= 11; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_XOR_EQUAL source: #f value: "^=">))
+PASS: assignment.test: compile: <?php $a = 'k'; $a .= 'j'; print $a; ?>
+PASS: assignment.test: compile: <?php $a = 'k'; $a .= 1; print $a; ?>
+PASS: assignment.test: compile: <?php $a = 'a'; $a = $a . 'b'; print $a; ?>
+PASS: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?>
+FAIL: assignment.test: compile: <?php $a = 'k'; print $a .= 'k'; ?>
+PASS: assignment.test: compile: <?php $a = 'a'; $a .= 'b'; print $a; ?>
+PASS: assignment.test: compile: <?php $a = 'bb'; $a .= 1; print $a; ?>
+PASS: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 1; $a = $a & 0; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\&))
+PASS: assignment.test: compile: <?php $a = 1; $a &= 0; print $a; ?>
+FAIL: assignment.test: compile: <?php $a = 1111; print $a &= 1001; ?>
+PASS: assignment.test: compile: <?php $a = 1111; $a &= 1001; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 1111; $a = $a & 1001; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\&))
+FAIL: assignment.test: compile: <?php $a = 10; print $a -= 7; ?>
+FAIL: assignment.test: compile: <?php $a = '5'; print $a -= '5'; ?>
+FAIL: assignment.test: compile: <?php $a = 5; print $a -= 10; ?>
+PASS: assignment.test: compile: <?php $a = 5; $a -= 10; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 5; $a = $a - 10; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
+FAIL: assignment.test: compile: <?php $a = 5; print $a *= 3; ?>
+PASS: assignment.test: compile: <?php $a = 5; $a *= 3; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 5; $a = $a * 3; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: asteriks source: #f value: "*">))
+FAIL: assignment.test: compile: <?php $a = 25; print $a /= 5; ?>
+PASS: assignment.test: compile: <?php $a = 25; $a /= 5; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 25; $a = $a / 5; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: divide source: #f value: "/">))
+FAIL: assignment.test: compile: <?php $a = 1111; print $a |= 1; ?>
+PASS: assignment.test: compile: <?php $a = 1111; $a |= 1; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 1111; $a = $a | 1; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\|))
+FAIL: assignment.test: compile: <?php $a = 10; print $a += 5; ?>
+FAIL: assignment.test: compile: <?php $a = '11'; print $a += 6; ?>
+PASS: assignment.test: compile: <?php $a = '11'; $a += 6; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 11; $a = $a + 6; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: plus source: #f value: "+">))
+PASS: assignment.test: compile: <?php $a = 1111; $a ^= 11; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 1111; $a = $a ^ 11; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\^))
+FAIL: assignment.test: compile: <?php $a = 1111; print $a ^= 11; ?>
+ERROR: assignment.test: compile: <?php $a = 30; $a = $a % 4; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\%))
+PASS: assignment.test: compile: <?php $a = 30; $a %= 4; print $a; ?>
+FAIL: assignment.test: compile: <?php $a = 30; print $a %= 4; ?>
 PASS: comments.test: compile: <?php #function test() { print "ok"; } test(); ?>
 PASS: comments.test: compile: <?php //function test() { return 5; } $a = test(); print $a; ?>
 PASS: comments.test: compile: <?php /* some comment */ ?>
@@ -362,12 +384,12 @@ PASS: vars.test: compile: <? $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 134
-failures:               7
+passes:                 150
+failures:               19
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 17
+errors:                 11
 
