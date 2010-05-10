@@ -64,6 +64,94 @@
       greater-than less-than true false colon period)
 
     (Program
+     (SourceElements *eoi*) : $1
+     (*eoi*) : `(void))
+
+    (SourceElements
+     (SourceElement) : $1
+     (SourceElements SourceElement) : (if (and (pair? $1) (eq? (car $1) 'begin))
+                                          `(begin ,@(cdr $1) ,$2)
+                                          `(begin ,$1 ,$2)))
+
+    (SourceElement
+     (InlineHTML) : $1
+     (PHP) : $1)
+    
+    (InlineHTML
+     (T_INLINE_HTML) : `(echo (string ,$1)))
+
+    (PHP
+     (T_OPEN_TAG T_CLOSE_TAG) : `(void)
+     (T_OPEN_TAG Statements T_CLOSE_TAG) : $2
+     (T_OPEN_TAG_WITH_ECHO RightHandSide T_CLOSE_TAG) : `(echo ,$2))
+
+    (Statements
+     (Statement) : $1
+     (Statements Statement) : (if (and (pair? $1) (eq? (car $1) 'begin))
+				  `(begin ,@(cdr $1) ,$2)
+				  `(begin ,$1 ,$2)))
+    
+    (Statement
+     (Assignment) : $1
+     (CallStatement) : $1
+     (Comment) : $1
+     (FunctionDeclaration) : $1
+     (Print) : $1
+     (Return) : $1)
+
+    (Assignment
+     (T_VARIABLE equals RightHandSide semi) : `(var ,$1 ,$2))
+
+    (Call
+     (label open-paren close-paren) : `(call ,$1)
+     (label open-paren RightHandSideList close-paren) : `(call ,$1 ,$3))
+
+    (CallStatement
+     (Call semi) : $1)
+    
+    (Comment (T_COMMENT) : `(void))
+
+    (FunctionBody
+     (GroupedStatements) : $1)
+
+    (FunctionDeclaration
+     (T_FUNCTION label open-paren close-paren FunctionBody) : `(var ,$2 (lambda () ,$5))
+     (T_FUNCTION label open-paren FunctionParamList close-paren FunctionBody) : `(var ,$2 (lambda ,$4 ,$6)))
+
+    (FunctionParam
+     (T_VARIABLE) : `(,$1))
+    
+    (FunctionParamList
+     (FunctionParam) : $1
+     (FunctionParamList comma FunctionParam) : `(,@$1 ,$3))
+
+    (GroupedStatements
+     (open-brace close-brace) : `(void)
+     (open-brace Statements close-brace) : $2)
+
+    (Print (T_PRINT RightHandSide semi) : `(print ,$2))
+
+    (Return
+     (T_RETURN semi) : `(return)
+     (T_RETURN RightHandSide semi) : `(return ,$2))
+    
+    (RightHandSide
+     (T_CONSTANT_ENCAPSED_STRING) : `(string ,$1)
+     (T_LNUMBER) : `(num ,$1)
+     (T_VARIABLE) : `(var-resolve ,$1)
+     (Call) : $1
+     (null) : `(null)
+     (true) : `(true)
+     (false) : `(false))
+
+    (RightHandSideList
+     (RightHandSide) : `(,$1)
+     (RightHandSideList comma RightHandSide) : `(,@$1 ,$3))
+     
+    ))
+
+#!
+    (Program
       (SourceElements) : $1
       (*eoi*) : *eof-object*)
 
@@ -113,7 +201,7 @@
      (true) : `(true)
      (false) : `(false)
      (Variable) : $1
-     (Assignment) : $1
+;     (Assignment) : $1
      (IncDec) : $1
      (Concat) : $1
      (FunctionCall) : $1)
@@ -131,7 +219,6 @@
     (Statement
      (T_COMMENT) : `(void)
      (T_DOC_COMMENT) : `(void)
-     ;(T_CLOSE_TAG T_INLINE_HTML T_OPEN_TAG) : `(echo (string ,$2))
      (BracedStatements) : $1
      (FunctionDeclaration) : $1
      (Assignment semi) : $1
@@ -166,12 +253,17 @@
 
     (Assignment
      (T_VARIABLE equals Value) : `(var ,$1 ,$3)
+     (T_VARIABLE equals Assignment) : `(var ,$1 ,$3)
      (T_VARIABLE T_AND_EQUAL Value) : `(var ,$1 (bit-and (var-resolve ,$1) ,$3))
      (T_VARIABLE T_OR_EQUAL Value) : `(var ,$1 (bit-or (var-resolve ,$1) ,$3))
      (T_VARIABLE T_XOR_EQUAL Value) : `(var ,$1 (bit-xor (var-resolve ,$1) ,$3))
+     (T_VARIABLE plus Value) : `(add (var-resolve ,$1) ,$3)
      (T_VARIABLE T_PLUS_EQUAL Value) : `(var ,$1 (add (var-resolve ,$1) ,$3))
+     (T_VARIABLE minus Value) : `(sub (var-resolve ,$1) ,$3)
      (T_VARIABLE T_MINUS_EQUAL Value) : `(var ,$1 (sub (var-resolve ,$1) ,$3))
+     (T_VARIABLE asteriks Value) : `(mul (var-resolve ,$1) ,$3)
      (T_VARIABLE T_MUL_EQUAL Value) : `(var ,$1 (mul (var-resolve ,$1) ,$3))
+     (T_VARIABLE divide Value) : `(var ,$1 (div (var-resolve ,$1) ,$3))
      (T_VARIABLE T_DIV_EQUAL Value) : `(var ,$1 (div (var-resolve ,$1) ,$3))
      (T_VARIABLE T_MOD_EQUAL Value) : `(var ,$1 (mod (var-resolve ,$1) ,$3))
      (T_VARIABLE T_CONCAT_EQUAL Value) : `(var ,$1 (concat (var-resolve ,$1) ,$3)))
@@ -235,3 +327,5 @@
       (Value T_IS_NOT_IDENTICAL Value) : `(not (identical ,$1 ,$3)))
 
     ))
+
+!#

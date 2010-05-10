@@ -1,42 +1,42 @@
-PASS: assignment.test: compile: <?php $a = 'k'; $a .= 'j'; print $a; ?>
-PASS: assignment.test: compile: <?php $a = 'k'; $a .= 1; print $a; ?>
-PASS: assignment.test: compile: <?php $a = 'a'; $a = $a . 'b'; print $a; ?>
-PASS: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?>
-FAIL: assignment.test: compile: <?php $a = 'k'; print $a .= 'k'; ?>
-PASS: assignment.test: compile: <?php $a = 'a'; $a .= 'b'; print $a; ?>
-PASS: assignment.test: compile: <?php $a = 'bb'; $a .= 1; print $a; ?>
-PASS: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 'k'; $a .= 'j'; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
+ERROR: assignment.test: compile: <?php $a = 'k'; $a .= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
+ERROR: assignment.test: compile: <?php $a = 'a'; $a = $a . 'b'; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: period source: #f value: ".">))
+ERROR: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
+ERROR: assignment.test: compile: <?php $a = 'k'; print $a .= 'k'; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
+ERROR: assignment.test: compile: <?php $a = 'a'; $a .= 'b'; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
+ERROR: assignment.test: compile: <?php $a = 'bb'; $a .= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
+ERROR: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
 ERROR: assignment.test: compile: <?php $a = 1; $a = $a & 0; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\&))
-PASS: assignment.test: compile: <?php $a = 1; $a &= 0; print $a; ?>
-FAIL: assignment.test: compile: <?php $a = 1111; print $a &= 1001; ?>
-PASS: assignment.test: compile: <?php $a = 1111; $a &= 1001; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 1; $a &= 0; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_AND_EQUAL source: #f value: "&=">))
+ERROR: assignment.test: compile: <?php $a = 1111; print $a &= 1001; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_AND_EQUAL source: #f value: "&=">))
+ERROR: assignment.test: compile: <?php $a = 1111; $a &= 1001; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_AND_EQUAL source: #f value: "&=">))
 ERROR: assignment.test: compile: <?php $a = 1111; $a = $a & 1001; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\&))
-FAIL: assignment.test: compile: <?php $a = 10; print $a -= 7; ?>
-FAIL: assignment.test: compile: <?php $a = '5'; print $a -= '5'; ?>
-FAIL: assignment.test: compile: <?php $a = 5; print $a -= 10; ?>
-PASS: assignment.test: compile: <?php $a = 5; $a -= 10; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 10; print $a -= 7; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MINUS_EQUAL source: #f value: "-=">))
+ERROR: assignment.test: compile: <?php $a = '5'; print $a -= '5'; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MINUS_EQUAL source: #f value: "-=">))
+ERROR: assignment.test: compile: <?php $a = 5; print $a -= 10; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MINUS_EQUAL source: #f value: "-=">))
+ERROR: assignment.test: compile: <?php $a = 5; $a -= 10; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MINUS_EQUAL source: #f value: "-=">))
 ERROR: assignment.test: compile: <?php $a = 5; $a = $a - 10; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
-FAIL: assignment.test: compile: <?php $a = 5; print $a *= 3; ?>
-PASS: assignment.test: compile: <?php $a = 5; $a *= 3; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 5; print $a *= 3; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MUL_EQUAL source: #f value: "*=">))
+ERROR: assignment.test: compile: <?php $a = 5; $a *= 3; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MUL_EQUAL source: #f value: "*=">))
 ERROR: assignment.test: compile: <?php $a = 5; $a = $a * 3; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: asteriks source: #f value: "*">))
-FAIL: assignment.test: compile: <?php $a = 25; print $a /= 5; ?>
-PASS: assignment.test: compile: <?php $a = 25; $a /= 5; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 25; print $a /= 5; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DIV_EQUAL source: #f value: "/=">))
+ERROR: assignment.test: compile: <?php $a = 25; $a /= 5; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DIV_EQUAL source: #f value: "/=">))
 ERROR: assignment.test: compile: <?php $a = 25; $a = $a / 5; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: divide source: #f value: "/">))
-FAIL: assignment.test: compile: <?php $a = 1111; print $a |= 1; ?>
-PASS: assignment.test: compile: <?php $a = 1111; $a |= 1; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 1111; print $a |= 1; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_OR_EQUAL source: #f value: "|=">))
+ERROR: assignment.test: compile: <?php $a = 1111; $a |= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_OR_EQUAL source: #f value: "|=">))
 ERROR: assignment.test: compile: <?php $a = 1111; $a = $a | 1; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\|))
-FAIL: assignment.test: compile: <?php $a = 10; print $a += 5; ?>
-FAIL: assignment.test: compile: <?php $a = '11'; print $a += 6; ?>
-PASS: assignment.test: compile: <?php $a = '11'; $a += 6; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 10; print $a += 5; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PLUS_EQUAL source: #f value: "+=">))
+ERROR: assignment.test: compile: <?php $a = '11'; print $a += 6; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PLUS_EQUAL source: #f value: "+=">))
+ERROR: assignment.test: compile: <?php $a = '11'; $a += 6; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PLUS_EQUAL source: #f value: "+=">))
 ERROR: assignment.test: compile: <?php $a = 11; $a = $a + 6; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: plus source: #f value: "+">))
-PASS: assignment.test: compile: <?php $a = 1111; $a ^= 11; print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 1111; $a ^= 11; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_XOR_EQUAL source: #f value: "^=">))
 ERROR: assignment.test: compile: <?php $a = 1111; $a = $a ^ 11; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\^))
-FAIL: assignment.test: compile: <?php $a = 1111; print $a ^= 11; ?>
+ERROR: assignment.test: compile: <?php $a = 1111; print $a ^= 11; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_XOR_EQUAL source: #f value: "^=">))
 ERROR: assignment.test: compile: <?php $a = 30; $a = $a % 4; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\%))
-PASS: assignment.test: compile: <?php $a = 30; $a %= 4; print $a; ?>
-FAIL: assignment.test: compile: <?php $a = 30; print $a %= 4; ?>
-PASS: comments.test: compile: <?php #function test() { print "ok"; } test(); ?>
-PASS: comments.test: compile: <?php //function test() { return 5; } $a = test(); print $a; ?>
+ERROR: assignment.test: compile: <?php $a = 30; $a %= 4; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MOD_EQUAL source: #f value: "%=">))
+ERROR: assignment.test: compile: <?php $a = 30; print $a %= 4; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MOD_EQUAL source: #f value: "%=">))
+ERROR: comments.test: compile: <?php #function test() { print "ok"; } test(); ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
+ERROR: comments.test: compile: <?php //function test() { return 5; } $a = test(); print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
 PASS: comments.test: compile: <?php /* some comment */ ?>
 ERROR: comments.test: compile: <?php
 
@@ -54,7 +54,7 @@ PASS: comments.test: compile: <%
 PASS: comments.test: compile: <script language="php">
 /* multi-line comment on a single line*/
 </script>
-PASS: comments.test: compile: <?
+ERROR: comments.test: compile: <?
 /*
 
 multi-line 
@@ -65,58 +65,58 @@ multiple
 //what?
 lines
 
-*/
-PASS: comments.test: compile: <?php
+*/ - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
+ERROR: comments.test: compile: <?php
 #comment
 //comment
-/*comment*/
-PASS: comparisons.test: compile: <?php if(1 == 1) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(1 === 1) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if("1" == 1) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if("1" === 1) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(true) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(false) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(TRUE) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(FALSE) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(null) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(NULL) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(1) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(0) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if("a") print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(1 !== 1) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(1 == 1 && 1 == 2) print 1; else print 2; ?>
-PASS: comparisons.test: compile: <?php if(1 == 1 || 1 == 2) print 1; else print 2; ?>
-PASS: concat.test: compile: <?php print 'a' . 'b'; ?>
-PASS: concat.test: compile: <?php print 'a' . 1; ?>
-PASS: concat.test: compile: <?php print 1 . 'a'; ?>
-PASS: concat.test: compile: <?php print 1 . 1; ?>
-PASS: concat.test: compile: <?php print true . false . true . null; ?>
-PASS: concat.test: compile: <?php $a = 'a' . 'b' . 'c' . 1 . FALSE . 2 . NULL . 3; print $a; ?>
-PASS: echo.test: compile: <?php echo ""; ?>
-PASS: echo.test: compile: <?php echo ''; ?>
-PASS: echo.test: compile: <?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?>
-PASS: echo.test: compile: <?php echo 5; ?>
-PASS: echo.test: compile: <?php echo "some string"; echo "another string"; ?>
-PASS: echo.test: compile: <?php $a = 1; echo $a; ?>
-FAIL: echo.test: compile: <?php $a = 2; echo "$a"; ?>
-PASS: echo.test: compile: <?php function test() { return 12; } echo test(); ?>
-PASS: echo.test: compile: <?php $a = 3; echo ++$a; ?>
-PASS: echo.test: compile: <?php $a = 4; echo --$a; ?>
-PASS: echo.test: compile: <?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?>
-PASS: echo.test: compile: <? echo "a", "b", 1, 2; ?>
-PASS: echo.test: compile: <?php echo true; ?>
-PASS: echo.test: compile: <?php echo TRUE; ?>
-PASS: echo.test: compile: <?php echo false; ?>
-PASS: echo.test: compile: <?php echo FALSE; ?>
-PASS: echo.test: compile: <?php echo null; ?>
-PASS: echo.test: compile: <?php echo NULL; ?>
+/*comment*/ - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
+ERROR: comparisons.test: compile: <?php if(1 == 1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(1 === 1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if("1" == 1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if("1" === 1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(true) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(false) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(TRUE) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(FALSE) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(null) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(NULL) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(0) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if("a") print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(1 !== 1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(1 == 1 && 1 == 2) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: comparisons.test: compile: <?php if(1 == 1 || 1 == 2) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: concat.test: compile: <?php print 'a' . 'b'; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: period source: #f value: ".">))
+ERROR: concat.test: compile: <?php print 'a' . 1; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: period source: #f value: ".">))
+ERROR: concat.test: compile: <?php print 1 . 'a'; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: period source: #f value: ".">))
+ERROR: concat.test: compile: <?php print 1 . 1; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: period source: #f value: ".">))
+ERROR: concat.test: compile: <?php print true . false . true . null; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: period source: #f value: ".">))
+ERROR: concat.test: compile: <?php $a = 'a' . 'b' . 'c' . 1 . FALSE . 2 . NULL . 3; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: period source: #f value: ".">))
+ERROR: echo.test: compile: <?php echo ""; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php echo ''; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php echo 5; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php echo "some string"; echo "another string"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php $a = 1; echo $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php $a = 2; echo "$a"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php function test() { return 12; } echo test(); ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php $a = 3; echo ++$a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php $a = 4; echo --$a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <? echo "a", "b", 1, 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php echo true; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php echo TRUE; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php echo false; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php echo FALSE; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php echo null; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+ERROR: echo.test: compile: <?php echo NULL; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
 PASS: functions.test: compile: <?php function test() { print "ok"; } test(); ?>
-PASS: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?>
+ERROR: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
 PASS: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?>
 PASS: functions.test: compile: <? function a(){} ?>
 PASS: functions.test: compile: <?php function _aFunc() { print "sure"; } _aFunc(); ?>
-PASS: functions.test: compile: <?php
+ERROR: functions.test: compile: <?php
 function test1($a, $b, $c)
 {
   if($a == $b)
@@ -130,14 +130,14 @@ $b = test1(1, 2, 1);
 
 print $a;
 print $b;
-?>
-PASS: functions.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: functions.test: compile: <?php
 function test_some_func() {
   print "yar";
 }
 
-test_some_func();
-PASS: functions.test: compile: <?php
+test_some_func(); - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
+ERROR: functions.test: compile: <?php
 function a() { return 1; }
 function b() { return 2; }
 function c() { return 3; }
@@ -147,24 +147,24 @@ function test($a, $b, $c) {
 }
 
 test(a(), b(), c());
-?>
+?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" ($c) #f))
 ERROR: functions.test: compile: <script language="php">
 notyetdefined();
 
 function notyetdefined() { print "works"; }
 ?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" (notyetdefined) #f))
-PASS: ifs.test: compile: <?php if(1 == 1) { print "1"; } else { print "2"; } ?>
-PASS: ifs.test: compile: <? if(2 == 1) { print "1"; } else { print "2"; } ?>
-PASS: ifs.test: compile: <?php if(((((((((((1 == 1))))))))))) { print "aeiou?"; } ?>
-PASS: ifs.test: compile: <?php
+ERROR: ifs.test: compile: <?php if(1 == 1) { print "1"; } else { print "2"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <? if(2 == 1) { print "1"; } else { print "2"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <?php if(((((((((((1 == 1))))))))))) { print "aeiou?"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <?php
 
 if("a" == "a")
   print "a";
 else
   print "b";
 
-?>
-PASS: ifs.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <?php
 
 $a = 1;
 $b = 2;
@@ -181,8 +181,8 @@ if($a == $b) {
   print "hrm...";
 }
 
-?>
-PASS: ifs.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <?php
 
 $a = 1;
 $b = 2;
@@ -198,8 +198,8 @@ elseif ($c == $a)
 elseif ($a == $d)
   print "good";
 
-?>
-PASS: ifs.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <?php
 
 if(1 == 2)
 {
@@ -213,20 +213,20 @@ if(1 == 2)
 else
   print "passed";
 
-?>
-ERROR: ifs.test: compile: <?php if(1 == 2) { ?> "a" <?php } else { ?> "b" <?php } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CLOSE_TAG source: #f value: "?>">))
-PASS: ifs.test: compile: <? if("aaa" === "aaa") { print "a"; } else { print "b"; } ?>
-PASS: ifs.test: compile: <?php if("1" == 1) print "ok"; else print "wrong"; ?>
-PASS: ifs.test: compile: <?php if(1 === "1") print "wrong"; else print "true"; ?>
-PASS: ifs.test: compile: <?php if(1 === 1) print "right"; else print "wrong"; ?>
-PASS: inlinehtml.test: compile: hello world
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <?php if(1 == 2) { ?> "a" <?php } else { ?> "b" <?php } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <? if("aaa" === "aaa") { print "a"; } else { print "b"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <?php if("1" == 1) print "ok"; else print "wrong"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <?php if(1 === "1") print "wrong"; else print "true"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: ifs.test: compile: <?php if(1 === 1) print "right"; else print "wrong"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+ERROR: inlinehtml.test: compile: hello world - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: label source: #f value: "hello">))
 PASS: inlinehtml.test: compile: <?php print "hello world"; ?>
 PASS: inlinehtml.test: compile: hello <?php print "world"; ?>
 PASS: inlinehtml.test: compile: <?php print "hello "; ?>world
 PASS: inlinehtml.test: compile: hello<?php ?> world
 PASS: inlinehtml.test: compile: <?php return "hello world"; ?>
 FAIL: inlinehtml.test: compile: ~`!@#$%^&*()_=+-{{]]}}:;;"'<<>>?//..,,/**/
-PASS: loops.test: compile: <?php
+ERROR: loops.test: compile: <?php
 
 $i = 0;
 
@@ -235,15 +235,15 @@ do {
 }
 while($i > 1);
 
-?>
-PASS: loops.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DO source: #f value: "do">))
+ERROR: loops.test: compile: <?php
 
 $i = 0;
 
 do { print ++$i; } while ($i < 5);
 
-?>
-PASS: loops.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DO source: #f value: "do">))
+ERROR: loops.test: compile: <?php
 
 $i = 0;
 
@@ -252,58 +252,58 @@ while($i > 5)
 	print "wrong";
 }
 
-?>
-PASS: loops.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_WHILE source: #f value: "while">))
+ERROR: loops.test: compile: <?php
 
 $i = 5;
 
 while($i == 5) { print ++$i; }
 
-?>
-PASS: loops.test: compile: <?php for($i = 0; $i < 10; ++$i) { print $i; } ?>
-PASS: loops.test: compile: <?php do { print 1; continue; } while(0); ?>
-PASS: loops.test: compile: <?php $i = 0; do { print ++$i; continue; } while($i < 5); ?>
-PASS: loops.test: compile: <?php do { print 1; break; } while(1); ?>
-PASS: loops.test: compile: <?php $i = 0; while($i < 5) { break; } ?>
-PASS: loops.test: compile: <?php $i = 0; while($i < 5) { print ++$i; continue; } ?>
-PASS: loops.test: compile: <?php for($i = 0; $i < 5; ++$i) { if($i == 3) { continue; } print $i; } ?>
-PASS: loops.test: compile: <?php for($i = 0; $i < 50; ++$i) { print "a"; break; } ?>
-PASS: nums.test: compile: <? $n = 1; print $n; ?>
-PASS: nums.test: compile: <? $n = 11; print $n; ?>
-PASS: nums.test: compile: <? $n = -1; print $n; ?>
-PASS: nums.test: compile: <? $n = -1111111; print $n; ?>
-PASS: nums.test: compile: <? $n = 12345678901234567890; print $n; ?>
-PASS: nums.test: compile: <? $n = -12345678901234567890; print $n; ?>
-PASS: nums.test: compile: <?php $n = 0; ++$n; --$n; print $n; ?>
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_WHILE source: #f value: "while">))
+ERROR: loops.test: compile: <?php for($i = 0; $i < 10; ++$i) { print $i; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
+ERROR: loops.test: compile: <?php do { print 1; continue; } while(0); ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DO source: #f value: "do">))
+ERROR: loops.test: compile: <?php $i = 0; do { print ++$i; continue; } while($i < 5); ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DO source: #f value: "do">))
+ERROR: loops.test: compile: <?php do { print 1; break; } while(1); ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DO source: #f value: "do">))
+ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { break; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_WHILE source: #f value: "while">))
+ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { print ++$i; continue; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_WHILE source: #f value: "while">))
+ERROR: loops.test: compile: <?php for($i = 0; $i < 5; ++$i) { if($i == 3) { continue; } print $i; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
+ERROR: loops.test: compile: <?php for($i = 0; $i < 50; ++$i) { print "a"; break; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
+ERROR: nums.test: compile: <? $n = 1; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: nums.test: compile: <? $n = 11; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: nums.test: compile: <? $n = -1; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: nums.test: compile: <? $n = -1111111; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: nums.test: compile: <? $n = 12345678901234567890; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: nums.test: compile: <? $n = -12345678901234567890; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: nums.test: compile: <?php $n = 0; ++$n; --$n; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_INC source: #f value: "++">))
 PASS: print.test: compile: <?php print ""; ?>
 PASS: print.test: compile: <?php print null; ?>
 PASS: print.test: compile: <?php print 5; ?>
 PASS: print.test: compile: <?php print "some string"; print "another string"; ?>
-PASS: print.test: compile: <?php $a = 1; print $a; ?>
-FAIL: print.test: compile: <?php $a = 2; print "$a"; ?>
+ERROR: print.test: compile: <?php $a = 1; print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: print.test: compile: <?php $a = 2; print "$a"; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
 PASS: print.test: compile: <?php function test() { return 12; } print test(); ?>
-PASS: print.test: compile: <?php $a = 3; print ++$a; ?>
-PASS: print.test: compile: <?php $a = 4; print --$a; ?>
-PASS: print.test: compile: <?php $a = 1; print $a++; ?>
-PASS: print.test: compile: <?php $a = 1; print $a--; ?>
-PASS: strings.test: compile: <? $s = "string"; print $s; ?>
-PASS: strings.test: compile: <? $s = 'string'; print $s; ?>
-PASS: strings.test: compile: <? $s = "this 
+ERROR: print.test: compile: <?php $a = 3; print ++$a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_INC source: #f value: "++">))
+ERROR: print.test: compile: <?php $a = 4; print --$a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DEC source: #f value: "--">))
+ERROR: print.test: compile: <?php $a = 1; print $a++; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_INC source: #f value: "++">))
+ERROR: print.test: compile: <?php $a = 1; print $a--; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DEC source: #f value: "--">))
+ERROR: strings.test: compile: <? $s = "string"; print $s; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: strings.test: compile: <? $s = 'string'; print $s; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: strings.test: compile: <? $s = "this 
 is 
 a 
-string"; print $s;
-PASS: strings.test: compile: <?php $s = 'this 
+string"; print $s; - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
+ERROR: strings.test: compile: <?php $s = 'this 
 is 
 a 
-string'; print $s;
-FAIL: strings.test: compile: <?php $a = 5; print "a = $a"; ?>
-PASS: strings.test: compile: <?php $a = 5; print 'a = $a'; ?>
-FAIL: strings.test: compile: <?php $a = "test"; print "a = $a"; ?>
-FAIL: strings.test: compile: <?php $a = 'test'; print "a = $a"; ?>
-PASS: strings.test: compile: <?php $a = "test"; print 'a = $a'; ?>
-PASS: strings.test: compile: <?php $a = 'test'; print 'a = $a'; ?>
-PASS: switch.test: compile: <?php $i = 0; switch($i) {} ?>
-PASS: switch.test: compile: <?php 
+string'; print $s; - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
+ERROR: strings.test: compile: <?php $a = 5; print "a = $a"; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: strings.test: compile: <?php $a = 5; print 'a = $a'; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: strings.test: compile: <?php $a = "test"; print "a = $a"; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: strings.test: compile: <?php $a = 'test'; print "a = $a"; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: strings.test: compile: <?php $a = "test"; print 'a = $a'; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: strings.test: compile: <?php $a = 'test'; print 'a = $a'; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: switch.test: compile: <?php $i = 0; switch($i) {} ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
+ERROR: switch.test: compile: <?php 
 
 $i = 0;
 
@@ -314,8 +314,8 @@ case 2: print '2'; break;
 default: print 'good';
 }
 
-?>
-PASS: switch.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
+ERROR: switch.test: compile: <?php
 
 $i = 10;
 
@@ -328,8 +328,8 @@ case 10: print 'bad'; break;
 default: print 'bad';
 }
 
-?>
-PASS: switch.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
+ERROR: switch.test: compile: <?php
 
 $i = 5;
 
@@ -344,8 +344,8 @@ case 6: print 'bad';
 default: print 'od';
 }
 
-?>
-PASS: switch.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
+ERROR: switch.test: compile: <?php
 
 $i = 0;
 
@@ -361,33 +361,33 @@ default:
 
 print $i;
 
-?>
-PASS: vars.test: compile: <? $a = 1; print $a; ?>
-PASS: vars.test: compile: <?php $a = "a"; print $a; ?>
-PASS: vars.test: compile: <?php $a = 'b'; print $a; ?>
-PASS: vars.test: compile: <?php $x = 1; $y = $x; print $x; ?>
-PASS: vars.test: compile: <? $x = 2; $x = 1; $x = 3; print $x; ?>
-FAIL: vars.test: compile: <? $x = "ok"; $gggg = "$x"; print $gggg; ?>
-PASS: vars.test: compile: <? $var = "val"; $varb = '$var'; print $varb; ?>
-PASS: vars.test: compile: <?php $a1 = 1; print $a1; ?>
-PASS: vars.test: compile: <?php $_a = 2; print $_a; ?>
-PASS: vars.test: compile: <? $_a1_2b = 3; print $_a1_2b; ?>
-PASS: vars.test: compile: <? $x = 1; $y = ++$x; print $x; ?>
-PASS: vars.test: compile: <? $t = true; ?>
-PASS: vars.test: compile: <? $f = false; ?>
-PASS: vars.test: compile: <? $T = TRUE; ?>
-PASS: vars.test: compile: <? $F = FALSE; ?>
-PASS: vars.test: compile: <?php $N = NULL; ?>
-PASS: vars.test: compile: <? $n = null; ?>
-PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
+ERROR: vars.test: compile: <? $a = 1; print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <?php $a = "a"; print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <?php $a = 'b'; print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <?php $x = 1; $y = $x; print $x; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $x = 2; $x = 1; $x = 3; print $x; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $x = "ok"; $gggg = "$x"; print $gggg; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $var = "val"; $varb = '$var'; print $varb; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <?php $a1 = 1; print $a1; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <?php $_a = 2; print $_a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $_a1_2b = 3; print $_a1_2b; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $x = 1; $y = ++$x; print $x; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_INC source: #f value: "++">))
+ERROR: vars.test: compile: <? $t = true; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $f = false; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $T = TRUE; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $F = FALSE; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <?php $N = NULL; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $n = null; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
 
 Totals for this test run:
-passes:                 147
-failures:               19
+passes:                 18
+failures:               1
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 12
+errors:                 159
 
