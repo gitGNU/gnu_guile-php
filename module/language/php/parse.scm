@@ -92,16 +92,43 @@
 				  `(begin ,$1 ,$2)))
     
     (Statement
-     (Assignment) : $1
      (CallStatement) : $1
      (Comment) : $1
+     (ExpressionStatement) : $1
      (FunctionDeclaration) : $1
      (Print) : $1
      (Return) : $1)
 
-    (Assignment
-     (T_VARIABLE equals RightHandSide semi) : `(var ,$1 ,$2))
+    (AssignmentExpression
+     (LeftHandSideExpression AssignmentOperator RightHandSide) : `(,$2 ,$1 ,$3))
 
+    (AssignmentOperator
+     (equals) : 'eq
+     (T_PLUS_EQUAL) : 'plus-eq
+     (T_MINUS_EQUAL) : 'minus-eq
+     (T_MUL_EQUAL) : 'mult-eq
+     (T_DIV_EQUAL) : 'div-eq
+     (T_CONCAT_EQUAL) : 'concat-eq
+     (T_MOD_EQUAL) : 'mod-eq
+     (T_AND_EQUAL) : 'and-eq
+     (T_OR_EQUAL) : 'or-eq
+     (T_XOR_EQUAL) : 'xor-eq
+     (T_SL_EQUAL) : 'sl-eq
+     (T_SR_EQUAL) : 'sr-eq
+     (T_DOUBLE_ARROW) : 'double-arrow)
+
+    (LogicalAndExpression
+     (AssignmentExpression) : $1
+     (LogicalAndExpression T_LOGICAL_AND AssignmentExpression) : `(and ,$1 ,$3))
+
+    (LogicalOrExpression
+     (LogicalXOrExpression) : $1
+     (LogicalOrExpression T_LOGICAL_OR LogicalXOrExpression) : `(or ,$1 ,$2))
+
+    (LogicalXOrExpression
+     (LogicalAndExpression) : $1
+     (LogicalXOrExpression T_LOGICAL_XOR LogicalAndExpression) : `(xor ,$1 ,$2))
+         
     (Call
      (label open-paren close-paren) : `(call ,$1)
      (label open-paren RightHandSideList close-paren) : `(call ,$1 ,$3))
@@ -111,12 +138,32 @@
     
     (Comment (T_COMMENT) : `(void))
 
+    (Comparison
+     (RightHandSide) : `(->bool ,$1)
+     (RightHandSide ComparisonOperator RightHandSide) : `(,$2 ,$1 ,$3))
+
+    (ComparisonOperator
+     (less-than) : 'less-than
+     (T_IS_SMALLER_OR_EQUAL) : 'less-or-equal
+     (greater-than) : 'greater-than
+     (T_IS_GREATER_OR_EQUAL) : 'greater-or-equal
+     (T_IS_NOT_EQUAL) : 'not-equal
+     (T_IS_EQUAL) : 'equal
+     (T_IS_IDENTICAL) : 'identical
+     (T_IS_NOT_IDENTICAL) : 'not-identical)
+
+    (Expression
+     (LogicalOrExpression) : $1
+     (Expression comma LogicalOrExpression) : `(begin ,$1 ,$3)) 
+    
+    (ExpressionStatement (Expression semi) : $1)
+     
     (FunctionBody
      (GroupedStatements) : $1)
 
     (FunctionDeclaration
-     (T_FUNCTION label open-paren close-paren FunctionBody) : `(var ,$2 (lambda () ,$5))
-     (T_FUNCTION label open-paren FunctionParamList close-paren FunctionBody) : `(var ,$2 (lambda ,$4 ,$6)))
+     (T_FUNCTION label open-paren close-paren FunctionBody) : `(= ,$2 (lambda () ,$5))
+     (T_FUNCTION label open-paren FunctionParamList close-paren FunctionBody) : `(= ,$2 (lambda ,$4 ,$6)))
 
     (FunctionParam
      (T_VARIABLE) : `(,$1))
@@ -129,6 +176,9 @@
      (open-brace close-brace) : `(void)
      (open-brace Statements close-brace) : $2)
 
+    (LeftHandSideExpression
+     (T_VARIABLE) : `(ref ,$1))
+    
     (Print (T_PRINT RightHandSide semi) : `(print ,$2))
 
     (Return
@@ -136,9 +186,10 @@
      (T_RETURN RightHandSide semi) : `(return ,$2))
     
     (RightHandSide
+     (open-paren RightHandSide close-paren) : $2
      (T_CONSTANT_ENCAPSED_STRING) : `(string ,$1)
      (T_LNUMBER) : `(num ,$1)
-     (T_VARIABLE) : `(var-resolve ,$1)
+     (T_VARIABLE) : `(ref ,$1)
      (Call) : $1
      (null) : `(null)
      (true) : `(true)
