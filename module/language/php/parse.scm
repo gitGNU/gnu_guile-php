@@ -84,7 +84,7 @@
     (PHP
      (T_OPEN_TAG T_CLOSE_TAG) : `(void)
      (T_OPEN_TAG Statements T_CLOSE_TAG) : $2
-     (T_OPEN_TAG_WITH_ECHO RightHandSide T_CLOSE_TAG) : `(echo ,$2))
+     (T_OPEN_TAG_WITH_ECHO ExpressionStatement T_CLOSE_TAG) : `(echo ,$2))
 
     (Statements
      (Statement) : $1
@@ -99,6 +99,64 @@
      (FunctionDeclaration) : $1
      (Print) : $1
      (Return) : $1)
+
+    (CallStatement
+     (CallExpression semi) : $1)
+    
+    (Comment (T_COMMENT) : `(void))
+    
+    (ExpressionStatement (Expression semi) : $1)
+
+    (Expression
+     (AssignmentExpression) : $1
+     (Expression comma AssignmentExpression) : `(begin ,$1 ,$3)) 
+     
+    (FunctionBody
+     (GroupedStatements) : $1)
+
+    (FunctionDeclaration
+     (T_FUNCTION label open-paren close-paren FunctionBody) : `(= ,$2 (lambda () ,$5))
+     (T_FUNCTION label open-paren FunctionParamList close-paren FunctionBody) : `(= ,$2 (lambda ,$4 ,$6)))
+
+    (FunctionParam
+     (T_VARIABLE) : `(,$1))
+    
+    (FunctionParamList
+     (FunctionParam) : $1
+     (FunctionParamList comma FunctionParam) : `(,@$1 ,$3))
+
+    (GroupedStatements
+     (open-brace close-brace) : `(void)
+     (open-brace Statements close-brace) : $2)
+    
+    (Print (T_PRINT Expression semi) : `(print ,$2))
+
+    (Return
+     (T_RETURN semi) : `(return)
+     (T_RETURN Expression semi) : `(return ,$2))
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    
+    (PrimaryExpression
+     (null) : `(null)
+     (true) : `(true)
+     (false) : `(false)
+     (T_CONSTANT_ENCAPSED_STRING) : `(string ,$1)
+     (T_LNUMBER) : `(num ,$1)
+     (T_VARIABLE) : `(ref ,$1)
+     (CallExpression) : $1
+     (open-paren Expression close-paren) : $2)
+         
+    (CallExpression
+     (label open-paren close-paren) : `(call ,$1)
+     (label open-paren ArgumentList close-paren) : `(call ,$1 ,$3))
+    
+    (ArgumentList
+     (AssignmentExpression) : `(,$1)
+     (ArgumentList comma AssignmentExpression) : `(,@$1 ,$3))
+
+    (LeftHandSideExpression
+     (T_VARIABLE) : `(ref ,$1))
 
     (PostfixExpression
      (LeftHandSideExpression) : $1
@@ -172,9 +230,9 @@
      (OrExpression T_BOOLEAN_OR AndExpression) : `(and ,$1 ,$3))
     
     (TernaryExpression
-     (OrExpression) : $1)
-     ;; Shift/Reduce conflicts here...
-     ;(OrExpression qmark AssignmentExpression colon AssignmentExpression) : `(if ,$1 ,$3 ,$5)) 
+     (OrExpression) : $1
+     ;; 5 Shift/Reduce conflicts here...
+     (OrExpression qmark AssignmentExpression colon AssignmentExpression) : `(if ,$1 ,$3 ,$5)) 
 
     (LogicalAndExpression
      (TernaryExpression) : $1
@@ -203,241 +261,5 @@
      (LeftHandSideExpression T_SL_EQUAL AssignmentExpression) : `(sl-eq ,$1 ,$3)
      (LeftHandSideExpression T_SR_EQUAL AssignmentExpression) : `(sr-eq ,$1 ,$3)
      (LeftHandSideExpression T_DOUBLE_ARROW AssignmentExpression) : `(double-arrow ,$1 ,$3))
-         
-    (Call
-     (label open-paren close-paren) : `(call ,$1)
-     (label open-paren RightHandSideList close-paren) : `(call ,$1 ,$3))
-
-    (CallStatement
-     (Call semi) : $1)
-    
-    (Comment (T_COMMENT) : `(void))
-
-    (Expression
-     (AssignmentExpression) : $1
-     (Expression comma AssignmentExpression) : `(begin ,$1 ,$3)) 
-    
-    (ExpressionStatement (Expression semi) : $1)
-     
-    (FunctionBody
-     (GroupedStatements) : $1)
-
-    (FunctionDeclaration
-     (T_FUNCTION label open-paren close-paren FunctionBody) : `(= ,$2 (lambda () ,$5))
-     (T_FUNCTION label open-paren FunctionParamList close-paren FunctionBody) : `(= ,$2 (lambda ,$4 ,$6)))
-
-    (FunctionParam
-     (T_VARIABLE) : `(,$1))
-    
-    (FunctionParamList
-     (FunctionParam) : $1
-     (FunctionParamList comma FunctionParam) : `(,@$1 ,$3))
-
-    (GroupedStatements
-     (open-brace close-brace) : `(void)
-     (open-brace Statements close-brace) : $2)
-
-    (LeftHandSideExpression
-     (T_VARIABLE) : `(ref ,$1))
-    
-    (Print (T_PRINT RightHandSide semi) : `(print ,$2))
-
-    (Return
-     (T_RETURN semi) : `(return)
-     (T_RETURN RightHandSide semi) : `(return ,$2))
-    
-    (RightHandSide
-     (open-paren RightHandSide close-paren) : $2
-     (T_CONSTANT_ENCAPSED_STRING) : `(string ,$1)
-     (T_LNUMBER) : `(num ,$1)
-     (T_VARIABLE) : `(ref ,$1)
-     (Call) : $1
-     (null) : `(null)
-     (true) : `(true)
-     (false) : `(false))
-
-    (RightHandSideList
-     (RightHandSide) : `(,$1)
-     (RightHandSideList comma RightHandSide) : `(,@$1 ,$3))
      
     ))
-
-#!
-    (Program
-      (SourceElements) : $1
-      (*eoi*) : *eof-object*)
-
-    (SourceElements  
-     (SourceElement) : $1 
-     (SourceElements SourceElement) : (if (and (pair? $1) (eq? (car $1) 'begin))
-                                          `(begin ,@(cdr $1) ,$2)
-                                          `(begin ,$1 ,$2)))
-
-    (SourceElement
-     (HTML) : $1
-     (PHP) : $1)
-
-    (HTML (T_INLINE_HTML) : `(echo (string ,$1)))
-    
-    (PHP
-     (T_OPEN_TAG Statements) : $2
-     (T_OPEN_TAG Statements T_CLOSE_TAG) : $2
-     (T_OPEN_TAG T_CLOSE_TAG) : `(void)
-     (T_OPEN_TAG_WITH_ECHO Value T_CLOSE_TAG) : $2
-     (T_OPEN_TAG_WITH_ECHO Value semi T_CLOSE_TAG) : $2)
-
-    (Statements
-     (Statement) : $1
-     (Statements Statement) : (if (and (pair? $1) (eq? (car $1) 'begin))
-				  `(begin ,@(cdr $1) ,$2)
-				  `(begin ,$1 ,$2)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-    (FunctionDeclaration
-     (T_FUNCTION label open-paren close-paren FunctionBody) : `(var ,$2 (lambda () ,$5))
-     (T_FUNCTION label open-paren FormalParameterList close-paren FunctionBody) : `(var ,$2 (lambda ,$4 ,$6)))
-
-    (FormalParameterList 
-     (T_VARIABLE) : `(,$1)
-     (FormalParameterList comma T_VARIABLE) : `(,@$1 ,$3))
-
-    (ValueList
-     (Value) : `(,$1)
-     (ValueList comma Value) : `(,@$1 ,$3))
-    
-    (Value
-     (T_CONSTANT_ENCAPSED_STRING) : `(string ,$1)
-     (T_LNUMBER) : `(num ,$1)
-     (null) : `(null)
-     (true) : `(true)
-     (false) : `(false)
-     (Variable) : $1
-;     (Assignment) : $1
-     (IncDec) : $1
-     (Concat) : $1
-     (FunctionCall) : $1)
-
-    (Variable
-     (T_VARIABLE) : `(var-resolve ,$1))
-
-    (FunctionBody
-     (BracedStatements) : $1)
-
-    (BracedStatements
-     (open-brace close-brace) : `(void)
-     (open-brace Statements close-brace) : $2)
-
-    (Statement
-     (T_COMMENT) : `(void)
-     (T_DOC_COMMENT) : `(void)
-     (BracedStatements) : $1
-     (FunctionDeclaration) : $1
-     (Assignment semi) : $1
-     (Echo) : $1
-     (Print) : $1
-     (IfBlock) : $1
-     (FunctionCall semi) : $1
-     (Loop) : $1
-     (Return) : $1
-     (IncDec semi) : $1
-     (Break semi) : $1
-     (Continue) : $1
-     (Switch) : $1)
-
-    (Break
-     (T_BREAK) : `(break)
-     (T_BREAK T_LNUMBER) : `(break ,$1))
-    
-    (Continue
-     (T_CONTINUE semi) : `(continue)
-     (T_CONTINUE T_LNUMBER semi) : `(continue ,$1))
-
-    (Return
-     (T_RETURN semi) : `(return)
-     (T_RETURN Value semi) : `(return ,$2))
-
-    (IncDec
-     (T_INC Variable) : `(pre-inc ,$2)
-     (Variable T_INC) : `(post-inc ,$1)
-     (T_DEC Variable) : `(pre-dec ,$2)
-     (Variable T_DEC) : `(post-dec ,$1))
-
-    (Assignment
-     (T_VARIABLE equals Value) : `(var ,$1 ,$3)
-     (T_VARIABLE equals Assignment) : `(var ,$1 ,$3)
-     (T_VARIABLE T_AND_EQUAL Value) : `(var ,$1 (bit-and (var-resolve ,$1) ,$3))
-     (T_VARIABLE T_OR_EQUAL Value) : `(var ,$1 (bit-or (var-resolve ,$1) ,$3))
-     (T_VARIABLE T_XOR_EQUAL Value) : `(var ,$1 (bit-xor (var-resolve ,$1) ,$3))
-     (T_VARIABLE plus Value) : `(add (var-resolve ,$1) ,$3)
-     (T_VARIABLE T_PLUS_EQUAL Value) : `(var ,$1 (add (var-resolve ,$1) ,$3))
-     (T_VARIABLE minus Value) : `(sub (var-resolve ,$1) ,$3)
-     (T_VARIABLE T_MINUS_EQUAL Value) : `(var ,$1 (sub (var-resolve ,$1) ,$3))
-     (T_VARIABLE asteriks Value) : `(mul (var-resolve ,$1) ,$3)
-     (T_VARIABLE T_MUL_EQUAL Value) : `(var ,$1 (mul (var-resolve ,$1) ,$3))
-     (T_VARIABLE divide Value) : `(var ,$1 (div (var-resolve ,$1) ,$3))
-     (T_VARIABLE T_DIV_EQUAL Value) : `(var ,$1 (div (var-resolve ,$1) ,$3))
-     (T_VARIABLE T_MOD_EQUAL Value) : `(var ,$1 (mod (var-resolve ,$1) ,$3))
-     (T_VARIABLE T_CONCAT_EQUAL Value) : `(var ,$1 (concat (var-resolve ,$1) ,$3)))
-
-    (FunctionCall
-      (label open-paren close-paren) : `(call ,$1)
-      (label open-paren ValueList close-paren) : `(call ,$1 ,$3))
-
-    (Echo
-      (T_ECHO ValueList semi) : `(echo ,@$2))
-
-    (Print 
-      (T_PRINT Value semi) : `(print ,$2))
-
-    (IfBlock
-      (T_IF Comparison Statement) : `(if ,$2 ,$3)
-      (T_IF Comparison Statement ElseBlock) : `(if ,$2 ,$3 ,$4))
-
-    (ElseBlock
-      (T_ELSE IfBlock) : $1
-      (T_ELSE Statement) : $2
-      (T_ELSEIF Comparison Statement) : `(if ,$2 ,$3)
-      (T_ELSEIF Comparison Statement ElseBlock) : `(if ,$2 ,$3 ,$4))
-
-    (Loop
-     (T_DO Statement T_WHILE Comparison semi) : `(do ,$2 ,$4)
-     (T_WHILE Comparison Statement) : `(while ,$2 ,$3)
-     (T_FOR open-paren Assignment semi Comparison semi IncDec close-paren Statement) : `(for ,$3 ,$5 ,$7 ,$9))
-
-    (Switch
-     (T_SWITCH open-paren Value close-paren open-brace close-brace) : `(void)
-     (T_SWITCH open-paren Value close-paren open-brace SwitchCases close-brace) : `(switch ,$3 ,$6))
-
-    (SwitchCases
-     (SwitchCase) : $1 
-     (SwitchCases SwitchCase) : (if (and (pair? $1) (eq? (car $1) 'begin))
-				    `(begin ,@(cdr $1) ,$2)
-				    `(begin ,$1 ,$2)))
-
-    (SwitchCase
-     (T_CASE Value colon) : `(void)
-     (T_CASE Value colon Statements) : `(case ,$2 ,$4)
-     (T_DEFAULT colon) : `(void)
-     (T_DEFAULT colon Statements) : `(case-default ,$3))
-
-    (Concat
-     (Value period Value) : `(concat ,$1 ,$3))
-    
-    (Comparison
-      (open-paren Comparison close-paren) : $2
-      (Comparison T_BOOLEAN_AND Comparison) : `(and ,$1 ,$3)
-      (Comparison T_BOOLEAN_OR Comparison) : `(or ,$1 ,$3)
-      (Value) : `(->bool ,$1)
-      (Value T_IS_EQUAL Value) : `(equal ,$1 ,$3)
-      (Value T_IS_NOT_EQUAL Value) : `(not (equal ,$1 ,$3))
-      (Value greater-than Value) : `(greater-than ,$1 ,$3)
-      (Value less-than Value) : `(less-than ,$1 ,$3)
-      (Value T_IS_GREATER_OR_EQUAL Value) : `(greater-or-equal ,$1 ,$3)
-      (Value T_IS_SMALLER_OR_EQUAL Value) : `(less-or-equal ,$1 ,$3)
-      (Value T_IS_IDENTICAL Value) : `(identical ,$1 ,$3)
-      (Value T_IS_NOT_IDENTICAL Value) : `(not (identical ,$1 ,$3)))
-
-    ))
-
-!#
