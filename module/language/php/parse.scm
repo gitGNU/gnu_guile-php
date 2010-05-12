@@ -122,49 +122,34 @@
 
     (MultiplicativeExpression
      (NotExpression) : $1
-     (MultiplicativeExpression MultiplicativeOperator NotExpression) : `(,$2 ,$1 ,$3))
-
-    (MultiplicativeOperator
-     (asteriks) : 'mul
-     (divide) : 'div
-     (mod) : 'mod)
+     (MultiplicativeExpression asteriks NotExpression) : `(mul ,$1 ,$3)
+     (MultiplicativeExpression divide NotExpression) : `(div ,$1 ,$3)
+     (MultiplicativeExpression mod NotExpression) : `(mod ,$1 ,$3))
     
     (AdditiveExpression
      (MultiplicativeExpression) : $1
-     (AdditiveExpression AdditiveOperator MultiplicativeExpression) : `(,$2 ,$1 ,$3))
-
-    (AdditiveOperator
-     (plus) : 'add
-     (minus) : 'sub
-     (period) : 'concat)
+     (AdditiveExpression plus MultiplicativeExpression) : `(add ,$1 ,$3)
+     (AdditiveExpression minus MultiplicativeExpression) : `(sub ,$1 ,$3)
+     (AdditiveExpression period MultiplicativeExpression) : `(concat ,$1 ,$3))
 
     (BitwiseShiftExpression
      (AdditiveExpression) : $1
-     (BitwiseShiftExpression BitwiseShiftOperator AdditiveExpression) : `(,$2 ,$1 ,$3))
-
-    (BitwiseShiftOperator
-     (T_SL) : 'bit-sl
-     (T_SR) : 'bit-sr)
+     (BitwiseShiftExpression T_SL AdditiveExpression) : `(bit-sl ,$1 ,$3)
+     (BitwiseShiftExpression T_SR AdditiveExpression) : `(bit-sr ,$1 ,$3))
 
     (RelationalComparisonExpression
      (BitwiseShiftExpression) : $1
-     (RelationalComparisonExpression RelationalOperator BitwiseShiftExpression) : `(,$2 ,$1 ,$3))
-
-    (RelationalOperator
-     (less-than) : 'less-than
-     (T_IS_SMALLER_OR_EQUAL) : 'less-or-equal
-     (greater-than) : 'greater-than
-     (T_IS_GREATER_OR_EQUAL) : 'greater-or-equal)
+     (RelationalComparisonExpression less-than BitwiseShiftExpression) : `(less-than ,$1 ,$3)
+     (RelationalComparisonExpression T_IS_SMALLER_OR_EQUAL BitwiseShiftExpression) : `(less-or-equal ,$1 ,$3)
+     (RelationalComparisonExpression greater-than BitwiseShiftExpression) : `(greater-than ,$1 ,$3)
+     (RelationalComparisonExpression T_IS_GREATER_OR_EQUAL BitwiseShiftExpression) : `(greater-or-equal ,$1 ,$3))
     
     (EqualityComparisonExpression
      (RelationalComparisonExpression) : $1
-     (EqualityComparisonExpression EqualityOperator RelationalComparisonExpression) : `(,$2 ,$1 ,$3))
-    
-    (EqualityOperator
-     (T_IS_EQUAL) : 'equal
-     (T_IS_NOT_EQUAL) : 'not-equal
-     (T_IS_IDENTICAL) : 'identical
-     (T_IS_NOT_IDENTICAL) : 'not-identical)
+     (EqualityComparisonExpression T_IS_EQUAL RelationalComparisonExpression) : `(equal ,$1 ,$3)
+     (EqualityComparisonExpression T_IS_NOT_EQUAL RelationalComparisonExpression) : `(not-equal ,$1 ,$3)
+     (EqualityComparisonExpression T_IS_IDENTICAL RelationalComparisonExpression) : `(identical ,$1 ,$3)
+     (EqualityComparisonExpression T_IS_NOT_IDENTICAL RelationalComparisonExpression) : `(not-identical ,$1 ,$3))
 
     (BitwiseXOrExpression
      (EqualityComparisonExpression) : $1
@@ -188,7 +173,7 @@
     
     (TernaryExpression
      (OrExpression) : $1)
-     ;; 5 Shift/Reduce conflicts here...
+     ;; Shift/Reduce conflicts here...
      ;(OrExpression qmark AssignmentExpression colon AssignmentExpression) : `(if ,$1 ,$3 ,$5)) 
 
     (LogicalAndExpression
@@ -205,22 +190,19 @@
     
     (AssignmentExpression
      (LogicalOrExpression) : $1
-     (LeftHandSideExpression AssignmentOperator AssignmentExpression) : `(,$2 ,$1 ,$3))
-
-    (AssignmentOperator
-     (equals) : 'eq
-     (T_PLUS_EQUAL) : 'plus-eq
-     (T_MINUS_EQUAL) : 'minus-eq
-     (T_MUL_EQUAL) : 'mult-eq
-     (T_DIV_EQUAL) : 'div-eq
-     (T_CONCAT_EQUAL) : 'concat-eq
-     (T_MOD_EQUAL) : 'mod-eq
-     (T_AND_EQUAL) : 'and-eq
-     (T_OR_EQUAL) : 'or-eq
-     (T_XOR_EQUAL) : 'xor-eq
-     (T_SL_EQUAL) : 'sl-eq
-     (T_SR_EQUAL) : 'sr-eq
-     (T_DOUBLE_ARROW) : 'double-arrow)
+     (LeftHandSideExpression equals AssignmentExpression) : `(eq ,$1 ,$3)
+     (LeftHandSideExpression T_PLUS_EQUAL AssignmentExpression) : `(plus-eq ,$1 ,$3)
+     (LeftHandSideExpression T_MINUS_EQUAL AssignmentExpression) : `(sub-eq ,$1 ,$3)
+     (LeftHandSideExpression T_MUL_EQUAL AssignmentExpression) : `(mul-eq ,$1 ,$3)
+     (LeftHandSideExpression T_DIV_EQUAL AssignmentExpression) : `(div-eq ,$1 ,$3)
+     (LeftHandSideExpression T_CONCAT_EQUAL AssignmentExpression) : `(concat-eq ,$1 ,$3)
+     (LeftHandSideExpression T_MOD_EQUAL AssignmentExpression) : `(mod-eq ,$1 ,$3)
+     (LeftHandSideExpression T_AND_EQUAL AssignmentExpression) : `(and-eq ,$1 ,$3)
+     (LeftHandSideExpression T_OR_EQUAL AssignmentExpression) : `(or-eq ,$1 ,$3)
+     (LeftHandSideExpression T_XOR_EQUAL AssignmentExpression) : `(xor-eq ,$1 ,$3)
+     (LeftHandSideExpression T_SL_EQUAL AssignmentExpression) : `(sl-eq ,$1 ,$3)
+     (LeftHandSideExpression T_SR_EQUAL AssignmentExpression) : `(sr-eq ,$1 ,$3)
+     (LeftHandSideExpression T_DOUBLE_ARROW AssignmentExpression) : `(double-arrow ,$1 ,$3))
          
     (Call
      (label open-paren close-paren) : `(call ,$1)
