@@ -61,7 +61,8 @@
 
       open-paren close-paren open-brace close-brace open-bracket close-bracket 
       comma semi asteriks plus minus divide equals dot qmark null label
-      greater-than less-than true false colon period)
+      greater-than less-than true false colon period amp pipe caret mod
+      exclaimation)
 
     (Program
      (SourceElements *eoi*) : $1
@@ -99,8 +100,112 @@
      (Print) : $1
      (Return) : $1)
 
+    (PostfixExpression
+     (LeftHandSideExpression) : $1
+     (LeftHandSideExpression T_INC) : `(post-inc ,$1)
+     (LeftHandSideExpression T_DEC) : `(post-dec ,$1))
+    
+    (UnaryExpression
+     (PostfixExpression) : $1
+     (T_INC UnaryExpression) : `(pre-inc ,$2)
+     (T_DEC UnaryExpression) : `(pre-dec ,$2))
+    
+    (TypeExpression
+     (UnaryExpression) : $1)
+    
+    (InstanceOfExpression
+     (TypeExpression) : $1)
+    
+    (NotExpression
+     (InstanceOfExpression) : $1
+     (exclaimation InstanceOfExpression))
+
+    (MultiplicativeExpression
+     (NotExpression) : $1
+     (MultiplicativeExpression MultiplicativeOperator NotExpression) : `(,$2 ,$1 ,$3))
+
+    (MultiplicativeOperator
+     (asteriks) : 'mul
+     (divide) : 'div
+     (mod) : 'mod)
+    
+    (AdditiveExpression
+     (MultiplicativeExpression) : $1
+     (AdditiveExpression AdditiveOperator MultiplicativeExpression) : `(,$2 ,$1 ,$3))
+
+    (AdditiveOperator
+     (plus) : 'add
+     (minus) : 'sub
+     (period) : 'concat)
+
+    (BitwiseShiftExpression
+     (AdditiveExpression) : $1
+     (BitwiseShiftExpression BitwiseShiftOperator AdditiveExpression) : `(,$2 ,$1 ,$3))
+
+    (BitwiseShiftOperator
+     (T_SL) : 'bit-sl
+     (T_SR) : 'bit-sr)
+
+    (RelationalComparisonExpression
+     (BitwiseShiftExpression) : $1
+     (RelationalComparisonExpression RelationalOperator BitwiseShiftExpression) : `(,$2 ,$1 ,$3))
+
+    (RelationalOperator
+     (less-than) : 'less-than
+     (T_IS_SMALLER_OR_EQUAL) : 'less-or-equal
+     (greater-than) : 'greater-than
+     (T_IS_GREATER_OR_EQUAL) : 'greater-or-equal)
+    
+    (EqualityComparisonExpression
+     (RelationalComparisonExpression) : $1
+     (EqualityComparisonExpression EqualityOperator RelationalComparisonExpression) : `(,$2 ,$1 ,$3))
+    
+    (EqualityOperator
+     (T_IS_EQUAL) : 'equal
+     (T_IS_NOT_EQUAL) : 'not-equal
+     (T_IS_IDENTICAL) : 'identical
+     (T_IS_NOT_IDENTICAL) : 'not-identical)
+
+    (BitwiseXOrExpression
+     (EqualityComparisonExpression) : $1
+     (BitwiseXOrExpression caret EqualityComparisonExpression) : `(bit-xor ,$1 ,$3))
+    
+    (BitwiseAndExpression
+     (BitwiseXOrExpression) : $1
+     (BitwiseAndExpression amp BitwiseXOrExpression) : `(bit-and ,$1 ,$3))
+
+    (BitwiseOrExpression
+     (BitwiseAndExpression) : $1
+     (BitwiseOrExpression pipe BitwiseAndExpression) : `(bit-or ,$1 ,$3))
+    
+    (AndExpression
+     (BitwiseOrExpression) : $1
+     (AndExpression T_BOOLEAN_AND BitwiseOrExpression) : `(or ,$1 ,$3))
+    
+    (OrExpression
+     (AndExpression) : $1
+     (OrExpression T_BOOLEAN_OR AndExpression) : `(and ,$1 ,$3))
+    
+    (TernaryExpression
+     (OrExpression) : $1)
+     ;; 5 Shift/Reduce conflicts here...
+     ;(OrExpression qmark AssignmentExpression colon AssignmentExpression) : `(if ,$1 ,$3 ,$5)) 
+
+    (LogicalAndExpression
+     (TernaryExpression) : $1
+     (LogicalAndExpression T_LOGICAL_AND TernaryExpression) : `(and ,$1 ,$3))
+
+    (LogicalXOrExpression
+     (LogicalAndExpression) : $1
+     (LogicalXOrExpression T_LOGICAL_XOR LogicalAndExpression) : `(xor ,$1 ,$2))
+
+    (LogicalOrExpression
+     (LogicalXOrExpression) : $1
+     (LogicalOrExpression T_LOGICAL_OR LogicalXOrExpression) : `(or ,$1 ,$2))
+    
     (AssignmentExpression
-     (LeftHandSideExpression AssignmentOperator RightHandSide) : `(,$2 ,$1 ,$3))
+     (LogicalOrExpression) : $1
+     (LeftHandSideExpression AssignmentOperator AssignmentExpression) : `(,$2 ,$1 ,$3))
 
     (AssignmentOperator
      (equals) : 'eq
@@ -116,18 +221,6 @@
      (T_SL_EQUAL) : 'sl-eq
      (T_SR_EQUAL) : 'sr-eq
      (T_DOUBLE_ARROW) : 'double-arrow)
-
-    (LogicalAndExpression
-     (AssignmentExpression) : $1
-     (LogicalAndExpression T_LOGICAL_AND AssignmentExpression) : `(and ,$1 ,$3))
-
-    (LogicalOrExpression
-     (LogicalXOrExpression) : $1
-     (LogicalOrExpression T_LOGICAL_OR LogicalXOrExpression) : `(or ,$1 ,$2))
-
-    (LogicalXOrExpression
-     (LogicalAndExpression) : $1
-     (LogicalXOrExpression T_LOGICAL_XOR LogicalAndExpression) : `(xor ,$1 ,$2))
          
     (Call
      (label open-paren close-paren) : `(call ,$1)
@@ -138,23 +231,9 @@
     
     (Comment (T_COMMENT) : `(void))
 
-    (Comparison
-     (RightHandSide) : `(->bool ,$1)
-     (RightHandSide ComparisonOperator RightHandSide) : `(,$2 ,$1 ,$3))
-
-    (ComparisonOperator
-     (less-than) : 'less-than
-     (T_IS_SMALLER_OR_EQUAL) : 'less-or-equal
-     (greater-than) : 'greater-than
-     (T_IS_GREATER_OR_EQUAL) : 'greater-or-equal
-     (T_IS_NOT_EQUAL) : 'not-equal
-     (T_IS_EQUAL) : 'equal
-     (T_IS_IDENTICAL) : 'identical
-     (T_IS_NOT_IDENTICAL) : 'not-identical)
-
     (Expression
-     (LogicalOrExpression) : $1
-     (Expression comma LogicalOrExpression) : `(begin ,$1 ,$3)) 
+     (AssignmentExpression) : $1
+     (Expression comma AssignmentExpression) : `(begin ,$1 ,$3)) 
     
     (ExpressionStatement (Expression semi) : $1)
      

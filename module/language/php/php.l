@@ -202,6 +202,11 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 "?"              (make-token 'qmark yytext)
 ">"              (make-token 'greater-than yytext)
 "<"              (make-token 'less-than yytext)
+"&"              (make-token 'amp yytext)
+"|"              (make-token 'pipe yytext)
+"^"              (make-token 'caret yytext)
+"%"              (make-token 'mod yytext)
+"!"              (make-token 'exclaimation yytext)
 
 "null"|"NULL"    (make-token 'null yytext)
 "true"|"TRUE"    (make-token 'true yytext)

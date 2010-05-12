@@ -1,39 +1,39 @@
-ERROR: assignment.test: compile: <?php $a = 'k'; $a .= 'j'; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
-ERROR: assignment.test: compile: <?php $a = 'k'; $a .= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
+ERROR: assignment.test: compile: <?php $a = 'k'; $a .= 'j'; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "k")))
+ERROR: assignment.test: compile: <?php $a = 'k'; $a .= 1; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "k")))
 ERROR: assignment.test: compile: <?php $a = 'a'; $a = $a . 'b'; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: period source: #f value: ".">))
-ERROR: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
+ERROR: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "1")))
 ERROR: assignment.test: compile: <?php $a = 'k'; print $a .= 'k'; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
-ERROR: assignment.test: compile: <?php $a = 'a'; $a .= 'b'; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
-ERROR: assignment.test: compile: <?php $a = 'bb'; $a .= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
-ERROR: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_CONCAT_EQUAL source: #f value: ".=">))
+ERROR: assignment.test: compile: <?php $a = 'a'; $a .= 'b'; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "a")))
+ERROR: assignment.test: compile: <?php $a = 'bb'; $a .= 1; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "bb")))
+ERROR: assignment.test: compile: <?php $a = 1; $a .= 1; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "1")))
 ERROR: assignment.test: compile: <?php $a = 1; $a = $a & 0; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\&))
-ERROR: assignment.test: compile: <?php $a = 1; $a &= 0; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_AND_EQUAL source: #f value: "&=">))
+ERROR: assignment.test: compile: <?php $a = 1; $a &= 0; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "1")))
 ERROR: assignment.test: compile: <?php $a = 1111; print $a &= 1001; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_AND_EQUAL source: #f value: "&=">))
-ERROR: assignment.test: compile: <?php $a = 1111; $a &= 1001; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_AND_EQUAL source: #f value: "&=">))
+ERROR: assignment.test: compile: <?php $a = 1111; $a &= 1001; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "1111")))
 ERROR: assignment.test: compile: <?php $a = 1111; $a = $a & 1001; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\&))
 ERROR: assignment.test: compile: <?php $a = 10; print $a -= 7; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MINUS_EQUAL source: #f value: "-=">))
 ERROR: assignment.test: compile: <?php $a = '5'; print $a -= '5'; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MINUS_EQUAL source: #f value: "-=">))
 ERROR: assignment.test: compile: <?php $a = 5; print $a -= 10; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MINUS_EQUAL source: #f value: "-=">))
-ERROR: assignment.test: compile: <?php $a = 5; $a -= 10; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MINUS_EQUAL source: #f value: "-=">))
+ERROR: assignment.test: compile: <?php $a = 5; $a -= 10; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "5")))
 ERROR: assignment.test: compile: <?php $a = 5; $a = $a - 10; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: minus source: #f value: "-">))
 ERROR: assignment.test: compile: <?php $a = 5; print $a *= 3; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MUL_EQUAL source: #f value: "*=">))
-ERROR: assignment.test: compile: <?php $a = 5; $a *= 3; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MUL_EQUAL source: #f value: "*=">))
+ERROR: assignment.test: compile: <?php $a = 5; $a *= 3; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "5")))
 ERROR: assignment.test: compile: <?php $a = 5; $a = $a * 3; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: asteriks source: #f value: "*">))
 ERROR: assignment.test: compile: <?php $a = 25; print $a /= 5; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DIV_EQUAL source: #f value: "/=">))
-ERROR: assignment.test: compile: <?php $a = 25; $a /= 5; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DIV_EQUAL source: #f value: "/=">))
+ERROR: assignment.test: compile: <?php $a = 25; $a /= 5; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "25")))
 ERROR: assignment.test: compile: <?php $a = 25; $a = $a / 5; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: divide source: #f value: "/">))
 ERROR: assignment.test: compile: <?php $a = 1111; print $a |= 1; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_OR_EQUAL source: #f value: "|=">))
-ERROR: assignment.test: compile: <?php $a = 1111; $a |= 1; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_OR_EQUAL source: #f value: "|=">))
+ERROR: assignment.test: compile: <?php $a = 1111; $a |= 1; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "1111")))
 ERROR: assignment.test: compile: <?php $a = 1111; $a = $a | 1; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\|))
 ERROR: assignment.test: compile: <?php $a = 10; print $a += 5; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PLUS_EQUAL source: #f value: "+=">))
 ERROR: assignment.test: compile: <?php $a = '11'; print $a += 6; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PLUS_EQUAL source: #f value: "+=">))
-ERROR: assignment.test: compile: <?php $a = '11'; $a += 6; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PLUS_EQUAL source: #f value: "+=">))
+ERROR: assignment.test: compile: <?php $a = '11'; $a += 6; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "11")))
 ERROR: assignment.test: compile: <?php $a = 11; $a = $a + 6; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: plus source: #f value: "+">))
-ERROR: assignment.test: compile: <?php $a = 1111; $a ^= 11; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_XOR_EQUAL source: #f value: "^=">))
+ERROR: assignment.test: compile: <?php $a = 1111; $a ^= 11; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "1111")))
 ERROR: assignment.test: compile: <?php $a = 1111; $a = $a ^ 11; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\^))
 ERROR: assignment.test: compile: <?php $a = 1111; print $a ^= 11; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_XOR_EQUAL source: #f value: "^=">))
 ERROR: assignment.test: compile: <?php $a = 30; $a = $a % 4; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\%))
-ERROR: assignment.test: compile: <?php $a = 30; $a %= 4; print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MOD_EQUAL source: #f value: "%=">))
+ERROR: assignment.test: compile: <?php $a = 30; $a %= 4; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "30")))
 ERROR: assignment.test: compile: <?php $a = 30; print $a %= 4; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_MOD_EQUAL source: #f value: "%=">))
 ERROR: comments.test: compile: <?php #function test() { print "ok"; } test(); ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
 ERROR: comments.test: compile: <?php //function test() { return 5; } $a = test(); print $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
@@ -111,11 +111,11 @@ ERROR: echo.test: compile: <?php echo false; ?> - arguments: ((ParseSyntaxError 
 ERROR: echo.test: compile: <?php echo FALSE; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
 ERROR: echo.test: compile: <?php echo null; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
 ERROR: echo.test: compile: <?php echo NULL; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-PASS: functions.test: compile: <?php function test() { print "ok"; } test(); ?>
-ERROR: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-PASS: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?>
-PASS: functions.test: compile: <? function a(){} ?>
-PASS: functions.test: compile: <?php function _aFunc() { print "sure"; } _aFunc(); ?>
+ERROR: functions.test: compile: <?php function test() { print "ok"; } test(); ?> - arguments: ((CompileError "Exp not implemented: " = "test" (lambda () (print (string "ok")))))
+ERROR: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?> - arguments: ((CompileError "Exp not implemented: " = "test" (lambda () (return (num "5")))))
+ERROR: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?> - arguments: ((CompileError "Exp not implemented: " = "a12_21aa_45" (lambda () (print (num "1")))))
+ERROR: functions.test: compile: <? function a(){} ?> - arguments: ((CompileError "Exp not implemented: " = "a" (lambda () (void))))
+ERROR: functions.test: compile: <?php function _aFunc() { print "sure"; } _aFunc(); ?> - arguments: ((CompileError "Exp not implemented: " = "_aFunc" (lambda () (print (string "sure")))))
 ERROR: functions.test: compile: <?php
 function test1($a, $b, $c)
 {
@@ -147,12 +147,12 @@ function test($a, $b, $c) {
 }
 
 test(a(), b(), c());
-?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" ($c) #f))
+?> - arguments: ((CompileError "Exp not implemented: " = "a" (lambda () (return (num "1")))))
 ERROR: functions.test: compile: <script language="php">
 notyetdefined();
 
 function notyetdefined() { print "works"; }
-?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" (notyetdefined) #f))
+?> - arguments: ((CompileError "Exp not implemented: " = "notyetdefined" (lambda () (print (string "works")))))
 ERROR: ifs.test: compile: <?php if(1 == 1) { print "1"; } else { print "2"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
 ERROR: ifs.test: compile: <? if(2 == 1) { print "1"; } else { print "2"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
 ERROR: ifs.test: compile: <?php if(((((((((((1 == 1))))))))))) { print "aeiou?"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
@@ -268,26 +268,26 @@ ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { break; } ?> - argument
 ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { print ++$i; continue; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_WHILE source: #f value: "while">))
 ERROR: loops.test: compile: <?php for($i = 0; $i < 5; ++$i) { if($i == 3) { continue; } print $i; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
 ERROR: loops.test: compile: <?php for($i = 0; $i < 50; ++$i) { print "a"; break; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
-ERROR: nums.test: compile: <? $n = 1; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: nums.test: compile: <? $n = 11; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: nums.test: compile: <? $n = -1; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: nums.test: compile: <? $n = -1111111; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: nums.test: compile: <? $n = 12345678901234567890; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: nums.test: compile: <? $n = -12345678901234567890; print $n; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: nums.test: compile: <? $n = 1; print $n; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$n") (num "1")))
+ERROR: nums.test: compile: <? $n = 11; print $n; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$n") (num "11")))
+ERROR: nums.test: compile: <? $n = -1; print $n; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$n") (num "-1")))
+ERROR: nums.test: compile: <? $n = -1111111; print $n; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$n") (num "-1111111")))
+ERROR: nums.test: compile: <? $n = 12345678901234567890; print $n; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$n") (num "12345678901234567890")))
+ERROR: nums.test: compile: <? $n = -12345678901234567890; print $n; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$n") (num "-12345678901234567890")))
 ERROR: nums.test: compile: <?php $n = 0; ++$n; --$n; print $n; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_INC source: #f value: "++">))
 PASS: print.test: compile: <?php print ""; ?>
 PASS: print.test: compile: <?php print null; ?>
 PASS: print.test: compile: <?php print 5; ?>
 PASS: print.test: compile: <?php print "some string"; print "another string"; ?>
-ERROR: print.test: compile: <?php $a = 1; print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: print.test: compile: <?php $a = 2; print "$a"; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-PASS: print.test: compile: <?php function test() { return 12; } print test(); ?>
+ERROR: print.test: compile: <?php $a = 1; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "1")))
+ERROR: print.test: compile: <?php $a = 2; print "$a"; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "2")))
+ERROR: print.test: compile: <?php function test() { return 12; } print test(); ?> - arguments: ((CompileError "Exp not implemented: " = "test" (lambda () (return (num "12")))))
 ERROR: print.test: compile: <?php $a = 3; print ++$a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_INC source: #f value: "++">))
 ERROR: print.test: compile: <?php $a = 4; print --$a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DEC source: #f value: "--">))
 ERROR: print.test: compile: <?php $a = 1; print $a++; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_INC source: #f value: "++">))
 ERROR: print.test: compile: <?php $a = 1; print $a--; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DEC source: #f value: "--">))
-ERROR: strings.test: compile: <? $s = "string"; print $s; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: strings.test: compile: <? $s = 'string'; print $s; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: strings.test: compile: <? $s = "string"; print $s; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$s") (string "string")))
+ERROR: strings.test: compile: <? $s = 'string'; print $s; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$s") (string "string")))
 ERROR: strings.test: compile: <? $s = "this 
 is 
 a 
@@ -296,12 +296,12 @@ ERROR: strings.test: compile: <?php $s = 'this
 is 
 a 
 string'; print $s; - arguments: ((ParseSyntaxError "Syntax error: unexpected end of input"))
-ERROR: strings.test: compile: <?php $a = 5; print "a = $a"; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: strings.test: compile: <?php $a = 5; print 'a = $a'; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: strings.test: compile: <?php $a = "test"; print "a = $a"; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: strings.test: compile: <?php $a = 'test'; print "a = $a"; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: strings.test: compile: <?php $a = "test"; print 'a = $a'; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: strings.test: compile: <?php $a = 'test'; print 'a = $a'; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: strings.test: compile: <?php $a = 5; print "a = $a"; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "5")))
+ERROR: strings.test: compile: <?php $a = 5; print 'a = $a'; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "5")))
+ERROR: strings.test: compile: <?php $a = "test"; print "a = $a"; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "test")))
+ERROR: strings.test: compile: <?php $a = 'test'; print "a = $a"; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "test")))
+ERROR: strings.test: compile: <?php $a = "test"; print 'a = $a'; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "test")))
+ERROR: strings.test: compile: <?php $a = 'test'; print 'a = $a'; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "test")))
 ERROR: switch.test: compile: <?php $i = 0; switch($i) {} ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
 ERROR: switch.test: compile: <?php 
 
@@ -362,32 +362,32 @@ default:
 print $i;
 
 ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
-ERROR: vars.test: compile: <? $a = 1; print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <?php $a = "a"; print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <?php $a = 'b'; print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <?php $x = 1; $y = $x; print $x; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <? $x = 2; $x = 1; $x = 3; print $x; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <? $x = "ok"; $gggg = "$x"; print $gggg; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <? $var = "val"; $varb = '$var'; print $varb; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <?php $a1 = 1; print $a1; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <?php $_a = 2; print $_a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <? $_a1_2b = 3; print $_a1_2b; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $a = 1; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "1")))
+ERROR: vars.test: compile: <?php $a = "a"; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "a")))
+ERROR: vars.test: compile: <?php $a = 'b'; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (string "b")))
+ERROR: vars.test: compile: <?php $x = 1; $y = $x; print $x; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$x") (num "1")))
+ERROR: vars.test: compile: <? $x = 2; $x = 1; $x = 3; print $x; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$x") (num "2")))
+ERROR: vars.test: compile: <? $x = "ok"; $gggg = "$x"; print $gggg; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$x") (string "ok")))
+ERROR: vars.test: compile: <? $var = "val"; $varb = '$var'; print $varb; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$var") (string "val")))
+ERROR: vars.test: compile: <?php $a1 = 1; print $a1; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a1") (num "1")))
+ERROR: vars.test: compile: <?php $_a = 2; print $_a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$_a") (num "2")))
+ERROR: vars.test: compile: <? $_a1_2b = 3; print $_a1_2b; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$_a1_2b") (num "3")))
 ERROR: vars.test: compile: <? $x = 1; $y = ++$x; print $x; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_INC source: #f value: "++">))
-ERROR: vars.test: compile: <? $t = true; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <? $f = false; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <? $T = TRUE; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <? $F = FALSE; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <?php $N = NULL; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <? $n = null; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: vars.test: compile: <? $t = true; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$t") (true)))
+ERROR: vars.test: compile: <? $f = false; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$f") (false)))
+ERROR: vars.test: compile: <? $T = TRUE; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$T") (true)))
+ERROR: vars.test: compile: <? $F = FALSE; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$F") (false)))
+ERROR: vars.test: compile: <?php $N = NULL; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$N") (null)))
+ERROR: vars.test: compile: <? $n = null; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$n") (null)))
+ERROR: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?> - arguments: ((CompileError "Exp not implemented: " eq (ref "$a") (num "1")))
 
 Totals for this test run:
-passes:                 18
+passes:                 13
 failures:               1
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 159
+errors:                 164
 
