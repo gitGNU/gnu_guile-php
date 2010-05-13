@@ -97,19 +97,26 @@
      (Comment) : $1
      (ExpressionStatement) : $1
      (FunctionDeclaration) : $1
+     (Echo) : $1
      (Print) : $1
      (Return) : $1)
 
     (CallStatement (CallExpression semi) : $1)
     
     (Comment (T_COMMENT) : `(void))
+
+    (Echo (T_ECHO ExpressionList semi) : `(echo ,@$2))
     
     (ExpressionStatement (Expression semi) : $1)
 
     (Expression
      (AssignmentExpression) : $1
      (Expression comma AssignmentExpression) : `(begin ,$1 ,$3)) 
-     
+
+    (ExpressionList
+     (AssignmentExpression) : `(,$1)
+     (ExpressionList comma AssignmentExpression) : `(,@$1 ,$3)) 
+    
     (FunctionBody
      (GroupedStatements) : $1)
 
@@ -128,7 +135,7 @@
      (open-brace close-brace) : `(void)
      (open-brace Statements close-brace) : $2)
     
-    (Print (T_PRINT Expression semi) : `(print ,$2))
+    (Print (T_PRINT AssignmentExpression semi) : `(print ,$2))
 
     (Return
      (T_RETURN semi) : `(return)

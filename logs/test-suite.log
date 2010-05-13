@@ -93,24 +93,24 @@ PASS: concat.test: compile: <?php print 1 . 'a'; ?>
 PASS: concat.test: compile: <?php print 1 . 1; ?>
 PASS: concat.test: compile: <?php print true . false . true . null; ?>
 PASS: concat.test: compile: <?php $a = 'a' . 'b' . 'c' . 1 . FALSE . 2 . NULL . 3; print $a; ?>
-ERROR: echo.test: compile: <?php echo ""; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php echo ''; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php echo 5; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php echo "some string"; echo "another string"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php $a = 1; echo $a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php $a = 2; echo "$a"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php function test() { return 12; } echo test(); ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php $a = 3; echo ++$a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php $a = 4; echo --$a; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <? echo "a", "b", 1, 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php echo true; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php echo TRUE; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php echo false; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php echo FALSE; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php echo null; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
-ERROR: echo.test: compile: <?php echo NULL; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ECHO source: #f value: "echo">))
+PASS: echo.test: compile: <?php echo ""; ?>
+PASS: echo.test: compile: <?php echo ''; ?>
+PASS: echo.test: compile: <?php echo 'aaaaaa123XXXXXXXX_()*)$#)*$#*))$*#$)#*'; ?>
+PASS: echo.test: compile: <?php echo 5; ?>
+PASS: echo.test: compile: <?php echo "some string"; echo "another string"; ?>
+PASS: echo.test: compile: <?php $a = 1; echo $a; ?>
+FAIL: echo.test: compile: <?php $a = 2; echo "$a"; ?>
+ERROR: echo.test: compile: <?php function test() { return 12; } echo test(); ?> - arguments: ((CompileError "Exp not implemented: " = "test" (lambda () (return (num "12")))))
+PASS: echo.test: compile: <?php $a = 3; echo ++$a; ?>
+PASS: echo.test: compile: <?php $a = 4; echo --$a; ?>
+PASS: echo.test: compile: <?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?>
+PASS: echo.test: compile: <? echo "a", "b", 1, 2; ?>
+PASS: echo.test: compile: <?php echo true; ?>
+PASS: echo.test: compile: <?php echo TRUE; ?>
+PASS: echo.test: compile: <?php echo false; ?>
+PASS: echo.test: compile: <?php echo FALSE; ?>
+PASS: echo.test: compile: <?php echo null; ?>
+PASS: echo.test: compile: <?php echo NULL; ?>
 ERROR: functions.test: compile: <?php function test() { print "ok"; } test(); ?> - arguments: ((CompileError "Exp not implemented: " = "test" (lambda () (print (string "ok")))))
 ERROR: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?> - arguments: ((CompileError "Exp not implemented: " = "test" (lambda () (return (num "5")))))
 ERROR: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?> - arguments: ((CompileError "Exp not implemented: " = "a12_21aa_45" (lambda () (print (num "1")))))
@@ -382,12 +382,12 @@ PASS: vars.test: compile: <? $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 90
-failures:               6
+passes:                 106
+failures:               7
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 82
+errors:                 65
 
