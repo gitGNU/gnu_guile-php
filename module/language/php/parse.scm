@@ -100,8 +100,7 @@
      (Print) : $1
      (Return) : $1)
 
-    (CallStatement
-     (CallExpression semi) : $1)
+    (CallStatement (CallExpression semi) : $1)
     
     (Comment (T_COMMENT) : `(void))
     
@@ -143,7 +142,7 @@
      (false) : `(false)
      (T_CONSTANT_ENCAPSED_STRING) : `(string ,$1)
      (T_LNUMBER) : `(num ,$1)
-     (T_VARIABLE) : `(ref ,$1)
+     (T_VARIABLE) : `(var ,$1)
      (CallExpression) : $1
      (open-paren Expression close-paren) : $2)
          
@@ -156,7 +155,7 @@
      (ArgumentList comma AssignmentExpression) : `(,@$1 ,$3))
 
     (LeftHandSideExpression
-     (T_VARIABLE) : `(ref ,$1))
+     (PrimaryExpression) : $1)
 
     (PostfixExpression
      (LeftHandSideExpression) : $1
@@ -248,7 +247,7 @@
     
     (AssignmentExpression
      (LogicalOrExpression) : $1
-     (LeftHandSideExpression equals AssignmentExpression) : `(eq ,$1 ,$3)
+     (LeftHandSideExpression equals AssignmentExpression) : `(var ,$1 ,$3)
      (LeftHandSideExpression T_PLUS_EQUAL AssignmentExpression) : `(plus-eq ,$1 ,$3)
      (LeftHandSideExpression T_MINUS_EQUAL AssignmentExpression) : `(sub-eq ,$1 ,$3)
      (LeftHandSideExpression T_MUL_EQUAL AssignmentExpression) : `(mul-eq ,$1 ,$3)

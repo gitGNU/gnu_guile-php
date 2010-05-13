@@ -1,0 +1,6 @@
+%% Shift/Reduce conflict (shift 71, reduce 95) on 'T_LOGICAL_AND' in state 124
+%% Shift/Reduce conflict (shift 70, reduce 97) on 'T_LOGICAL_XOR' in state 123
+%% Shift/Reduce conflict (shift 116, reduce 42) on 'semi' in state 51
+%% Shift/Reduce conflict (shift 71, reduce 94) on 'T_LOGICAL_AND' in state 24
+%% Shift/Reduce conflict (shift 70, reduce 96) on 'T_LOGICAL_XOR' in state 23
+%% Shift/Reduce conflict (shift 69, reduce 98) on 'T_LOGICAL_OR' in state 22
