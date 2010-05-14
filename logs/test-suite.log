@@ -80,10 +80,10 @@ PASS: comparisons.test: compile: <?php if(FALSE) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(null) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(NULL) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1) print 1; else print 2; ?>
-FAIL: comparisons.test: compile: <?php if(0) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(0) print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if("a") print 1; else print 2; ?>
 PASS: comparisons.test: compile: <?php if(1 !== 1) print 1; else print 2; ?>
-ERROR: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?> - arguments: ((misc-error #f "~A ~S" ("unrecognized tree-il" #<procedure comp (_ _)>) #f))
+PASS: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?>
 FAIL: comparisons.test: compile: <?php if(1 == 1 && 1 == 2) print 1; else print 2; ?>
 FAIL: comparisons.test: compile: <?php if(1 == 1 || 1 == 2) print 1; else print 2; ?>
 PASS: concat.test: compile: <?php print 'a' . 'b'; ?>
@@ -234,14 +234,14 @@ do {
 }
 while($i > 1);
 
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DO source: #f value: "do">))
+?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
 ERROR: loops.test: compile: <?php
 
 $i = 0;
 
 do { print ++$i; } while ($i < 5);
 
-?> - arguments: ((SyntaxError "Invalid token: " #\newline))
+?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
 ERROR: loops.test: compile: <?php
 
 $i = 0;
@@ -251,20 +251,20 @@ while($i > 5)
 	print "wrong";
 }
 
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_WHILE source: #f value: "while">))
+?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
 ERROR: loops.test: compile: <?php
 
 $i = 5;
 
 while($i == 5) { print ++$i; }
 
-?> - arguments: ((SyntaxError "Invalid token: " #\newline))
+?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
 ERROR: loops.test: compile: <?php for($i = 0; $i < 10; ++$i) { print $i; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
 ERROR: loops.test: compile: <?php do { print 1; continue; } while(0); ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: loops.test: compile: <?php $i = 0; do { print ++$i; continue; } while($i < 5); ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_DO source: #f value: "do">))
-ERROR: loops.test: compile: <?php do { print 1; break; } while(1); ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { break; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_WHILE source: #f value: "while">))
-ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { print ++$i; continue; } ?> - arguments: ((SyntaxError "Invalid token: " #\space))
+ERROR: loops.test: compile: <?php $i = 0; do { print ++$i; continue; } while($i < 5); ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: loops.test: compile: <?php do { print 1; break; } while(1); ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { break; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { print ++$i; continue; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
 ERROR: loops.test: compile: <?php for($i = 0; $i < 5; ++$i) { if($i == 3) { continue; } print $i; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
 ERROR: loops.test: compile: <?php for($i = 0; $i < 50; ++$i) { print "a"; break; } ?> - arguments: ((SyntaxError "Invalid token: " #\space))
 PASS: nums.test: compile: <? $n = 1; print $n; ?>
@@ -381,12 +381,12 @@ PASS: vars.test: compile: <? $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 137
-failures:               10
+passes:                 139
+failures:               9
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 31
+errors:                 30
 

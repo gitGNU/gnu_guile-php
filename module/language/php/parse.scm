@@ -80,6 +80,7 @@
     (Statement
      (InlineHTML) : $1
      (IfStatement) : $1
+     (IterationStatement) : $1
      (CallStatement) : $1
      (Comment) : $1
      (ExpressionStatement) : $1
@@ -87,12 +88,22 @@
      (GroupedStatements)
      (Echo) : $1
      (Print) : $1
-     (Return) : $1)
+     (Return) : $1
+     (ContinueStatement) : $1
+     (BreakStatement) : $1)
 
+    (BreakStatement
+     (T_BREAK semi) : `(break)
+     (T_BREAK T_LNUMBER semi) : `(break ,$2))
+    
     (CallStatement (CallExpression semi) : $1)
     
     (Comment (T_COMMENT) : `(void))
 
+    (ContinueStatement
+     (T_CONTINUE semi) : `(continue)
+     (T_CONTINUE T_LNUMBER semi) : `(continue ,$2))
+    
     (Echo (T_ECHO ExpressionList semi) : `(echo ,@$2))
     
     (ExpressionStatement (Expression semi) : $1)
@@ -126,6 +137,10 @@
     (IfStatement
      (T_IF open-paren Expression close-paren Statement) : `(if ,$3 ,$5)
      (T_IF open-paren Expression close-paren Statement T_ELSE Statement) : `(if ,$3 ,$5 ,$7))
+
+    (IterationStatement
+     (T_DO Statement T_WHILE open-paren Expression close-paren semi) : `(do ,$2 ,$5)
+     (T_WHILE open-paren Expression close-paren Statement) : `(while ,$3 ,$5))
     
     (Print (T_PRINT AssignmentExpression semi) : `(print ,$2))
 
