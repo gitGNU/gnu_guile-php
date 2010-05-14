@@ -54,9 +54,9 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 "?>"|"%>"|"</script>"  (begin (set! parse-mode 'txt) (yycontinue))
 
-"#"|"//"  (read-single-line-comment yygetc yyungetc)
-"/*"      (read-multi-line-comment 'T_COMMENT yygetc yyungetc)
-"/**"     (read-multi-line-comment 'T_DOC_COMMENT yygetc yyungetc)
+"#"|"//"  (read-single-line-comment yytext yygetc yyungetc)
+"/*"      (read-multi-line-comment 'T_COMMENT yytext yygetc yyungetc)
+"/**"     (read-multi-line-comment 'T_DOC_COMMENT yytext yygetc yyungetc)
 ".="  (make-token 'T_CONCAT_EQUAL yytext)
 "const"          (make-token 'T_CONST yytext)
 "\""            (read-parse-string #\" yygetc yyungetc) 
@@ -70,7 +70,6 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 "/="            (make-token 'T_DIV_EQUAL yytext)
 \d\.\d          (make-token 'T_DNUMBER yytext)
 
-\/\*\*(.*)\*\/  (make-token 'T_DOC_COMMENT yytext)
 "do"            (make-token 'T_DO yytext)
 "${"            (make-token 'T_DOLLAR_OPEN_CURLY_BRACES yytext)
 "=>"            (make-token 'T_DOUBLE_ARROW yytext)

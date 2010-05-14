@@ -236,11 +236,11 @@
     
     (AndExpression
      (BitwiseOrExpression) : $1
-     (AndExpression T_BOOLEAN_AND BitwiseOrExpression) : `(or ,$1 ,$3))
+     (AndExpression T_BOOLEAN_AND BitwiseOrExpression) : `(and ,$1 ,$3))
     
     (OrExpression
      (AndExpression) : $1
-     (OrExpression T_BOOLEAN_OR AndExpression) : `(and ,$1 ,$3))
+     (OrExpression T_BOOLEAN_OR AndExpression) : `(or ,$1 ,$3))
     
     (TernaryExpression
      (OrExpression) : $1

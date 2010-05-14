@@ -39,7 +39,7 @@
     ((_ expression expected)
      (begin
        (clean-php-env)
-      (pass-if expression
+       (pass-if expression
         (equal? expected
 	  (with-output-to-string
 	    (lambda ()

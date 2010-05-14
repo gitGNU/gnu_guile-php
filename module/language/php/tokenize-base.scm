@@ -35,6 +35,7 @@
   (set! parse-mode 'txt))
 
 (define (make-token tok txt)
+  ;(display tok)(newline)(display txt)(newline)
   (if (eq? parse-mode 'txt)
     (make-lexical-token 'T_INLINE_HTML #f txt)
     (make-lexical-token tok #f txt)))
@@ -64,7 +65,7 @@
 	  (list->string (reverse s))
 	  (loop (cons c s))))))
 
-(define (read-single-line-comment yygetc yyungetc)
+(define (read-single-line-comment txt yygetc yyungetc)
   (define (stop-reading c)
     (if (or (eq? c 'eof) (not (char? c)))
 	#t
@@ -78,9 +79,9 @@
 		      (begin
 			(yyungetc) #f)))
 		#f))))
-  (make-token 'T_COMMENT (read-til stop-reading yygetc yyungetc)))
+  (make-token 'T_COMMENT (string-append txt (read-til stop-reading yygetc yyungetc))))
 
-(define (read-multi-line-comment tok yygetc yyungetc)
+(define (read-multi-line-comment tok txt yygetc yyungetc)
   (define (stop-reading c)
     (if (or (eq? c 'eof) (not (char? c)))
 	#t
@@ -90,11 +91,13 @@
 		  #t
 		  (begin (yyungetc) #f)))
 	    #f)))
-  (make-token tok (read-til stop-reading yygetc yyungetc)))
+  (make-token tok (string-append txt (read-til stop-reading yygetc yyungetc))))
 
 (define (read-inline-html yygetc yyungetc)
   (define (stop-reading c)
-    (or (eq? c 'eof) (and (char? c) (char=? c #\<))))
+    (if (or (eq? c 'eof) (and (char? c) (char=? c #\<)))
+	(begin (yyungetc) #t)
+	#f))
   (make-token 'T_INLINE_HTML (read-til stop-reading yygetc yyungetc)))
 
 (define (read-string str-char yygetc yyungetc)

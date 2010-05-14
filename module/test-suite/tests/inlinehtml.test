@@ -32,6 +32,5 @@
   (compile-php-str "<?php print \"hello \"; ?>world" "hello world")
   (compile-php-str "hello<?php ?> world" "hello world")
   (compile-php-str "<?php return \"hello world\"; ?>" "")
-  (compile-php-str "~`!@#$%^&*()_=+-{{]]}}:;;\"'<<>>?//..,,/**/" "~`!@#$%^&*()_=+-{{]]}}:;;\"'<<>>?//..,,/**/"))
-
-
+  (compile-php-str "~`!@#$%^&*()_=+-{{]]}}:;;\"'<<>>?//..,,/**/"
+                   "~`!@#$%^&*()_=+-{{]]}}:;;\"'<<>>?//..,,/**/"))
