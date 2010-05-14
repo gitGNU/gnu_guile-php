@@ -1140,7 +1140,7 @@
    'line
    (lambda (yycontinue yygetc yyungetc)
      (lambda (yytext yyline)
-                 '*eoi*
+                 (begin (set! parse-mode 'txt) '*eoi*)
        ))
    (lambda (yycontinue yygetc yyungetc)
      (lambda (yytext yyline)
@@ -1217,10 +1217,10 @@
       (lambda (yytext yyline)
          (make-token 'T_CLONE yytext)
         ))
-    #t
+    #f
     (lambda (yycontinue yygetc yyungetc)
-      (lambda (yytext yyline)
-                       (begin (let ((token (make-token 'T_CLOSE_TAG yytext))) (set! parse-mode 'txt) token))
+      (lambda (yyline)
+                       (begin (set! parse-mode 'txt) (yycontinue))
         ))
     #f
     (lambda (yycontinue yygetc yyungetc)
@@ -1587,10 +1587,10 @@
       (lambda (yytext yyline)
                 (make-token 'T_OBJECT_OPERATOR yytext)
         ))
-    #t
+    #f
     (lambda (yycontinue yygetc yyungetc)
-      (lambda (yytext yyline)
-                                                         (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG yytext))
+      (lambda (yyline)
+                                                         (begin (if (eq? parse-mode 'php) (lexer-error (yygetc)) (begin (set! parse-mode 'php) (yycontinue))))
         ))
     #t
     (lambda (yycontinue yygetc yyungetc)

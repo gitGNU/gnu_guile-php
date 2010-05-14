@@ -65,26 +65,28 @@
       exclaimation)
 
     (Program
-     (SourceElements *eoi*) : $1
+     (Statements *eoi*) : $1
      (*eoi*) : `(void))
 
-    (SourceElements
-     (SourceElement) : $1
-     (SourceElements SourceElement) : (if (and (pair? $1) (eq? (car $1) 'begin))
-                                          `(begin ,@(cdr $1) ,$2)
-                                          `(begin ,$1 ,$2)))
+    ;(SourceElements
+    ; (SourceElement) : $1
+    ; (SourceElements SourceElement) : (if (and (pair? $1) (eq? (car $1) 'begin))
+    ;                                      `(begin ,@(cdr $1) ,$2)
+    ;                                      `(begin ,$1 ,$2)))
 
-    (SourceElement
-     (InlineHTML) : $1
-     (PHP) : $1)
+    ;(SourceElement
+    ; (InlineHTML) : $1
+    ; (PHP) : $1)
     
     (InlineHTML
      (T_INLINE_HTML) : `(echo (string ,$1)))
 
-    (PHP
-     (T_OPEN_TAG T_CLOSE_TAG) : `(void)
-     (T_OPEN_TAG Statements T_CLOSE_TAG) : $2
-     (T_OPEN_TAG_WITH_ECHO ExpressionStatement T_CLOSE_TAG) : `(echo ,$2))
+    ;(PHP
+     ;(T_OPEN_TAG T_CLOSE_TAG) : `(void)
+     ;(T_OPEN_TAG Statements) : $2
+     ;(T_OPEN_TAG Statements T_CLOSE_TAG) : $2
+    ; (Statements) : $1
+    ; (T_OPEN_TAG_WITH_ECHO ExpressionStatement T_CLOSE_TAG) : `(echo ,$2))
 
     (Statements
      (Statement) : $1
@@ -93,6 +95,7 @@
 				  `(begin ,$1 ,$2)))
     
     (Statement
+     (InlineHTML) : $1
      (CallStatement) : $1
      (Comment) : $1
      (ExpressionStatement) : $1

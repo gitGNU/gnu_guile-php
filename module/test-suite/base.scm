@@ -20,6 +20,7 @@
 (define-module (test-suite base)
   #:use-module (test-suite lib)
   #:use-module (language php parse)
+  #:use-module (language php tokenize)
   #:use-module (system base compile)
   #:export (read-php-str parse-php-str compile-php-str))
 
@@ -29,15 +30,19 @@
 (define-syntax parse-php-str
   (syntax-rules ()
     ((_ expression expected)
-      (pass-if expression (equal? expected (read-php-str expression))))))
+     (begin
+       (clean-php-env)
+       (pass-if expression (equal? expected (read-php-str expression)))))))
 
 (define-syntax compile-php-str
   (syntax-rules ()
     ((_ expression expected)
+     (begin
+       (clean-php-env)
       (pass-if expression
         (equal? expected
 	  (with-output-to-string
 	    (lambda ()
-	      (compile (read-php-str expression) #:from 'php #:to 'value))))))))
+	      (compile (read-php-str expression) #:from 'php #:to 'value)))))))))
 
 

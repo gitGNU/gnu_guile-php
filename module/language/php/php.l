@@ -36,8 +36,6 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; todo: don't make all these strings, consolidate like items, etc...
-
 "abstract"  (make-token 'T_ABSTRACT yytext)
 "&="  (make-token 'T_AND_EQUAL yytext)
 "array"  (make-token 'T_ARRAY yytext)
@@ -54,7 +52,7 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 "__CLASS__"  (make-token 'T_CLASS_C yytext)
 "clone"  (make-token 'T_CLONE yytext)
 
-"?>"|"%>"|"</script>"  (begin (let ((token (make-token 'T_CLOSE_TAG yytext))) (set! parse-mode 'txt) token))
+"?>"|"%>"|"</script>"  (begin (set! parse-mode 'txt) (yycontinue))
 
 "#"|"//"  (read-single-line-comment yygetc yyungetc)
 "/*"      (read-multi-line-comment 'T_COMMENT yygetc yyungetc)
@@ -137,7 +135,7 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 "(object)"      (make-token 'T_OBJECT_CAST yytext)
 "->"            (make-token 'T_OBJECT_OPERATOR yytext)
 
-"<?"|"<?php"|"<%"|"<script language=\"php\">"            (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG yytext))
+"<?"|"<?php"|"<%"|"<script language=\"php\">"            (begin (if (eq? parse-mode 'php) (lexer-error (yygetc)) (begin (set! parse-mode 'php) (yycontinue))))
 
 "<?="|"<%="      (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG_WITH_ECHO yytext))
 
@@ -214,5 +212,5 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 {label} (make-token 'label yytext)
 
-<<EOF>>          '*eoi*
+<<EOF>>          (begin (set! parse-mode 'txt) '*eoi*)
 <<ERROR>>        (if (eq? parse-mode 'txt) (read-inline-html yygetc yyungetc) (lexer-error (yygetc)))

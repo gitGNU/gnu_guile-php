@@ -23,7 +23,7 @@
 
 (define-module (language php tokenize)
   #:use-module (system base lalr)
-  #:export (make-tokenizer))
+  #:export (make-tokenizer clean-php-env))
 
 (define parse-mode 'txt)
 
@@ -31,12 +31,16 @@
   (lexer-init 'port port)
   lexer)
 
+(define (clean-php-env)
+  (set! parse-mode 'txt))
+
 (define (make-token tok txt)
   (if (eq? parse-mode 'txt)
     (make-lexical-token 'T_INLINE_HTML #f txt)
     (make-lexical-token tok #f txt)))
 
 (define (lexer-error tok)
+  (set! parse-mode 'txt)
   (syntax-error "Invalid token: " tok))
 
 (define (syntax-error message . args)
@@ -64,7 +68,16 @@
   (define (stop-reading c)
     (if (or (eq? c 'eof) (not (char? c)))
 	#t
-	(char=? c #\newline)))
+	(if (char=? c #\newline)
+	    #t
+	    (if (or (char=? c #\?) (char=? c #\%))
+		(let ((nc (yygetc)))
+		  (if (and (char? nc) (char=? nc #\>))
+		      (begin
+			(yyungetc)(yyungetc) #t)
+		      (begin
+			(yyungetc) #f)))
+		#f))))
   (make-token 'T_COMMENT (read-til stop-reading yygetc yyungetc)))
 
 (define (read-multi-line-comment tok yygetc yyungetc)
@@ -73,7 +86,7 @@
 	#t
 	(if (eq? c #\*)
 	    (let ((nc (yygetc)))
-	      (if (and (char? nc) (char=? nc #\/))
+	      (if (or (eq? c 'eof) (and (char? nc) (char=? nc #\/)))
 		  #t
 		  (begin (yyungetc) #f)))
 	    #f)))

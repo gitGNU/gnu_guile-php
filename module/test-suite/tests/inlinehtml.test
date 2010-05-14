@@ -27,7 +27,7 @@
 
 (with-test-prefix "compile"
   (compile-php-str "hello world" "hello world")
-  (compile-php-str "<?php print \"hello world\"; ?>" "hello world")
+  (compile-php-str "<?php print 'hello world'; ?>" "hello world")
   (compile-php-str "hello <?php print \"world\"; ?>" "hello world")
   (compile-php-str "<?php print \"hello \"; ?>world" "hello world")
   (compile-php-str "hello<?php ?> world" "hello world")
