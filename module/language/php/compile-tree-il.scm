@@ -124,7 +124,7 @@
      `(apply (@ (language php impl) php/print) ,(comp x env)))
     ((var ,varname ,val)
      (let ((v (comp val env)))
-       `(begin (define ,(string->symbol (cadr varname)) ,v) ,(comp varname env))))
+       `(begin (define ,(string->symbol (if (pair? varname) (cadr varname) varname)) ,v) ,(comp varname env))))
     ((var ,varname)
      (lookup varname env))
     ((break)

@@ -137,7 +137,7 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 "<?"|"<?php"|"<%"|"<script language=\"php\">"            (begin (if (eq? parse-mode 'php) (lexer-error (yygetc)) (begin (set! parse-mode 'php) (yycontinue))))
 
-"<?="|"<%="      (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG_WITH_ECHO yytext))
+"<?="|"<%="      (begin (set! parse-mode 'php) (make-token 'T_ECHO yytext))
 
 "|="            (make-token 'T_OR_EQUAL yytext)
 "+="            (make-token 'T_PLUS_EQUAL yytext)

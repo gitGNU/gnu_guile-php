@@ -68,25 +68,8 @@
      (Statements *eoi*) : $1
      (*eoi*) : `(void))
 
-    ;(SourceElements
-    ; (SourceElement) : $1
-    ; (SourceElements SourceElement) : (if (and (pair? $1) (eq? (car $1) 'begin))
-    ;                                      `(begin ,@(cdr $1) ,$2)
-    ;                                      `(begin ,$1 ,$2)))
-
-    ;(SourceElement
-    ; (InlineHTML) : $1
-    ; (PHP) : $1)
-    
     (InlineHTML
      (T_INLINE_HTML) : `(echo (string ,$1)))
-
-    ;(PHP
-     ;(T_OPEN_TAG T_CLOSE_TAG) : `(void)
-     ;(T_OPEN_TAG Statements) : $2
-     ;(T_OPEN_TAG Statements T_CLOSE_TAG) : $2
-    ; (Statements) : $1
-    ; (T_OPEN_TAG_WITH_ECHO ExpressionStatement T_CLOSE_TAG) : `(echo ,$2))
 
     (Statements
      (Statement) : $1
@@ -96,10 +79,12 @@
     
     (Statement
      (InlineHTML) : $1
+     (IfStatement) : $1
      (CallStatement) : $1
      (Comment) : $1
      (ExpressionStatement) : $1
      (FunctionDeclaration) : $1
+     (GroupedStatements)
      (Echo) : $1
      (Print) : $1
      (Return) : $1)
@@ -124,8 +109,8 @@
      (GroupedStatements) : $1)
 
     (FunctionDeclaration
-     (T_FUNCTION label open-paren close-paren FunctionBody) : `(= ,$2 (lambda () ,$5))
-     (T_FUNCTION label open-paren FunctionParamList close-paren FunctionBody) : `(= ,$2 (lambda ,$4 ,$6)))
+     (T_FUNCTION label open-paren close-paren FunctionBody) : `(var (var ,$2) (lambda () ,$5))
+     (T_FUNCTION label open-paren FunctionParamList close-paren FunctionBody) : `(var (var ,$2) (lambda ,$4 ,$6)))
 
     (FunctionParam
      (T_VARIABLE) : `(,$1))
@@ -137,6 +122,10 @@
     (GroupedStatements
      (open-brace close-brace) : `(void)
      (open-brace Statements close-brace) : $2)
+
+    (IfStatement
+     (T_IF open-paren Expression close-paren Statement) : `(if ,$3 ,$5)
+     (T_IF open-paren Expression close-paren Statement T_ELSE Statement) : `(if ,$3 ,$5 ,$7))
     
     (Print (T_PRINT AssignmentExpression semi) : `(print ,$2))
 

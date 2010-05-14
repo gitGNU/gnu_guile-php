@@ -1595,7 +1595,7 @@
     #t
     (lambda (yycontinue yygetc yyungetc)
       (lambda (yytext yyline)
-                 (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG_WITH_ECHO yytext))
+                 (begin (set! parse-mode 'php) (make-token 'T_ECHO yytext))
         ))
     #t
     (lambda (yycontinue yygetc yyungetc)

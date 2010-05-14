@@ -69,24 +69,24 @@ PASS: comments.test: compile: <?php
 #comment
 //comment
 /*comment*/
-ERROR: comparisons.test: compile: <?php if(1 == 1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: comparisons.test: compile: <?php if(1 === 1) print 1; else print 2; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: comparisons.test: compile: <?php if("1" == 1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: comparisons.test: compile: <?php if("1" === 1) print 1; else print 2; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: comparisons.test: compile: <?php if(true) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: comparisons.test: compile: <?php if(false) print 1; else print 2; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: comparisons.test: compile: <?php if(TRUE) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: comparisons.test: compile: <?php if(FALSE) print 1; else print 2; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: comparisons.test: compile: <?php if(null) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: comparisons.test: compile: <?php if(NULL) print 1; else print 2; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: comparisons.test: compile: <?php if(1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: comparisons.test: compile: <?php if(0) print 1; else print 2; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: comparisons.test: compile: <?php if("a") print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: comparisons.test: compile: <?php if(1 !== 1) print 1; else print 2; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: comparisons.test: compile: <?php if(1 == 1 && 1 == 2) print 1; else print 2; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: comparisons.test: compile: <?php if(1 == 1 || 1 == 2) print 1; else print 2; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: concat.test: compile: <?php print 'a' . 'b'; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
+PASS: comparisons.test: compile: <?php if(1 == 1) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(1 === 1) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if("1" == 1) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if("1" === 1) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(true) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(false) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(TRUE) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(FALSE) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(null) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(NULL) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(1) print 1; else print 2; ?>
+FAIL: comparisons.test: compile: <?php if(0) print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if("a") print 1; else print 2; ?>
+PASS: comparisons.test: compile: <?php if(1 !== 1) print 1; else print 2; ?>
+ERROR: comparisons.test: compile: <?php if(1 != 1) print 1; else print 2; ?> - arguments: ((misc-error #f "~A ~S" ("unrecognized tree-il" #<procedure comp (_ _)>) #f))
+FAIL: comparisons.test: compile: <?php if(1 == 1 && 1 == 2) print 1; else print 2; ?>
+FAIL: comparisons.test: compile: <?php if(1 == 1 || 1 == 2) print 1; else print 2; ?>
+PASS: concat.test: compile: <?php print 'a' . 'b'; ?>
 PASS: concat.test: compile: <?php print 'a' . 1; ?>
 PASS: concat.test: compile: <?php print 1 . 'a'; ?>
 PASS: concat.test: compile: <?php print 1 . 1; ?>
@@ -99,7 +99,7 @@ PASS: echo.test: compile: <?php echo 5; ?>
 PASS: echo.test: compile: <?php echo "some string"; echo "another string"; ?>
 PASS: echo.test: compile: <?php $a = 1; echo $a; ?>
 FAIL: echo.test: compile: <?php $a = 2; echo "$a"; ?>
-ERROR: echo.test: compile: <?php function test() { return 12; } echo test(); ?> - arguments: ((CompileError "Exp not implemented: " = "test" (lambda () (return (num "12")))))
+PASS: echo.test: compile: <?php function test() { return 12; } echo test(); ?>
 PASS: echo.test: compile: <?php $a = 3; echo ++$a; ?>
 PASS: echo.test: compile: <?php $a = 4; echo --$a; ?>
 PASS: echo.test: compile: <?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?>
@@ -110,11 +110,11 @@ PASS: echo.test: compile: <?php echo false; ?>
 PASS: echo.test: compile: <?php echo FALSE; ?>
 PASS: echo.test: compile: <?php echo null; ?>
 PASS: echo.test: compile: <?php echo NULL; ?>
-ERROR: functions.test: compile: <?php function test() { print "ok"; } test(); ?> - arguments: ((CompileError "Exp not implemented: " = "test" (lambda () (print (string "ok")))))
-ERROR: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?> - arguments: ((CompileError "Exp not implemented: " = "test" (lambda () (return (num "5")))))
-ERROR: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?> - arguments: ((CompileError "Exp not implemented: " = "a12_21aa_45" (lambda () (print (num "1")))))
-ERROR: functions.test: compile: <? function a(){} ?> - arguments: ((CompileError "Exp not implemented: " = "a" (lambda () (void))))
-ERROR: functions.test: compile: <?php function _aFunc() { print "sure"; } _aFunc(); ?> - arguments: ((CompileError "Exp not implemented: " = "_aFunc" (lambda () (print (string "sure")))))
+PASS: functions.test: compile: <?php function test() { print "ok"; } test(); ?>
+PASS: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?>
+PASS: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?>
+PASS: functions.test: compile: <? function a(){} ?>
+PASS: functions.test: compile: <?php function _aFunc() { print "sure"; } _aFunc(); ?>
 ERROR: functions.test: compile: <?php
 function test1($a, $b, $c)
 {
@@ -129,13 +129,13 @@ $b = test1(1, 2, 1);
 
 print $a;
 print $b;
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: functions.test: compile: <?php
+?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" ($b) #f))
+PASS: functions.test: compile: <?php
 function test_some_func() {
   print "yar";
 }
 
-test_some_func(); - arguments: ((SyntaxError "Invalid token: " #\newline))
+test_some_func();
 ERROR: functions.test: compile: <?php
 function a() { return 1; }
 function b() { return 2; }
@@ -146,23 +146,23 @@ function test($a, $b, $c) {
 }
 
 test(a(), b(), c());
-?> - arguments: ((CompileError "Exp not implemented: " = "a" (lambda () (return (num "1")))))
+?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" ($c) #f))
 ERROR: functions.test: compile: <script language="php">
 notyetdefined();
 
 function notyetdefined() { print "works"; }
-?> - arguments: ((CompileError "Exp not implemented: " = "notyetdefined" (lambda () (print (string "works")))))
-ERROR: ifs.test: compile: <?php if(1 == 1) { print "1"; } else { print "2"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: ifs.test: compile: <? if(2 == 1) { print "1"; } else { print "2"; } ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: ifs.test: compile: <?php if(((((((((((1 == 1))))))))))) { print "aeiou?"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: ifs.test: compile: <?php
+?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" (notyetdefined) #f))
+ERROR: ifs.test: compile: <?php if(1 == 1) { print "1"; } else { print "2"; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: ifs.test: compile: <? if(2 == 1) { print "1"; } else { print "2"; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: ifs.test: compile: <?php if(((((((((((1 == 1))))))))))) { print "aeiou?"; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+PASS: ifs.test: compile: <?php
 
 if("a" == "a")
   print "a";
 else
   print "b";
 
-?> - arguments: ((SyntaxError "Invalid token: " #\newline))
+?>
 ERROR: ifs.test: compile: <?php
 
 $a = 1;
@@ -180,7 +180,7 @@ if($a == $b) {
   print "hrm...";
 }
 
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ELSEIF source: #f value: "elseif">))
 ERROR: ifs.test: compile: <?php
 
 $a = 1;
@@ -212,12 +212,12 @@ if(1 == 2)
 else
   print "passed";
 
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: ifs.test: compile: <?php if(1 == 2) { ?> "a" <?php } else { ?> "b" <?php } ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: ifs.test: compile: <? if("aaa" === "aaa") { print "a"; } else { print "b"; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: ifs.test: compile: <?php if("1" == 1) print "ok"; else print "wrong"; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: ifs.test: compile: <?php if(1 === "1") print "wrong"; else print "true"; ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_IF source: #f value: "if">))
-ERROR: ifs.test: compile: <?php if(1 === 1) print "right"; else print "wrong"; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
+?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: ifs.test: compile: <?php if(1 == 2) { ?> "a" <?php } else { ?> "b" <?php } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+ERROR: ifs.test: compile: <? if("aaa" === "aaa") { print "a"; } else { print "b"; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+PASS: ifs.test: compile: <?php if("1" == 1) print "ok"; else print "wrong"; ?>
+PASS: ifs.test: compile: <?php if(1 === "1") print "wrong"; else print "true"; ?>
+PASS: ifs.test: compile: <?php if(1 === 1) print "right"; else print "wrong"; ?>
 PASS: inlinehtml.test: compile: hello world
 PASS: inlinehtml.test: compile: <?php print 'hello world'; ?>
 PASS: inlinehtml.test: compile: hello <?php print "world"; ?>
@@ -280,7 +280,7 @@ PASS: print.test: compile: <?php print 5; ?>
 PASS: print.test: compile: <?php print "some string"; print "another string"; ?>
 PASS: print.test: compile: <?php $a = 1; print $a; ?>
 FAIL: print.test: compile: <?php $a = 2; print "$a"; ?>
-ERROR: print.test: compile: <?php function test() { return 12; } print test(); ?> - arguments: ((CompileError "Exp not implemented: " = "test" (lambda () (return (num "12")))))
+PASS: print.test: compile: <?php function test() { return 12; } print test(); ?>
 PASS: print.test: compile: <?php $a = 3; print ++$a; ?>
 PASS: print.test: compile: <?php $a = 4; print --$a; ?>
 PASS: print.test: compile: <?php $a = 1; print $a++; ?>
@@ -381,12 +381,12 @@ PASS: vars.test: compile: <? $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 111
-failures:               7
+passes:                 137
+failures:               10
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 60
+errors:                 31
 
