@@ -65,17 +65,27 @@
       exclaimation)
 
     (Program
-     (Statements *eoi*) : $1
+     (SourceElements *eoi*) : $1
      (*eoi*) : `(void))
 
     (InlineHTML
      (T_INLINE_HTML) : `(echo (string ,$1)))
+
+    (SourceElements
+     (SourceElement) : $1
+     (SourceElements SourceElement) : (if (and (pair? $1) (eq? (car $1) 'begin))
+                                  `(begin ,@(cdr $1) ,$2)
+                                  `(begin ,$1 ,$2)))
 
     (Statements
      (Statement) : $1
      (Statements Statement) : (if (and (pair? $1) (eq? (car $1) 'begin))
 				  `(begin ,@(cdr $1) ,$2)
 				  `(begin ,$1 ,$2)))
+
+    (SourceElement
+     (Statement) : $1
+     (FunctionDeclaration) : $1)
     
     (Statement
      (InlineHTML) : $1
@@ -84,25 +94,46 @@
      (CallStatement) : $1
      (Comment) : $1
      (ExpressionStatement) : $1
-     (FunctionDeclaration) : $1
+     ;(FunctionDeclaration) : $1
      (GroupedStatements) : $1
      (Echo) : $1
      (Print) : $1
      (Return) : $1
      (ContinueStatement) : $1
      (BreakStatement) : $1)
+     ;(SwitchStatement) : $1)
 
     (BreakStatement
      (T_BREAK semi) : `(break)
      (T_BREAK T_LNUMBER semi) : `(break ,$2))
     
     (CallStatement (CallExpression semi) : $1)
+
+    (CaseClause
+     (T_CASE Expression colon) : `(void)
+     (T_CASE Expression colon Statements) : `(case ,$2 ,$4))
+    
+    (CaseClauses
+     (CaseClause) : $1
+     (CaseClauses CaseClause) : (if (and (pair? $1) (eq? (car $1) 'begin))
+				    `(begin ,@(cdr $1) ,$2)
+				    `(begin ,$1 ,$2)))
+
+    (CaseStatements
+     (open-brace close-brace) : `(void)
+     (open-brace CaseClauses close-brace) : $2
+     (open-brace CaseClauses DefaultClause close-brace) : `(begin ,$2 ,$3)
+     (open-brace DefaultClause close-brace) : $2)
     
     (Comment (T_COMMENT) : `(void))
 
     (ContinueStatement
      (T_CONTINUE semi) : `(continue)
      (T_CONTINUE T_LNUMBER semi) : `(continue ,$2))
+
+    (DefaultClause
+      (T_DEFAULT colon) : `(void)
+      (T_DEFAULT colon Statements) : `(case-default ,$3))
     
     (Echo (T_ECHO ExpressionList semi) : `(echo ,@$2))
 
@@ -158,6 +189,13 @@
     (Return
      (T_RETURN semi) : `(return)
      (T_RETURN Expression semi) : `(return ,$2))
+
+    (SwitchStatement
+     (T_SWITCH open-paren Expression close-paren CaseStatements) : `(switch ,$3 ,$5))
+;     (T_SWITCH open-paren Expression close-paren open-brace close-brace) : `(switch ,$3 (void))
+;     (T_SWITCH open-paren Expression close-paren open-brace CaseClauses close-brace) : `(swich ,$3 ,$6)
+;     (T_SWITCH open-paren Expression close-paren open-brace CaseClauses DefaultClause close-brace) : `(switch ,$3 (begin ,$6 ,$7))
+;     (T_SWITCH open-paren Expression close-paren open-brace DefaultClause close-brace) : `(switch ,$3 ,$6))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     
