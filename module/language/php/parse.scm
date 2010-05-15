@@ -105,6 +105,11 @@
      (T_CONTINUE T_LNUMBER semi) : `(continue ,$2))
     
     (Echo (T_ECHO ExpressionList semi) : `(echo ,@$2))
+
+    (ElseStatements
+     (T_ELSE Statement) : $2
+     (T_ELSEIF open-paren Expression close-paren Statement) : `(if ,$3 ,$5)
+     (T_ELSEIF open-paren Expression close-paren Statement ElseStatements) : `(if ,$3 ,$5 ,$6))
     
     (ExpressionStatement (Expression semi) : $1)
 
@@ -136,10 +141,16 @@
 
     (IfStatement
      (T_IF open-paren Expression close-paren Statement) : `(if ,$3 ,$5)
-     (T_IF open-paren Expression close-paren Statement T_ELSE Statement) : `(if ,$3 ,$5 ,$7))
+     (T_IF open-paren Expression close-paren Statement ElseStatements) : `(if ,$3 ,$5 ,$6))
 
     (IterationStatement
      (T_DO Statement T_WHILE open-paren Expression close-paren semi) : `(do ,$2 ,$5)
+     (T_FOR open-paren semi semi close-paren Statement) : `(for #f #f #f ,$6)
+     (T_FOR open-paren semi semi Expression close-paren Statement) : `(for #f #f ,$5 ,$7)
+     (T_FOR open-paren semi Expression semi close-paren Statement) : `(for #f ,$5 #f ,$7)
+     (T_FOR open-paren Expression semi semi close-paren Statement) : `(for ,$3 #f #f ,$7)
+     (T_FOR open-paren Expression semi Expression semi close-paren Statement) : `(for ,$3 ,$5 #f ,$8)
+     (T_FOR open-paren Expression semi Expression semi Expression close-paren Statement) : `(for ,$3 ,$5 ,$7 ,$9)
      (T_WHILE open-paren Expression close-paren Statement) : `(while ,$3 ,$5))
     
     (Print (T_PRINT AssignmentExpression semi) : `(print ,$2))

@@ -163,7 +163,7 @@ else
   print "b";
 
 ?>
-ERROR: ifs.test: compile: <?php
+PASS: ifs.test: compile: <?php
 
 $a = 1;
 $b = 2;
@@ -180,8 +180,8 @@ if($a == $b) {
   print "hrm...";
 }
 
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ELSEIF source: #f value: "elseif">))
-ERROR: ifs.test: compile: <?php
+?>
+PASS: ifs.test: compile: <?php
 
 $a = 1;
 $b = 2;
@@ -197,7 +197,7 @@ elseif ($c == $a)
 elseif ($a == $d)
   print "good";
 
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ELSEIF source: #f value: "elseif">))
+?>
 PASS: ifs.test: compile: <?php
 
 if(1 == 2)
@@ -259,14 +259,14 @@ $i = 5;
 while($i == 5) { print ++$i; }
 
 ?>
-ERROR: loops.test: compile: <?php for($i = 0; $i < 10; ++$i) { print $i; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
-ERROR: loops.test: compile: <?php do { print 1; continue; } while(0); ?> - arguments: ((SyntaxError "Invalid token: " #\space))
+PASS: loops.test: compile: <?php for($i = 0; $i < 10; ++$i) { print $i; } ?>
+PASS: loops.test: compile: <?php do { print 1; continue; } while(0); ?>
 PASS: loops.test: compile: <?php $i = 0; do { print ++$i; continue; } while($i < 5); ?>
 PASS: loops.test: compile: <?php do { print 1; break; } while(1); ?>
 PASS: loops.test: compile: <?php $i = 0; while($i < 5) { break; } ?>
 PASS: loops.test: compile: <?php $i = 0; while($i < 5) { print ++$i; continue; } ?>
-ERROR: loops.test: compile: <?php for($i = 0; $i < 5; ++$i) { if($i == 3) { continue; } print $i; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
-ERROR: loops.test: compile: <?php for($i = 0; $i < 50; ++$i) { print "a"; break; } ?> - arguments: ((SyntaxError "Invalid token: " #\space))
+PASS: loops.test: compile: <?php for($i = 0; $i < 5; ++$i) { if($i == 3) { continue; } print $i; } ?>
+PASS: loops.test: compile: <?php for($i = 0; $i < 50; ++$i) { print "a"; break; } ?>
 PASS: nums.test: compile: <?php $n = 1; print $n; ?>
 PASS: nums.test: compile: <?php $n = 11; print $n; ?>
 PASS: nums.test: compile: <?php $n = -1; print $n; ?>
@@ -381,12 +381,12 @@ PASS: vars.test: compile: <?php $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 157
+passes:                 163
 failures:               6
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 15
+errors:                 9
 
