@@ -22,10 +22,10 @@
   #:use-module (test-suite lib))
 
 (with-test-prefix "compile"
-  (compile-php-str "<? $s = \"string\"; print $s; ?>" "string")
-  (compile-php-str "<? $s = 'string'; print $s; ?>" "string")
+  (compile-php-str "<?php $s = \"string\"; print $s; ?>" "string")
+  (compile-php-str "<?php $s = 'string'; print $s; ?>" "string")
 
-  (compile-php-str "<? $s = \"this 
+  (compile-php-str "<?php $s = \"this 
 is 
 a 
 string\"; print $s;" "this 

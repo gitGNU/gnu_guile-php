@@ -35,7 +35,7 @@
   (set! parse-mode 'txt))
 
 (define (make-token tok txt)
-  ;(display tok)(newline)(display txt)(newline)
+  ;(display parse-mode)(display " ------ ")(display tok)(newline)(display txt)(newline)
   (if (eq? parse-mode 'txt)
     (make-lexical-token 'T_INLINE_HTML #f txt)
     (make-lexical-token tok #f txt)))

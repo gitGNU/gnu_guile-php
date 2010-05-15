@@ -33,18 +33,18 @@
 
 ?>" "")
 
-  (compile-php-str "<?
+  (compile-php-str "<?php
 #this #is a # comment # nested #shouldn't matter
 ?>" "")
 
-  (compile-php-str "<%
+  (compile-php-str "<?php
 //this is a comment ?>" "")
 
   (compile-php-str "<script language=\"php\">
 /* multi-line comment on a single line*/
 </script>" "")
 
-  (compile-php-str "<?
+  (compile-php-str "<?php
 /*
 
 multi-line 

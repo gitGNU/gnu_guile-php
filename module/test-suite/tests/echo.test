@@ -33,7 +33,7 @@
   (compile-php-str "<?php $a = 3; echo ++$a; ?>" "4")
   (compile-php-str "<?php $a = 4; echo --$a; ?>" "3")
   (compile-php-str "<?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?>" "123")
-  (compile-php-str "<? echo \"a\", \"b\", 1, 2; ?>" "ab12")
+  (compile-php-str "<?php echo \"a\", \"b\", 1, 2; ?>" "ab12")
   (compile-php-str "<?php echo true; ?>" "1")
   (compile-php-str "<?php echo TRUE; ?>" "1")
   (compile-php-str "<?php echo false; ?>" "")

@@ -25,7 +25,7 @@
   (compile-php-str "<?php function test() { print \"ok\"; } test(); ?>" "ok")
   (compile-php-str "<?php function test() { return 5; } $a = test(); print $a; ?>" "5")
   (compile-php-str "<?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?>" "1")
-  (compile-php-str "<? function a(){} ?>" "")
+  (compile-php-str "<?php function a(){} ?>" "")
   (compile-php-str "<?php function _aFunc() { print \"sure\"; } _aFunc(); ?>" "sure")
 
   (compile-php-str "<?php

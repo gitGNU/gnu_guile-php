@@ -45,15 +45,15 @@ ERROR: comments.test: compile: <?php
 ";
 
 ?> - arguments: ((SyntaxError "Unexpected eof inside string"))
-PASS: comments.test: compile: <?
+PASS: comments.test: compile: <?php
 #this #is a # comment # nested #shouldn't matter
 ?>
-PASS: comments.test: compile: <%
+PASS: comments.test: compile: <?php
 //this is a comment ?>
 PASS: comments.test: compile: <script language="php">
 /* multi-line comment on a single line*/
 </script>
-PASS: comments.test: compile: <?
+PASS: comments.test: compile: <?php
 /*
 
 multi-line 
@@ -103,7 +103,7 @@ PASS: echo.test: compile: <?php function test() { return 12; } echo test(); ?>
 PASS: echo.test: compile: <?php $a = 3; echo ++$a; ?>
 PASS: echo.test: compile: <?php $a = 4; echo --$a; ?>
 PASS: echo.test: compile: <?php $a = 1; $b = 2; $c = 3; echo $a, $b, $c; ?>
-PASS: echo.test: compile: <? echo "a", "b", 1, 2; ?>
+PASS: echo.test: compile: <?php echo "a", "b", 1, 2; ?>
 PASS: echo.test: compile: <?php echo true; ?>
 PASS: echo.test: compile: <?php echo TRUE; ?>
 PASS: echo.test: compile: <?php echo false; ?>
@@ -113,7 +113,7 @@ PASS: echo.test: compile: <?php echo NULL; ?>
 PASS: functions.test: compile: <?php function test() { print "ok"; } test(); ?>
 PASS: functions.test: compile: <?php function test() { return 5; } $a = test(); print $a; ?>
 PASS: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?>
-PASS: functions.test: compile: <? function a(){} ?>
+PASS: functions.test: compile: <?php function a(){} ?>
 PASS: functions.test: compile: <?php function _aFunc() { print "sure"; } _aFunc(); ?>
 ERROR: functions.test: compile: <?php
 function test1($a, $b, $c)
@@ -152,9 +152,9 @@ notyetdefined();
 
 function notyetdefined() { print "works"; }
 ?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" (notyetdefined) #f))
-ERROR: ifs.test: compile: <?php if(1 == 1) { print "1"; } else { print "2"; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: ifs.test: compile: <? if(2 == 1) { print "1"; } else { print "2"; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: ifs.test: compile: <?php if(((((((((((1 == 1))))))))))) { print "aeiou?"; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+PASS: ifs.test: compile: <?php if(1 == 1) { print "1"; } else { print "2"; } ?>
+PASS: ifs.test: compile: <?php if(2 == 1) { print "1"; } else { print "2"; } ?>
+PASS: ifs.test: compile: <?php if(((((((((((1 == 1))))))))))) { print "aeiou?"; } ?>
 PASS: ifs.test: compile: <?php
 
 if("a" == "a")
@@ -197,8 +197,8 @@ elseif ($c == $a)
 elseif ($a == $d)
   print "good";
 
-?> - arguments: ((SyntaxError "Invalid token: " #\newline))
-ERROR: ifs.test: compile: <?php
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_ELSEIF source: #f value: "elseif">))
+PASS: ifs.test: compile: <?php
 
 if(1 == 2)
 {
@@ -212,9 +212,9 @@ if(1 == 2)
 else
   print "passed";
 
-?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: ifs.test: compile: <?php if(1 == 2) { ?> "a" <?php } else { ?> "b" <?php } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: ifs.test: compile: <? if("aaa" === "aaa") { print "a"; } else { print "b"; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+?>
+PASS: ifs.test: compile: <?php if(1 == 2) { ?> "a" <?php } else { ?> "b" <?php } ?>
+PASS: ifs.test: compile: <?php if("aaa" === "aaa") { print "a"; } else { print "b"; } ?>
 PASS: ifs.test: compile: <?php if("1" == 1) print "ok"; else print "wrong"; ?>
 PASS: ifs.test: compile: <?php if(1 === "1") print "wrong"; else print "true"; ?>
 PASS: ifs.test: compile: <?php if(1 === 1) print "right"; else print "wrong"; ?>
@@ -225,7 +225,7 @@ PASS: inlinehtml.test: compile: <?php print "hello "; ?>world
 PASS: inlinehtml.test: compile: hello<?php ?> world
 PASS: inlinehtml.test: compile: <?php return "hello world"; ?>
 PASS: inlinehtml.test: compile: ~`!@#$%^&*()_=+-{{]]}}:;;"'<<>>?//..,,/**/
-ERROR: loops.test: compile: <?php
+PASS: loops.test: compile: <?php
 
 $i = 0;
 
@@ -234,15 +234,15 @@ do {
 }
 while($i > 1);
 
-?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: loops.test: compile: <?php
+?>
+PASS: loops.test: compile: <?php
 
 $i = 0;
 
 do { print ++$i; } while ($i < 5);
 
-?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: loops.test: compile: <?php
+?>
+PASS: loops.test: compile: <?php
 
 $i = 0;
 
@@ -251,28 +251,28 @@ while($i > 5)
 	print "wrong";
 }
 
-?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: loops.test: compile: <?php
+?>
+PASS: loops.test: compile: <?php
 
 $i = 5;
 
 while($i == 5) { print ++$i; }
 
-?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+?>
 ERROR: loops.test: compile: <?php for($i = 0; $i < 10; ++$i) { print $i; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
 ERROR: loops.test: compile: <?php do { print 1; continue; } while(0); ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-ERROR: loops.test: compile: <?php $i = 0; do { print ++$i; continue; } while($i < 5); ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: loops.test: compile: <?php do { print 1; break; } while(1); ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { break; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
-ERROR: loops.test: compile: <?php $i = 0; while($i < 5) { print ++$i; continue; } ?> - arguments: ((vm-error vm-run "VM: Wrong type argument" ()))
+PASS: loops.test: compile: <?php $i = 0; do { print ++$i; continue; } while($i < 5); ?>
+PASS: loops.test: compile: <?php do { print 1; break; } while(1); ?>
+PASS: loops.test: compile: <?php $i = 0; while($i < 5) { break; } ?>
+PASS: loops.test: compile: <?php $i = 0; while($i < 5) { print ++$i; continue; } ?>
 ERROR: loops.test: compile: <?php for($i = 0; $i < 5; ++$i) { if($i == 3) { continue; } print $i; } ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_FOR source: #f value: "for">))
 ERROR: loops.test: compile: <?php for($i = 0; $i < 50; ++$i) { print "a"; break; } ?> - arguments: ((SyntaxError "Invalid token: " #\space))
-PASS: nums.test: compile: <? $n = 1; print $n; ?>
-PASS: nums.test: compile: <? $n = 11; print $n; ?>
-PASS: nums.test: compile: <? $n = -1; print $n; ?>
-PASS: nums.test: compile: <? $n = -1111111; print $n; ?>
-PASS: nums.test: compile: <? $n = 12345678901234567890; print $n; ?>
-PASS: nums.test: compile: <? $n = -12345678901234567890; print $n; ?>
+PASS: nums.test: compile: <?php $n = 1; print $n; ?>
+PASS: nums.test: compile: <?php $n = 11; print $n; ?>
+PASS: nums.test: compile: <?php $n = -1; print $n; ?>
+PASS: nums.test: compile: <?php $n = -1111111; print $n; ?>
+PASS: nums.test: compile: <?php $n = 12345678901234567890; print $n; ?>
+PASS: nums.test: compile: <?php $n = -12345678901234567890; print $n; ?>
 PASS: nums.test: compile: <?php $n = 0; ++$n; --$n; print $n; ?>
 PASS: print.test: compile: <?php print ""; ?>
 PASS: print.test: compile: <?php print null; ?>
@@ -285,9 +285,9 @@ PASS: print.test: compile: <?php $a = 3; print ++$a; ?>
 PASS: print.test: compile: <?php $a = 4; print --$a; ?>
 PASS: print.test: compile: <?php $a = 1; print $a++; ?>
 PASS: print.test: compile: <?php $a = 1; print $a--; ?>
-PASS: strings.test: compile: <? $s = "string"; print $s; ?>
-PASS: strings.test: compile: <? $s = 'string'; print $s; ?>
-PASS: strings.test: compile: <? $s = "this 
+PASS: strings.test: compile: <?php $s = "string"; print $s; ?>
+PASS: strings.test: compile: <?php $s = 'string'; print $s; ?>
+PASS: strings.test: compile: <?php $s = "this 
 is 
 a 
 string"; print $s;
@@ -361,32 +361,32 @@ default:
 print $i;
 
 ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
-ERROR: vars.test: compile: <? $a = 1; print $a; ?> - arguments: ((SyntaxError "Invalid token: " #\space))
+PASS: vars.test: compile: <?php $a = 1; print $a; ?>
 PASS: vars.test: compile: <?php $a = "a"; print $a; ?>
 PASS: vars.test: compile: <?php $a = 'b'; print $a; ?>
 PASS: vars.test: compile: <?php $x = 1; $y = $x; print $x; ?>
-PASS: vars.test: compile: <? $x = 2; $x = 1; $x = 3; print $x; ?>
-FAIL: vars.test: compile: <? $x = "ok"; $gggg = "$x"; print $gggg; ?>
-PASS: vars.test: compile: <? $var = "val"; $varb = '$var'; print $varb; ?>
+PASS: vars.test: compile: <?php $x = 2; $x = 1; $x = 3; print $x; ?>
+FAIL: vars.test: compile: <?php $x = "ok"; $gggg = "$x"; print $gggg; ?>
+PASS: vars.test: compile: <?php $var = "val"; $varb = '$var'; print $varb; ?>
 PASS: vars.test: compile: <?php $a1 = 1; print $a1; ?>
 PASS: vars.test: compile: <?php $_a = 2; print $_a; ?>
-PASS: vars.test: compile: <? $_a1_2b = 3; print $_a1_2b; ?>
-PASS: vars.test: compile: <? $x = 1; $y = ++$x; print $x; ?>
-PASS: vars.test: compile: <? $t = true; ?>
-PASS: vars.test: compile: <? $f = false; ?>
-PASS: vars.test: compile: <? $T = TRUE; ?>
-PASS: vars.test: compile: <? $F = FALSE; ?>
+PASS: vars.test: compile: <?php $_a1_2b = 3; print $_a1_2b; ?>
+PASS: vars.test: compile: <?php $x = 1; $y = ++$x; print $x; ?>
+PASS: vars.test: compile: <?php $t = true; ?>
+PASS: vars.test: compile: <?php $f = false; ?>
+PASS: vars.test: compile: <?php $T = TRUE; ?>
+PASS: vars.test: compile: <?php $F = FALSE; ?>
 PASS: vars.test: compile: <?php $N = NULL; ?>
-PASS: vars.test: compile: <? $n = null; ?>
+PASS: vars.test: compile: <?php $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 142
+passes:                 157
 failures:               6
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 30
+errors:                 15
 

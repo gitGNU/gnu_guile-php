@@ -22,12 +22,12 @@
   #:use-module (test-suite lib))
 
 (with-test-prefix "compile"
-  (compile-php-str "<? $n = 1; print $n; ?>" "1")
-  (compile-php-str "<? $n = 11; print $n; ?>" "11")
-  (compile-php-str "<? $n = -1; print $n; ?>" "-1")
-  (compile-php-str "<? $n = -1111111; print $n; ?>" "-1111111")
-  (compile-php-str "<? $n = 12345678901234567890; print $n; ?>" "12345678901234567890")
-  (compile-php-str "<? $n = -12345678901234567890; print $n; ?>" "-12345678901234567890")
+  (compile-php-str "<?php $n = 1; print $n; ?>" "1")
+  (compile-php-str "<?php $n = 11; print $n; ?>" "11")
+  (compile-php-str "<?php $n = -1; print $n; ?>" "-1")
+  (compile-php-str "<?php $n = -1111111; print $n; ?>" "-1111111")
+  (compile-php-str "<?php $n = 12345678901234567890; print $n; ?>" "12345678901234567890")
+  (compile-php-str "<?php $n = -12345678901234567890; print $n; ?>" "-12345678901234567890")
   (compile-php-str "<?php $n = 0; ++$n; --$n; print $n; ?>" "0"))
 
 

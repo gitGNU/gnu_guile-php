@@ -85,7 +85,7 @@
      (Comment) : $1
      (ExpressionStatement) : $1
      (FunctionDeclaration) : $1
-     (GroupedStatements)
+     (GroupedStatements) : $1
      (Echo) : $1
      (Print) : $1
      (Return) : $1
