@@ -38,38 +38,48 @@
 
 (define (make-parser)
   (lalr-parser 
-    (T_ABSTRACT T_AND_EQUAL T_ARRAY T_ARRAY_CAST T_AS T_BAD_CHARACTER 
-      T_BOOLEAN_AND T_BOOLEAN_OR T_BOOL_CAST T_BREAK T_CASE T_CATCH 
-      T_CLASS T_CLASS_C T_CLONE T_CLOSE_TAG T_COMMENT T_CONCAT_EQUAL 
+    (T_ABSTRACT T_ARRAY T_ARRAY_CAST T_AS T_BAD_CHARACTER 
+      T_BOOL_CAST T_BREAK T_CASE T_CATCH 
+      T_CLASS T_CLASS_C T_CLONE T_CLOSE_TAG T_COMMENT 
       T_CONST T_CONSTANT_ENCAPSED_STRING T_CONTINUE T_CURLY_OPEN 
-      T_DEC T_DECLARE T_DEFAULT T_DIR T_DIV_EQUAL T_DNUMBER T_DOC_COMMENT 
-      T_DO T_DOLLAR_OPEN_CURLY_BRACES T_DOUBLE_ARROW T_DOUBLE_CAST 
-      T_DOUBLE_COLON T_ECHO
-      (nonassoc: T_ELSE) (nonassoc: T_ELSEIF T_EMPTY)
-      T_ENCAPSED_AND_WHITESPACE 
+      T_DECLARE T_DEFAULT T_DIR T_DNUMBER T_DOC_COMMENT 
+      T_DO T_DOLLAR_OPEN_CURLY_BRACES T_DOUBLE_CAST 
+      T_DOUBLE_COLON T_ECHO T_EMPTY T_ENCAPSED_AND_WHITESPACE 
       T_ENDDECLARE T_ENDFOR T_ENDFOREACH T_ENDIF T_ENDSWITCH T_ENDWHILE 
       T_END_HEREDOC T_EVAL T_EXTENDS T_FILE T_FINAL T_FOR T_FOREACH 
       T_FUNCTION T_FUNC_C T_GLOBAL T_GOTO T_HALT_COMPILER T_IF 
-      T_IMPLEMENTS T_INC T_INCLUDE T_INCLUDE_ONCE T_INLINE_HTML T_INSTANCEOF T_INT_CAST 
-      T_INTERFACE T_ISSET
-      (nonassoc: T_IS_EQUAL T_IS_GREATER_OR_EQUAL T_IS_IDENTICAL 
-		 T_IS_NOT_EQUAL T_IS_NOT_IDENTICAL T_IS_SMALLER_OR_EQUAL)
-      T_LINE T_LIST 
-      T_LNUMBER
-      (left: T_LOGICAL_AND) (left: T_LOGICAL_OR) (left: T_LOGICAL_XOR)
-      T_MINUS_EQUAL T_MOD_EQUAL T_MUL_EQUAL 
+      T_IMPLEMENTS T_INCLUDE T_INCLUDE_ONCE T_INLINE_HTML T_INSTANCEOF T_INT_CAST 
+      T_INTERFACE T_ISSET T_LINE T_LIST T_LNUMBER
       T_NS_C T_NUM_STRING T_OBJECT_CAST T_OBJECT_OPERATOR T_OPEN_TAG 
-      T_OPEN_TAG_WITH_ECHO T_OR_EQUAL T_PLUS_EQUAL T_PRINT T_PRIVATE T_PUBLIC 
-      T_PROTECTED T_REQUIRE T_REQUIRE_ONCE T_RETURN T_SL T_SL_EQUAL T_SR 
-      T_SR_EQUAL T_START_HEREDOC T_STATIC T_STRING T_STRING_CAST T_SWITCH 
+      T_OPEN_TAG_WITH_ECHO T_PRINT T_PRIVATE T_PUBLIC 
+      T_PROTECTED T_REQUIRE T_REQUIRE_ONCE T_RETURN 
+      T_START_HEREDOC T_STATIC T_STRING T_STRING_CAST T_SWITCH 
       T_THROW T_TRY T_UNSET T_UNSET_CAST T_USE T_VAR T_VARIABLE T_WHILE 
-      T_WHITESPACE T_XOR_EQUAL 
+      T_WHITESPACE 
 
-      open-paren close-paren open-brace close-brace open-bracket close-bracket 
-      (left: comma semi asteriks plus minus divide) (right: equals) dot
-      (left: qmark colon) null label
-      greater-than less-than true false period amp pipe caret mod
-      (right: exclaimation))
+      open-paren close-paren open-brace close-brace open-bracket close-bracket
+      null label true false 
+
+      (nonassoc: T_ELSE T_ELSEIF)
+      (left: semi)
+      (left: comma)
+      (left: T_LOGICAL_OR T_LOGICAL_XOR T_LOGICAL_AND)
+      (right: equals T_PLUS_EQUAL T_MINUS_EQUAL T_MUL_EQUAL T_DIV_EQUAL T_CONCAT_EQUAL
+	      T_MOD_EQUAL T_AND_EQUAL T_OR_EQUAL T_XOR_EQUAL T_SL_EQUAL T_SR_EQUAL
+	      T_DOUBLE_ARROW)
+      (left: qmark colon)
+      (left: T_BOOLEAN_OR)
+      (left: T_BOOLEAN_AND)
+      (left: pipe)
+      (left: caret)
+      (left: amp)
+      (nonassoc: T_IS_EQUAL T_IS_NOT_EQUAL T_IS_IDENTICAL T_IS_NOT_IDENTICAL)
+      (nonassoc: less-than T_IS_SMALLER_OR_EQUAL greater-than T_IS_GREATER_OR_EQUAL) ; T_IS_NOT_EQUAL goes here also... <>
+      (left: T_SL T_SR)
+      (left: plus minus period)
+      (left: asteriks divide mod)
+      (right: exclaimation)
+      (nonassoc: T_INC T_DEC))
 
     (Program
      (SourceElements *eoi*) : $1
