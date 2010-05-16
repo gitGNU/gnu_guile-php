@@ -301,7 +301,7 @@ FAIL: strings.test: compile: <?php $a = "test"; print "a = $a"; ?>
 FAIL: strings.test: compile: <?php $a = 'test'; print "a = $a"; ?>
 PASS: strings.test: compile: <?php $a = "test"; print 'a = $a'; ?>
 PASS: strings.test: compile: <?php $a = 'test'; print 'a = $a'; ?>
-ERROR: switch.test: compile: <?php $i = 0; switch($i) {} ?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
+PASS: switch.test: compile: <?php $i = 0; switch($i) {} ?>
 ERROR: switch.test: compile: <?php 
 
 $i = 0;
@@ -313,7 +313,7 @@ case 2: print '2'; break;
 default: print 'good';
 }
 
-?> - arguments: ((SyntaxError "Invalid token: " #\space))
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PRINT source: #f value: "print">))
 ERROR: switch.test: compile: <?php
 
 $i = 10;
@@ -327,7 +327,7 @@ case 10: print 'bad'; break;
 default: print 'bad';
 }
 
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
+?> - arguments: ((SyntaxError "Invalid token: " #\newline))
 ERROR: switch.test: compile: <?php
 
 $i = 5;
@@ -343,7 +343,7 @@ case 6: print 'bad';
 default: print 'od';
 }
 
-?> - arguments: ((SyntaxError "Invalid token: " #\newline))
+?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_PRINT source: #f value: "print">))
 ERROR: switch.test: compile: <?php
 
 $i = 0;
@@ -360,7 +360,7 @@ default:
 
 print $i;
 
-?> - arguments: ((ParseSyntaxError "Syntax error: unexpected token : " #<lexical-token category: T_SWITCH source: #f value: "switch">))
+?> - arguments: ((SyntaxError "Invalid token: " #\newline))
 PASS: vars.test: compile: <?php $a = 1; print $a; ?>
 PASS: vars.test: compile: <?php $a = "a"; print $a; ?>
 PASS: vars.test: compile: <?php $a = 'b'; print $a; ?>
@@ -381,12 +381,12 @@ PASS: vars.test: compile: <?php $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 163
+passes:                 164
 failures:               6
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 9
+errors:                 8
 
