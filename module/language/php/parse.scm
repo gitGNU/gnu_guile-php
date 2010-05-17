@@ -177,10 +177,10 @@
      (T_FUNCTION label open-paren FunctionParamList close-paren FunctionBody) : `(var (var ,$2) (lambda ,$4 ,$6)))
 
     (FunctionParam
-     (T_VARIABLE) : `(,$1))
+     (T_VARIABLE) : $1)
     
     (FunctionParamList
-     (FunctionParam) : $1
+     (FunctionParam) : `(,$1)
      (FunctionParamList comma FunctionParam) : `(,@$1 ,$3))
 
     (GroupedStatements

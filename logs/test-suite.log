@@ -115,7 +115,7 @@ PASS: functions.test: compile: <?php function test() { return 5; } $a = test(); 
 PASS: functions.test: compile: <?php function a12_21aa_45(){ print 1;} a12_21aa_45(); ?>
 PASS: functions.test: compile: <?php function a(){} ?>
 PASS: functions.test: compile: <?php function _aFunc() { print "sure"; } _aFunc(); ?>
-ERROR: functions.test: compile: <?php
+PASS: functions.test: compile: <?php
 function test1($a, $b, $c)
 {
   if($a == $b)
@@ -129,14 +129,14 @@ $b = test1(1, 2, 1);
 
 print $a;
 print $b;
-?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" ($b) #f))
+?>
 PASS: functions.test: compile: <?php
 function test_some_func() {
   print "yar";
 }
 
 test_some_func();
-ERROR: functions.test: compile: <?php
+PASS: functions.test: compile: <?php
 function a() { return 1; }
 function b() { return 2; }
 function c() { return 3; }
@@ -146,7 +146,7 @@ function test($a, $b, $c) {
 }
 
 test(a(), b(), c());
-?> - arguments: ((unbound-variable "module-lookup" "Unbound variable: ~S" ($c) #f))
+?>
 ERROR: functions.test: compile: <script language="php">
 notyetdefined();
 
@@ -381,12 +381,12 @@ PASS: vars.test: compile: <?php $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 164
+passes:                 166
 failures:               6
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0
 untested test cases:    0
 unsupported test cases: 0
-errors:                 8
+errors:                 6
 
