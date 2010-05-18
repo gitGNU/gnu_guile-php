@@ -58,10 +58,9 @@
       T_WHITESPACE 
 
       open-paren close-paren open-brace close-brace open-bracket close-bracket
-      null label true false 
+      null label true false semi
 
       (nonassoc: T_ELSE T_ELSEIF)
-      (left: semi)
       (left: comma)
       (left: T_LOGICAL_OR T_LOGICAL_XOR T_LOGICAL_AND)
       (right: equals T_PLUS_EQUAL T_MINUS_EQUAL T_MUL_EQUAL T_DIV_EQUAL T_CONCAT_EQUAL
@@ -108,10 +107,8 @@
      (InlineHTML) : $1
      (IfStatement) : $1
      (IterationStatement) : $1
-     (CallStatement) : $1
      (Comment) : $1
      (ExpressionStatement) : $1
-     ;(FunctionDeclaration) : $1
      (GroupedStatements) : $1
      (Echo) : $1
      (Print) : $1
@@ -123,8 +120,6 @@
     (BreakStatement
      (T_BREAK semi) : `(break)
      (T_BREAK T_LNUMBER semi) : `(break ,$2))
-    
-    (CallStatement (CallExpression semi) : $1)
 
     (CaseClause
      (T_CASE Expression colon) : `(void)
@@ -239,8 +234,8 @@
 
     (PostfixExpression
      (LeftHandSideExpression) : $1
-     (LeftHandSideExpression T_INC) : `(post-inc ,$1)
-     (LeftHandSideExpression T_DEC) : `(post-dec ,$1))
+     (PostfixExpression T_INC) : `(post-inc ,$1)
+     (PostfixExpression T_DEC) : `(post-dec ,$1))
     
     (UnaryExpression
      (PostfixExpression) : $1
@@ -258,7 +253,7 @@
     
     (NotExpression
      (InstanceOfExpression) : $1
-     (exclaimation InstanceOfExpression))
+     (exclaimation NotExpression))
 
     (MultiplicativeExpression
      (NotExpression) : $1
