@@ -1,0 +1,49 @@
+;;; PHP for GNU Guile
+
+;; Copyright (C) 2010 Jon Herron
+
+;; This library is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU Lesser General Public
+;; License as published by the Free Software Foundation; either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This library is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Lesser General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Lesser General Public
+;; License along with this library; if not, write to the Free Software
+;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+;; 02110-1301 USA
+
+(define-module (test-suite test cast)
+  #:use-module (test-suite base)
+  #:use-module (test-suite lib))
+
+(with-test-prefix "compile"
+  (compile-php-str "<?php print (bool)\"\"; ?>"  "")
+  (compile-php-str "<?php print (bool)null; ?>" "")
+  (compile-php-str "<?php print (bool)5; ?>" "1")
+  (compile-php-str "<?php print (bool)\"another string\"; ?>" "1")
+  (compile-php-str "<?php $a = 1; print (bool)$a; ?>" "1")
+  (compile-php-str "<?php $a = 0; print (bool)\"$a\"; ?>" "")
+  (compile-php-str "<?php function test() { return 12; } print (bool)test(); ?>" "1")
+  (compile-php-str "<?php $a = 3; print (bool)++$a; ?>" "1")
+  (compile-php-str "<?php $a = 1; print (bool)--$a; ?>" "")
+  (compile-php-str "<?php $a = 1; print (bool)$a++; ?>" "1")
+  (compile-php-str "<?php $a = 1; print (bool)$a--; ?>" "1")
+
+  (compile-php-str "<?php print (string)''; ?>" "")
+  (compile-php-str "<?php print (string)5; ?>" "5")
+  (compile-php-str "<?php print (string)(bool)5; ?>" "1")
+  (compile-php-str "<?php print (string)TRUE; ?>" "1")
+  (compile-php-str "<?php print (string)NULL; ?>" "")
+  (compile-php-str "<?php $a = 5; print (string)\"$a\"; ?>" "5")
+  (compile-php-str "<?php $a = 1; print (string)++$a; ?>" "2")
+  (compile-php-str "<?php function test() { return 1 + 2; } print (string)test(); ?>" "3")
+
+  (compile-php-str "<?php print (int)\"5\"; ?>" "5")
+  (compile-php-str "<?php print (int)NULL; ?>" "0")
+  (compile-php-str "<?php print (int)FALSE; ?>" "0")
+  (compile-php-str "<?php print (int)(bool)(string)5; ?>" "1"))

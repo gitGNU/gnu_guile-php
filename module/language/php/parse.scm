@@ -248,7 +248,10 @@
      (T_DEC UnaryExpression) : `(pre-dec ,$2))
     
     (TypeExpression
-     (UnaryExpression) : $1)
+     (UnaryExpression) : $1
+     (T_BOOL_CAST TypeExpression) : `(->bool ,$2)
+     (T_INT_CAST TypeExpression) : `(->int ,$2)
+     (T_STRING_CAST TypeExpression) : `(->string ,$2))
     
     (InstanceOfExpression
      (TypeExpression) : $1)

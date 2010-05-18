@@ -274,6 +274,10 @@
      `(apply (@ (language php impl) php/%) ,(comp a env) ,(comp b env)))
     ((->bool ,x)
      `(apply (@ (language php impl) php/->bool) ,(comp x env)))
+    ((->string ,x)
+     `(apply (@ (language php impl) php/->string) ,(comp x env)))
+    ((->int ,x)
+     `(apply (@ (language php impl) php/->number) ,(comp x env)))
     ((void)
      `(void))
 

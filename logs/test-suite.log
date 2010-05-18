@@ -35,6 +35,29 @@ PASS: assignment.test: compile: <?php $a = 1111; print $a ^= 11; ?>
 PASS: assignment.test: compile: <?php $a = 30; $a = $a % 4; print $a; ?>
 PASS: assignment.test: compile: <?php $a = 30; $a %= 4; print $a; ?>
 PASS: assignment.test: compile: <?php $a = 30; print $a %= 4; ?>
+PASS: cast.test: compile: <?php print (bool)""; ?>
+PASS: cast.test: compile: <?php print (bool)null; ?>
+PASS: cast.test: compile: <?php print (bool)5; ?>
+PASS: cast.test: compile: <?php print (bool)"another string"; ?>
+PASS: cast.test: compile: <?php $a = 1; print (bool)$a; ?>
+FAIL: cast.test: compile: <?php $a = 0; print (bool)"$a"; ?>
+PASS: cast.test: compile: <?php function test() { return 12; } print (bool)test(); ?>
+PASS: cast.test: compile: <?php $a = 3; print (bool)++$a; ?>
+PASS: cast.test: compile: <?php $a = 1; print (bool)--$a; ?>
+PASS: cast.test: compile: <?php $a = 1; print (bool)$a++; ?>
+PASS: cast.test: compile: <?php $a = 1; print (bool)$a--; ?>
+PASS: cast.test: compile: <?php print (string)''; ?>
+PASS: cast.test: compile: <?php print (string)5; ?>
+PASS: cast.test: compile: <?php print (string)(bool)5; ?>
+PASS: cast.test: compile: <?php print (string)TRUE; ?>
+PASS: cast.test: compile: <?php print (string)NULL; ?>
+FAIL: cast.test: compile: <?php $a = 5; print (string)"$a"; ?>
+PASS: cast.test: compile: <?php $a = 1; print (string)++$a; ?>
+PASS: cast.test: compile: <?php function test() { return 1 + 2; } print (string)test(); ?>
+PASS: cast.test: compile: <?php print (int)"5"; ?>
+PASS: cast.test: compile: <?php print (int)NULL; ?>
+PASS: cast.test: compile: <?php print (int)FALSE; ?>
+PASS: cast.test: compile: <?php print (int)(bool)(string)5; ?>
 PASS: comments.test: compile: <?php #function test() { print "ok"; } test(); ?>
 PASS: comments.test: compile: <?php //function test() { return 5; } $a = test(); print $a; ?>
 PASS: comments.test: compile: <?php /* some comment */ ?>
@@ -381,8 +404,8 @@ PASS: vars.test: compile: <?php $n = null; ?>
 PASS: vars.test: compile: <?php $a = 1; $a = 2; $a = 3; $a = 4; $a = 5; print $a; ?>
 
 Totals for this test run:
-passes:                 166
-failures:               6
+passes:                 187
+failures:               8
 unexpected passes:      0
 expected failures:      0
 unresolved test cases:  0

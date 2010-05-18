@@ -4,8 +4,7 @@
 * heredoc strings
 * foreach loop
 * fix failing tests...
-* look at SHIFT/REDUCE and REDUCE/REDUCE errors/warnings
-* casting
+* casting - float, array, object
 * include, require, include_once, require_once
 * try/catch
 * type hinting
@@ -14,6 +13,7 @@
 * OOP
 * stdlib
 * assignment operators
+* switch statement failures
 
 ---- low priority
 
