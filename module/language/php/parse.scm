@@ -38,35 +38,44 @@
 
 (define (make-parser)
   (lalr-parser 
-    (T_ABSTRACT T_ARRAY T_ARRAY_CAST T_AS T_BAD_CHARACTER 
-      T_BOOL_CAST T_BREAK T_CASE T_CATCH 
-      T_CLASS T_CLASS_C T_CLONE T_CLOSE_TAG T_COMMENT 
-      T_CONST T_CONSTANT_ENCAPSED_STRING T_CONTINUE T_CURLY_OPEN 
-      T_DECLARE T_DEFAULT T_DIR T_DNUMBER T_DOC_COMMENT 
-      T_DO T_DOLLAR_OPEN_CURLY_BRACES T_DOUBLE_CAST 
-      T_DOUBLE_COLON T_ECHO T_EMPTY T_ENCAPSED_AND_WHITESPACE 
+    ((nonassoc: T_COMMENT T_DOC_COMMENT)
+     T_ABSTRACT T_ARRAY T_AS T_BAD_CHARACTER 
+      T_CATCH T_CLASS T_CLASS_C T_CLONE T_CLOSE_TAG 
+      T_CONST 
+      T_CURLY_OPEN 
+      T_DECLARE T_DIR T_DNUMBER 
+      T_DOLLAR_OPEN_CURLY_BRACES 
+      T_DOUBLE_COLON T_EMPTY T_ENCAPSED_AND_WHITESPACE 
       T_ENDDECLARE T_ENDFOR T_ENDFOREACH T_ENDIF T_ENDSWITCH T_ENDWHILE 
-      T_END_HEREDOC T_EVAL T_EXTENDS T_FILE T_FINAL T_FOR T_FOREACH 
-      T_FUNCTION T_FUNC_C T_GLOBAL T_GOTO T_HALT_COMPILER T_IF 
-      T_IMPLEMENTS T_INCLUDE T_INCLUDE_ONCE T_INLINE_HTML T_INSTANCEOF T_INT_CAST 
-      T_INTERFACE T_ISSET T_LINE T_LIST T_LNUMBER
-      T_NS_C T_NUM_STRING T_OBJECT_CAST T_OBJECT_OPERATOR T_OPEN_TAG 
-      T_OPEN_TAG_WITH_ECHO T_PRINT T_PRIVATE T_PUBLIC 
-      T_PROTECTED T_REQUIRE T_REQUIRE_ONCE T_RETURN 
-      T_START_HEREDOC T_STATIC T_STRING T_STRING_CAST T_SWITCH 
-      T_THROW T_TRY T_UNSET T_UNSET_CAST T_USE T_VAR T_VARIABLE T_WHILE 
+      T_END_HEREDOC T_EVAL T_EXTENDS T_FILE T_FINAL 
+      T_FUNCTION T_FUNC_C T_GLOBAL T_GOTO T_HALT_COMPILER 
+      T_IMPLEMENTS T_INCLUDE T_INCLUDE_ONCE T_INSTANCEOF 
+      T_INTERFACE T_ISSET T_LINE T_LIST 
+      T_NS_C T_NUM_STRING T_OBJECT_OPERATOR T_OPEN_TAG 
+      T_PRIVATE T_PUBLIC 
+      T_PROTECTED T_REQUIRE T_REQUIRE_ONCE 
+      T_START_HEREDOC T_STATIC T_STRING
+      T_THROW T_TRY T_UNSET T_UNSET_CAST T_USE T_VAR 
       T_WHITESPACE 
 
-      open-paren close-paren open-brace close-brace open-bracket close-bracket
-      null label true false semi
+      semi colon
+
+      (nonassoc: open-paren close-paren open-brace close-brace
+		 open-bracket close-bracket null label true false)
 
       (nonassoc: T_ELSE T_ELSEIF)
+      (nonassoc: T_CONSTANT_ENCAPSED_STRING T_LNUMBER T_VARIABLE)
+      (left: T_SWITCH T_CASE T_DEFAULT T_BREAK T_CONTINUE)
+      (left: T_OPEN_TAG_WITH_ECHO T_ECHO T_PRINT T_INLINE_HTML)
+      (left: T_DO T_FOR T_FOREACH T_WHILE)
+      (left: T_IF)
+      (left: T_RETURN)
       (left: comma)
       (left: T_LOGICAL_OR T_LOGICAL_XOR T_LOGICAL_AND)
       (right: equals T_PLUS_EQUAL T_MINUS_EQUAL T_MUL_EQUAL T_DIV_EQUAL T_CONCAT_EQUAL
 	      T_MOD_EQUAL T_AND_EQUAL T_OR_EQUAL T_XOR_EQUAL T_SL_EQUAL T_SR_EQUAL
 	      T_DOUBLE_ARROW)
-      (left: qmark colon)
+      (left: qmark)
       (left: T_BOOLEAN_OR)
       (left: T_BOOLEAN_AND)
       (left: pipe)
@@ -78,14 +87,12 @@
       (left: plus minus period)
       (left: asteriks divide mod)
       (right: exclaimation)
+      (right: T_INT_CAST T_DOUBLE_CAST T_STRING_CAST T_ARRAY_CAST T_OBJECT_CAST T_BOOL_CAST)
       (nonassoc: T_INC T_DEC))
 
     (Program
      (SourceElements *eoi*) : $1
      (*eoi*) : `(void))
-
-    (InlineHTML
-     (T_INLINE_HTML) : `(echo (string ,$1)))
 
     (SourceElements
      (SourceElement) : $1
@@ -115,7 +122,8 @@
      (Return) : $1
      (ContinueStatement) : $1
      (BreakStatement) : $1
-     (SwitchStatement) : $1)
+     (SwitchStatement) : $1
+     )
 
     (BreakStatement
      (T_BREAK semi) : `(break)
@@ -123,7 +131,8 @@
 
     (CaseClause
      (T_CASE Expression colon) : `(void)
-     (T_CASE Expression colon Statements) : `(case ,$2 ,$4))
+     (T_CASE Expression colon Statements) : `(case ,$2 ,$4)
+     )
     
     (CaseClauses
      (CaseClause) : $1
@@ -135,7 +144,8 @@
      (open-brace close-brace) : `(void)
      (open-brace CaseClauses close-brace) : $2
      (open-brace CaseClauses DefaultClause close-brace) : `(begin ,$2 ,$3)
-     (open-brace DefaultClause close-brace) : $2)
+     (open-brace DefaultClause close-brace) : $2
+     )
     
     (Comment (T_COMMENT) : `(void))
 
@@ -145,7 +155,8 @@
 
     (DefaultClause
       (T_DEFAULT colon) : `(void)
-      (T_DEFAULT colon Statements) : `(case-default ,$3))
+      (T_DEFAULT colon Statements) : `(case-default ,$3)
+      )
     
     (Echo (T_ECHO ExpressionList semi) : `(echo ,@$2))
 
@@ -186,6 +197,9 @@
      (T_IF open-paren Expression close-paren Statement) : `(if ,$3 ,$5)
      (T_IF open-paren Expression close-paren Statement ElseStatements) : `(if ,$3 ,$5 ,$6))
 
+    (InlineHTML
+     (T_INLINE_HTML) : `(echo (string ,$1)))
+
     (IterationStatement
      (T_DO Statement T_WHILE open-paren Expression close-paren semi) : `(do ,$2 ,$5)
      (T_FOR open-paren semi semi close-paren Statement) : `(for #f #f #f ,$6)
@@ -204,10 +218,6 @@
 
     (SwitchStatement
      (T_SWITCH open-paren Expression close-paren CaseStatements) : `(switch ,$3 ,$5))
-;     (T_SWITCH open-paren Expression close-paren open-brace close-brace) : `(switch ,$3 (void))
-;     (T_SWITCH open-paren Expression close-paren open-brace CaseClauses close-brace) : `(swich ,$3 ,$6)
-;     (T_SWITCH open-paren Expression close-paren open-brace CaseClauses DefaultClause close-brace) : `(switch ,$3 (begin ,$6 ,$7))
-;     (T_SWITCH open-paren Expression close-paren open-brace DefaultClause close-brace) : `(switch ,$3 ,$6))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     

@@ -84,5 +84,23 @@ default:
 
 print $i;
 
-?>" "0"))
+?>" "0")
+
+  (compile-php-str "<?php
+
+$a = 1;
+$b = 2;
+
+switch($a) {
+case 0:
+case 1:
+switch($b) {
+case 0:
+case 1:
+case 2:
+print \"12\";
+}
+}
+
+?>" "12"))
 
