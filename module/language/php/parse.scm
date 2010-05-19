@@ -40,7 +40,7 @@
   (lalr-parser 
     ((nonassoc: T_COMMENT T_DOC_COMMENT)
      T_ABSTRACT T_ARRAY T_AS T_BAD_CHARACTER 
-      T_CATCH T_CLASS T_CLASS_C T_CLONE T_CLOSE_TAG 
+      T_CATCH T_CLASS T_CLASS_C T_CLONE 
       T_CONST 
       T_CURLY_OPEN 
       T_DECLARE T_DIR T_DNUMBER 
@@ -48,10 +48,10 @@
       T_DOUBLE_COLON T_EMPTY T_ENCAPSED_AND_WHITESPACE 
       T_ENDDECLARE T_ENDFOR T_ENDFOREACH T_ENDIF T_ENDSWITCH T_ENDWHILE 
       T_END_HEREDOC T_EVAL T_EXTENDS T_FILE T_FINAL 
-      T_FUNCTION T_FUNC_C T_GLOBAL T_GOTO T_HALT_COMPILER 
+      T_FUNC_C T_GLOBAL T_GOTO T_HALT_COMPILER 
       T_IMPLEMENTS T_INCLUDE T_INCLUDE_ONCE T_INSTANCEOF 
       T_INTERFACE T_ISSET T_LINE T_LIST 
-      T_NS_C T_NUM_STRING T_OBJECT_OPERATOR T_OPEN_TAG 
+      T_NS_C T_NUM_STRING T_OBJECT_OPERATOR 
       T_PRIVATE T_PUBLIC 
       T_PROTECTED T_REQUIRE T_REQUIRE_ONCE 
       T_START_HEREDOC T_STATIC T_STRING
@@ -63,8 +63,11 @@
       (nonassoc: open-paren close-paren open-brace close-brace
 		 open-bracket close-bracket null label true false)
 
+      T_OPEN_TAG
+      (nonassoc: T_CLOSE_TAG)
       (nonassoc: T_ELSE T_ELSEIF)
       (nonassoc: T_CONSTANT_ENCAPSED_STRING T_LNUMBER T_VARIABLE)
+      (left: T_FUNCTION)
       (left: T_SWITCH T_CASE T_DEFAULT T_BREAK T_CONTINUE)
       (left: T_OPEN_TAG_WITH_ECHO T_ECHO T_PRINT T_INLINE_HTML)
       (left: T_DO T_FOR T_FOREACH T_WHILE)
@@ -107,11 +110,13 @@
 				  `(begin ,$1 ,$2)))
 
     (SourceElement
-     (Statement) : $1
-     (FunctionDeclaration) : $1)
+     (InlineHTMLs) : $1
+     (T_OPEN_TAG T_CLOSE_TAG) : `(void)
+     (T_OPEN_TAG Statements) : $2
+     (T_OPEN_TAG Statements T_CLOSE_TAG) : $2)
     
     (Statement
-     (InlineHTML) : $1
+     (FunctionDeclaration) : $1
      (IfStatement) : $1
      (IterationStatement) : $1
      (Comment) : $1
@@ -123,6 +128,7 @@
      (ContinueStatement) : $1
      (BreakStatement) : $1
      (SwitchStatement) : $1
+     ;(TextModeStatement) : $1
      )
 
     (BreakStatement
@@ -200,6 +206,12 @@
     (InlineHTML
      (T_INLINE_HTML) : `(echo (string ,$1)))
 
+    (InlineHTMLs
+     (InlineHTML) : $1
+     (InlineHTMLs InlineHTML) : (if (and (pair? $1) (eq? (car $1) 'begin))
+				    `(begin ,@(cdr $1) ,$2)
+				    `(begin ,$1 ,$2)))
+
     (IterationStatement
      (T_DO Statement T_WHILE open-paren Expression close-paren semi) : `(do ,$2 ,$5)
      (T_FOR open-paren semi semi close-paren Statement) : `(for #f #f #f ,$6)
@@ -218,6 +230,9 @@
 
     (SwitchStatement
      (T_SWITCH open-paren Expression close-paren CaseStatements) : `(switch ,$3 ,$5))
+
+    (TextModeStatement
+     (T_CLOSE_TAG InlineHTMLs T_OPEN_TAG) : $2)
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     

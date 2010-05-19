@@ -52,7 +52,7 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 "__CLASS__"  (make-token 'T_CLASS_C yytext)
 "clone"  (make-token 'T_CLONE yytext)
 
-"?>"|"%>"|"</script>"  (begin (set! parse-mode 'txt) (yycontinue))
+"?>"|"%>"|"</script>"  (begin (let ((tok (make-token 'T_CLOSE_TAG yytext))) (set! parse-mode 'txt) tok))
 
 "#"|"//"  (read-single-line-comment yytext yygetc yyungetc)
 "/*"      (read-multi-line-comment 'T_COMMENT yytext yygetc yyungetc)
@@ -134,9 +134,9 @@ label       [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 "(object)"      (make-token 'T_OBJECT_CAST yytext)
 "->"            (make-token 'T_OBJECT_OPERATOR yytext)
 
-"<?php"|"<script language=\"php\">"            (begin (if (eq? parse-mode 'php) (lexer-error (yygetc)) (begin (set! parse-mode 'php) (yycontinue))))
+"<?php"|"<script language=\"php\">"  (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG yytext))
 
-"<?="|"<%="      (begin (set! parse-mode 'php) (make-token 'T_ECHO yytext))
+"<?="|"<%="      (begin (set! parse-mode 'php) (make-token 'T_OPEN_TAG_WITH_ECHO yytext))
 
 "|="            (make-token 'T_OR_EQUAL yytext)
 "+="            (make-token 'T_PLUS_EQUAL yytext)
